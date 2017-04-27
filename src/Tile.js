@@ -1,24 +1,31 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 export const TileSize = 20;
 
-export default function Tile({ tile, onClick }) {
-  return (
-    <svg
-      x={tile.column * TileSize}
-      y={tile.row * TileSize}
-      width={TileSize}
-      height={TileSize}
-      onClick={() => onClick(tile)}
-    >
-      <rect
+export default connect(
+  state => ({}),
+)(
+  function Tile({ tile, onClick }) {
+    const { row, column, isMine, adjacentMineCount } = tile;
+    const isCleared = isMine || adjacentMineCount !== null;
+    return (
+      <svg
+        x={column * TileSize}
+        y={row * TileSize}
         width={TileSize}
         height={TileSize}
-        fill={tile.isMine ? 'orange' : 'lime'}
-        strokeWidth='1'
-        stroke='pink'
-      />
-      <text x='4' y='17'>{tile.adjacentCount}</text>
-    </svg>
-  );
-}
+        onClick={() => !isCleared && onClick(tile)}
+      >
+        <rect
+          width={TileSize}
+          height={TileSize}
+          fill={isMine ? 'orange' : (isCleared ? 'lime' : 'tan')}
+          strokeWidth='1'
+          stroke='pink'
+        />
+        <text x='4' y='17'>{adjacentMineCount}</text>
+      </svg>
+    );
+  }
+);
