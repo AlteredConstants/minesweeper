@@ -12,6 +12,7 @@ const createTiles = ({ width, size, mineCount }) => flow(
     isMine: !!isMine,
     isCleared: false,
     adjacentMineCount: null,
+    isFlagged: false,
   })),
   chunk(width),
 )();

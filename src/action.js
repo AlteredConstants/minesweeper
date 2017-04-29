@@ -6,6 +6,14 @@ export function startNewField(initProps) {
     payload: createField(initProps),
   };
 }
+
+export function toggleFlagTile(tile) {
+  return {
+    type: 'TOGGLE_FLAG_TILE',
+    payload: { tile },
+  };
+}
+
 export function clearTile(field, tile) {
   let adjacentMineCount = null;
   if (!tile.isMine && !Number.isInteger(tile.adjacentMineCount)) {
@@ -17,5 +25,5 @@ export function clearTile(field, tile) {
       tile,
       adjacentMineCount,
     }
-  }
+  };
 }

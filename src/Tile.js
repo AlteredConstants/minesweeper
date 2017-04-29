@@ -1,7 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'lodash/fp';
+import { G } from 'glamorous';
+import { toggleFlagTile } from './action';
 import BaseTile from './BaseTile';
 
-export const TileSize = 20;
+export const TileSize = 23;
 
 const CountColors = [
   { foreground: 'transparent', background: 'antiqueWhite' },
@@ -15,17 +19,25 @@ const CountColors = [
   { foreground: 'dimGrey', background: 'whiteSmoke' },
 ];
 
-function CoveredTile({ ...props }) {
+function CoveredTile({ tile, onClear, onToggleFlag }) {
   return (
-    <BaseTile
-      width={TileSize}
-      height={TileSize}
-      css={{
-        ':hover': { fill: 'tan' },
-        transition: 'fill 200ms',
+    <g
+      onClick={() => !tile.isFlagged && onClear(tile)}
+      onContextMenu={(event) => {
+        event.preventDefault();
+        onToggleFlag(tile);
       }}
-      {...props}
-    />
+    >
+      <BaseTile
+        width={TileSize}
+        height={TileSize}
+        css={{
+          ':hover': { fill: 'tan' },
+          transition: 'fill 200ms',
+        }}
+      />
+      {tile.isFlagged && <text x="1" y="17">🏴</text>}
+    </g>
   );
 }
 
@@ -37,24 +49,24 @@ function MineTile() {
         height={TileSize}
         css={{ fill: 'red' }}
       />
-      <text x="0" y="15">💥</text>
+      <text x="1" y="17">💥</text>
     </g>
   );
 }
 
 function CountTile({ count }) {
   return (
-    <g>
+    <G css={{ fontSize: 18 }}>
       <BaseTile
         width={TileSize}
         height={TileSize}
         css={{ fill: CountColors[count].background }}
       />
       <text
-        x="5" y="16"
+        x="6" y="18"
         fill={CountColors[count].foreground}
       >{count}</text>
-    </g>
+    </G>
   );
 }
 
@@ -63,20 +75,29 @@ function ClearedTile({ tile }) {
   return isMine ? <MineTile /> : <CountTile count={adjacentMineCount} />;
 }
 
-export default function Tile({ tile, onClick }) {
-  const { row, column } = tile;
-  return (
-    <svg
-      x={column * TileSize}
-      y={row * TileSize}
-      width={TileSize}
-      height={TileSize}
-    >
-      {
-        tile.isCleared
-          ? <ClearedTile tile={tile} />
-          : <CoveredTile onClick={() => onClick(tile)} />
-      }
-    </svg>
-  );
-}
+export default connect(
+  state => ({}),
+  dispatcher => ({ onToggleFlag: compose(dispatcher, toggleFlagTile) }),
+)(
+  function Tile({ tile, onClear, onToggleFlag }) {
+    const { row, column } = tile;
+    return (
+      <svg
+        x={column * TileSize}
+        y={row * TileSize}
+        width={TileSize}
+        height={TileSize}
+      >
+        {
+          tile.isCleared
+            ? <ClearedTile tile={tile} />
+            : <CoveredTile
+              tile={tile}
+              onClear={onClear}
+              onToggleFlag={onToggleFlag}
+            />
+        }
+      </svg>
+    );
+  }
+);

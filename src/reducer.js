@@ -1,44 +1,43 @@
-const initialState = {
-  field: null,
-};
+import { combineReducers } from 'redux';
+import { set } from 'lodash/fp';
 
-export default function reducer(state = initialState, action) {
+function updateTile({ field, tile, newProps }) {
+  return set(
+    `tiles[${tile.row}][${tile.column}]`,
+    { ...tile, ...newProps },
+    field,
+  );
+}
+
+function fieldReducer(state = null, action) {
   const { type, payload } = action;
   switch (type) {
     case 'START_NEW_FIELD': {
-      return { ...state, field: payload };
+      return payload;
     }
+
+    case 'TOGGLE_FLAG_TILE': {
+      const { tile } = payload;
+      return updateTile({ field: state, tile, newProps: {
+        isFlagged: !tile.isFlagged,
+      }});
+    }
+
     case 'CLEAR_TILE': {
       const { tile, adjacentMineCount } = payload;
       if (tile.isCleared) {
         return state;
       }
-
-      const newTile = {
-        ...tile,
+      return updateTile({ field: state, tile, newProps: {
         isCleared: true,
-        adjacentMineCount: adjacentMineCount
-      };
-      const { field } = state;
-      const { tiles } = field;
-      return {
-        ...state,
-        field: {
-          ...field,
-          tiles: [
-            ...tiles.slice(0, tile.row),
-            [
-              ...tiles[tile.row].slice(0, tile.column),
-              newTile,
-              ...tiles[tile.row].slice(tile.column + 1),
-            ],
-            ...tiles.slice(tile.row + 1)
-          ],
-        },
-      };
+        adjacentMineCount: adjacentMineCount,
+      }});
     }
+
     default: {
       return state;
     }
   }
 }
+
+export default combineReducers({ field: fieldReducer });
