@@ -10,6 +10,7 @@ const createTiles = ({ width, size, mineCount }) => flow(
     row: Math.floor(index / width),
     column: index % width,
     isMine: !!isMine,
+    isCleared: false,
     adjacentMineCount: null,
   })),
   chunk(width),

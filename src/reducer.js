@@ -9,12 +9,16 @@ export default function reducer(state = initialState, action) {
       return { ...state, field: payload };
     }
     case 'CLEAR_TILE': {
-      const { tile, updatedAdjacentMineCount } = payload;
-      if (updatedAdjacentMineCount === null) {
+      const { tile, adjacentMineCount } = payload;
+      if (tile.isCleared) {
         return state;
       }
 
-      const newTile = { ...tile, adjacentMineCount: updatedAdjacentMineCount };
+      const newTile = {
+        ...tile,
+        isCleared: true,
+        adjacentMineCount: adjacentMineCount
+      };
       const { field } = state;
       const { tiles } = field;
       return {

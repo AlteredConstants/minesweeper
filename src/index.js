@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import reducer from './reducer';
 import { startNewField } from './action';
 import App from './App';
+import './index.css';
 
 // Beginner: 9x9x10
 // Intermediate: 16x16x40

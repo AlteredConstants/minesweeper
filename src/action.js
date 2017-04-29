@@ -6,14 +6,16 @@ export function startNewField(initProps) {
     payload: createField(initProps),
   };
 }
-
 export function clearTile(field, tile) {
-  const updatedAdjacentMineCount = (tile.adjacentMineCount === null) ? countAdjacentMines(field, tile) : null;
+  let adjacentMineCount = null;
+  if (!tile.isMine && !Number.isInteger(tile.adjacentMineCount)) {
+    adjacentMineCount = countAdjacentMines(field, tile);
+  }
   return {
     type: 'CLEAR_TILE',
     payload: {
       tile,
-      updatedAdjacentMineCount,
+      adjacentMineCount,
     }
   }
 }
