@@ -34,6 +34,10 @@ function fieldReducer(state = null, action) {
       }});
     }
 
+    case 'TRIP_MINE': {
+      return { ...state, isExploded: true };
+    }
+
     default: {
       return state;
     }

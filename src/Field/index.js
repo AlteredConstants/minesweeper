@@ -14,6 +14,7 @@ function FieldFrame({children, width, height}) {
       height={height + 2}
       onContextMenu={event => event.preventDefault()}
       css={{
+        display: 'block',
         userSelect: 'none',
         cursor: 'url(./bomb-detector.png) 0 32, default',
       }}
@@ -28,9 +29,9 @@ function FieldFrame({children, width, height}) {
 
 export default connect(
   state => ({ field: state.field }),
-  dispatcher => ({ onClearTile: compose(dispatcher, clearTile) }),
+  dispatch => ({ clearTile: compose(dispatch, clearTile) }),
 )(
-  function Field({field, onClearTile}) {
+  function Field({ field, clearTile }) {
     if (!field) {
       return <strong>Loading...</strong>;
     }
@@ -41,7 +42,7 @@ export default connect(
             <Tile
               key={`tile-${tile.row}-${tile.column}`}
               tile={tile}
-              onClear={title => onClearTile(field, title)}
+              onClear={tile => clearTile(field, tile)}
             />
           ))
         }

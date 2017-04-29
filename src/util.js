@@ -23,6 +23,7 @@ export function createField({ width, height, mineCount }) {
     height,
     mineCount,
     tiles: createTiles({ width, size: width * height, mineCount }),
+    isExploded: false,
   };
 }
 

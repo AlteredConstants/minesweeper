@@ -77,7 +77,7 @@ function ClearedTile({ tile }) {
 
 export default connect(
   state => ({}),
-  dispatcher => ({ onToggleFlag: compose(dispatcher, toggleFlagTile) }),
+  dispatch => ({ onToggleFlag: compose(dispatch, toggleFlagTile) }),
 )(
   function Tile({ tile, onClear, onToggleFlag }) {
     const { row, column } = tile;
