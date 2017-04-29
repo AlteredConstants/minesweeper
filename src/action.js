@@ -1,4 +1,4 @@
-import createField, { countAdjacentMines } from './createField';
+import { createField, countAdjacentMines } from './util';
 
 export function startNewField(initProps) {
   return {

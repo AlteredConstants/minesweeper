@@ -17,7 +17,7 @@ const createTiles = ({ width, size, mineCount }) => flow(
   chunk(width),
 )();
 
-export default function createField({ width, height, mineCount }) {
+export function createField({ width, height, mineCount }) {
   return {
     width,
     height,

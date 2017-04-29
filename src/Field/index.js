@@ -1,10 +1,10 @@
 import React from 'react';
-import Tile, { TileSize } from './Tile';
 import { connect } from 'react-redux';
 import { flatten, compose } from 'lodash/fp';
-import { clearTile } from './action';
-import BaseTile from './BaseTile';
 import { Svg } from 'glamorous';
+import { clearTile } from '../action';
+import BaseTile from './BaseTile';
+import Tile, { TileSize } from './Tile';
 
 function FieldFrame({children, width, height}) {
   return (

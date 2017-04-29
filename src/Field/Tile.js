@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'lodash/fp';
 import { G } from 'glamorous';
-import { toggleFlagTile } from './action';
+import { toggleFlagTile } from '../action';
 import BaseTile from './BaseTile';
 
 export const TileSize = 23;
