@@ -3,7 +3,7 @@ import { set } from 'lodash/fp';
 
 function updateTile({ field, tile, newProps }) {
   return set(
-    `tiles[${tile.row}][${tile.column}]`,
+    `tiles[${tile.index}]`,
     { ...tile, ...newProps },
     field,
   );
@@ -24,13 +24,12 @@ function fieldReducer(state = null, action) {
     }
 
     case 'CLEAR_TILE': {
-      const { tile, adjacentMineCount } = payload;
+      const { tile } = payload;
       if (tile.isCleared) {
         return state;
       }
       return updateTile({ field: state, tile, newProps: {
         isCleared: true,
-        adjacentMineCount: adjacentMineCount,
       }});
     }
 

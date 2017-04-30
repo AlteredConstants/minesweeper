@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'lodash/fp';
-import { toggleFlagTile } from '../action';
+import { clearTile, toggleFlagTile } from '../action';
 import BaseTile from './BaseTile';
 import CenterText from './CenterText';
 
@@ -67,10 +67,13 @@ function ClearedTile({ tile }) {
 }
 
 export default connect(
-  state => ({}),
-  dispatch => ({ onToggleFlag: compose(dispatch, toggleFlagTile) }),
+  state => ({ field: state.field }),
+  dispatch => ({
+    onClear: compose(dispatch, clearTile),
+    onToggleFlag: compose(dispatch, toggleFlagTile),
+  }),
 )(
-  function Tile({ tile, size, onClear, onToggleFlag }) {
+  function Tile({ tile, size, field, onClear, onToggleFlag }) {
     const { row, column } = tile;
     return (
       <svg
@@ -84,7 +87,7 @@ export default connect(
             ? <ClearedTile tile={tile} />
             : <CoveredTile
               tile={tile}
-              onClear={onClear}
+              onClear={tile => onClear(field, tile)}
               onToggleFlag={onToggleFlag}
             />
         }

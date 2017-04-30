@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { flatten, compose } from 'lodash/fp';
 import { Svg } from 'glamorous';
-import { clearTile } from '../action';
 import BaseTile from './BaseTile';
 import Tile from './Tile';
 
@@ -31,21 +29,19 @@ function FieldFrame({children, width, height}) {
 
 export default connect(
   state => ({ field: state.field }),
-  dispatch => ({ clearTile: compose(dispatch, clearTile) }),
 )(
-  function Field({ field, clearTile }) {
+  function Field({ field }) {
     if (!field) {
       return <strong>Loading...</strong>;
     }
     return (
       <FieldFrame width={TileSize * field.width} height={TileSize * field.height}>
         {
-          flatten(field.tiles).map(tile => (
+          field.tiles.map(tile => (
             <Tile
               key={`tile-${tile.row}-${tile.column}`}
               tile={tile}
               size={TileSize}
-              onClear={tile => clearTile(field, tile)}
             />
           ))
         }
