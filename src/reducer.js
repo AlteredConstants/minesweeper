@@ -9,6 +9,11 @@ function updateTile({ field, tile, newProps }) {
   );
 }
 
+function clearTile(field, tile) {
+  if (tile.isCleared) { return field; }
+  return updateTile({ field, tile, newProps: { isCleared: true }});
+}
+
 function fieldReducer(state = null, action) {
   const { type, payload } = action;
   switch (type) {
@@ -25,12 +30,12 @@ function fieldReducer(state = null, action) {
 
     case 'CLEAR_TILE': {
       const { tile } = payload;
-      if (tile.isCleared) {
-        return state;
-      }
-      return updateTile({ field: state, tile, newProps: {
-        isCleared: true,
-      }});
+      return clearTile(state, tile);
+    }
+
+    case 'CLEAR_CONNECTED_SAFE_TILES': {
+      const tiles = payload;
+      return tiles.reduce(clearTile, state);
     }
 
     case 'TRIP_MINE': {
