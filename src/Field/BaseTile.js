@@ -1,10 +1,13 @@
+import React from 'react';
 import glamorous from 'glamorous';
 
-const BaseTile = glamorous('rect', {
+const GlamorousBaseTile = glamorous('rect', {
   forwardProps: ['width', 'height']
 })({
   fill: 'darkGoldenRod',
   stroke: 'pink',
   strokeWidth: 1,
 });
-export default BaseTile;
+export default function BaseTile(props) {
+  return <GlamorousBaseTile width="100%" height="100%" {...props} />;
+}

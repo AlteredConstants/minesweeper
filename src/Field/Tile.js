@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'lodash/fp';
-import { G } from 'glamorous';
 import { toggleFlagTile } from '../action';
 import BaseTile from './BaseTile';
-
-export const TileSize = 23;
+import CenterText from './CenterText';
 
 const CountColors = [
   { foreground: 'transparent', background: 'antiqueWhite' },
@@ -29,14 +27,12 @@ function CoveredTile({ tile, onClear, onToggleFlag }) {
       }}
     >
       <BaseTile
-        width={TileSize}
-        height={TileSize}
         css={{
           ':hover': { fill: 'tan' },
           transition: 'fill 200ms',
         }}
       />
-      {tile.isFlagged && <text x="1" y="17">🏴</text>}
+      {tile.isFlagged && <CenterText css={{ fontSize: '1em' }} text={'🚩'} />}
     </g>
   );
 }
@@ -44,29 +40,24 @@ function CoveredTile({ tile, onClear, onToggleFlag }) {
 function MineTile() {
   return (
     <g>
-      <BaseTile
-        width={TileSize}
-        height={TileSize}
-        css={{ fill: 'red' }}
-      />
-      <text x="1" y="17">💥</text>
+      <BaseTile css={{ fill: 'red' }} />
+      <CenterText css={{ fontSize: '1em' }} text={'💥'} />
     </g>
   );
 }
 
 function CountTile({ count }) {
   return (
-    <G css={{ fontSize: 18 }}>
-      <BaseTile
-        width={TileSize}
-        height={TileSize}
-        css={{ fill: CountColors[count].background }}
+    <g>
+      <BaseTile css={{ fill: CountColors[count].background }} />
+      <CenterText
+        css={{
+          fontSize: '1.1em',
+          fill: CountColors[count].foreground
+        }}
+        text={count}
       />
-      <text
-        x="6" y="18"
-        fill={CountColors[count].foreground}
-      >{count}</text>
-    </G>
+    </g>
   );
 }
 
@@ -79,14 +70,14 @@ export default connect(
   state => ({}),
   dispatch => ({ onToggleFlag: compose(dispatch, toggleFlagTile) }),
 )(
-  function Tile({ tile, onClear, onToggleFlag }) {
+  function Tile({ tile, size, onClear, onToggleFlag }) {
     const { row, column } = tile;
     return (
       <svg
-        x={column * TileSize}
-        y={row * TileSize}
-        width={TileSize}
-        height={TileSize}
+        x={column * size}
+        y={row * size}
+        width={size}
+        height={size}
       >
         {
           tile.isCleared

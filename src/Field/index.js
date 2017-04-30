@@ -4,7 +4,9 @@ import { flatten, compose } from 'lodash/fp';
 import { Svg } from 'glamorous';
 import { clearTile } from '../action';
 import BaseTile from './BaseTile';
-import Tile, { TileSize } from './Tile';
+import Tile from './Tile';
+
+export const TileSize = 23;
 
 function FieldFrame({children, width, height}) {
   return (
@@ -19,7 +21,7 @@ function FieldFrame({children, width, height}) {
         cursor: 'url(./bomb-detector.png) 0 32, default',
       }}
     >
-      <BaseTile width={width + 2} height={height + 2} />
+      <BaseTile />
       <svg width={width} height={height} x="1" y="1">
         {children}
       </svg>
@@ -42,6 +44,7 @@ export default connect(
             <Tile
               key={`tile-${tile.row}-${tile.column}`}
               tile={tile}
+              size={TileSize}
               onClear={tile => clearTile(field, tile)}
             />
           ))
