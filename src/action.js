@@ -1,6 +1,8 @@
 import { createField, getAdjacentTiles } from './util';
 
-export function startNewField(initProps = { width: 30, height: 16, mineCount: 99 }) {
+const DefaultField = { width: 30, height: 16, mineCount: 99 };
+
+export function startNewField(initProps = DefaultField) {
   return {
     type: 'START_NEW_FIELD',
     payload: createField(initProps),
@@ -32,7 +34,11 @@ export function clearTile(tile) {
   };
 }
 
-function* getConnectedSafeTiles(field, tile, seenTiles = Array(field.tiles.length)) {
+function* getConnectedSafeTiles(
+  field,
+  tile,
+  seenTiles = Array(field.tiles.length),
+) {
   if (seenTiles[tile.index]) {
     return;
   }

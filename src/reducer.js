@@ -2,16 +2,14 @@ import { combineReducers } from 'redux';
 import { set } from 'lodash/fp';
 
 function updateTile({ field, tile, newProps }) {
-  return set(
-    `tiles[${tile.index}]`,
-    { ...tile, ...newProps },
-    field,
-  );
+  return set(`tiles[${tile.index}]`, { ...tile, ...newProps }, field);
 }
 
 function clearTile(field, tile) {
-  if (tile.isCleared) { return field; }
-  return updateTile({ field, tile, newProps: { isCleared: true }});
+  if (tile.isCleared) {
+    return field;
+  }
+  return updateTile({ field, tile, newProps: { isCleared: true } });
 }
 
 function fieldReducer(state = null, action) {
@@ -23,9 +21,13 @@ function fieldReducer(state = null, action) {
 
     case 'TOGGLE_FLAG_TILE': {
       const { tile } = payload;
-      return updateTile({ field: state, tile, newProps: {
-        isFlagged: !tile.isFlagged,
-      }});
+      return updateTile({
+        field: state,
+        tile,
+        newProps: {
+          isFlagged: !tile.isFlagged,
+        },
+      });
     }
 
     case 'CLEAR_TILE': {

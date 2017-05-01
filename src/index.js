@@ -13,14 +13,11 @@ import './index.css';
 // Intermediate: 16x16x40
 // Expert: 30x16x99
 
-const store = createStore(
-  reducer,
-  composeWithDevTools(applyMiddleware(thunk)),
-);
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 render(
   <Provider store={store}><App /></Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 store.dispatch(startNewField());

@@ -16,31 +16,27 @@ const CountColors = [
   { foreground: 'dimGrey', background: 'whiteSmoke' },
 ];
 
-const CoveredTile = connect(
-  null,
-  (dispatch, ownProps) => ({
-    onClick: () => {
-      !ownProps.tile.isFlagged && dispatch(clearTile(ownProps.tile));
-    },
-    onContextMenu: (event) => {
-      event.preventDefault();
-      dispatch(toggleFlagTile(ownProps.tile));
-    },
-  }),
-  // Function syntax to specify the component name.
-)(function CoveredTile({ tile: { isFlagged }, onClick, onContextMenu }) {
-  return (
-    <g onClick={onClick} onContextMenu={onContextMenu}>
-      <BaseTile
-        css={{
-          ':hover': { fill: 'tan' },
-          transition: 'fill 200ms',
-        }}
-      />
-      {isFlagged && <CenterText css={{ fontSize: '1em' }} text={'🚩'} />}
-    </g>
-  );
-});
+const CoveredTile = ({ tile: { isFlagged }, onClick, onContextMenu }) => (
+  <g onClick={onClick} onContextMenu={onContextMenu}>
+    <BaseTile
+      css={{
+        ':hover': { fill: 'tan' },
+        transition: 'fill 200ms',
+      }}
+    />
+    {isFlagged && <CenterText css={{ fontSize: '1em' }} text={'🚩'} />}
+  </g>
+);
+
+const CoveredTileContainer = connect(null, (dispatch, ownProps) => ({
+  onClick: () => {
+    !ownProps.tile.isFlagged && dispatch(clearTile(ownProps.tile));
+  },
+  onContextMenu: event => {
+    event.preventDefault();
+    dispatch(toggleFlagTile(ownProps.tile));
+  },
+}))(CoveredTile);
 
 const MineTile = () => (
   <g>
@@ -55,22 +51,23 @@ const CountTile = ({ count }) => (
     <CenterText
       css={{
         fontSize: '1.1em',
-        fill: CountColors[count].foreground
+        fill: CountColors[count].foreground,
       }}
       text={count}
     />
   </g>
 );
 
-const ClearedTile = ({ tile: { isMine, adjacentMineCount } }) => (
-  isMine ? <MineTile /> : <CountTile count={adjacentMineCount} />
-);
+const ClearedTile = ({ tile: { isMine, adjacentMineCount } }) =>
+  (isMine ? <MineTile /> : <CountTile count={adjacentMineCount} />);
 
 export default function Tile({ tile, size }) {
   const { row, column, isCleared } = tile;
   return (
     <svg x={column * size} y={row * size} width={size} height={size}>
-      {isCleared ? <ClearedTile tile={tile} /> : <CoveredTile tile={tile} />}
+      {isCleared
+        ? <ClearedTile tile={tile} />
+        : <CoveredTileContainer tile={tile} />}
     </svg>
   );
 }

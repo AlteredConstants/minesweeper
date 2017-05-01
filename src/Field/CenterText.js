@@ -10,7 +10,7 @@ const Text = glamorous('text', {
     'textAnchor',
     'alignmentBaseline',
     'dominantBaseline',
-  ]
+  ],
 })();
 
 export default function CenterText({ text, children, ...props }) {
