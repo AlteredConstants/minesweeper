@@ -14,8 +14,8 @@ export function toggleFlagTile(tile) {
   };
 }
 
-export function clearTile(field, tile) {
-  return (dispatch) => {
+export function clearTile(tile) {
+  return (dispatch, getState) => {
     dispatch({
       type: 'CLEAR_TILE',
       payload: { tile },
@@ -26,6 +26,7 @@ export function clearTile(field, tile) {
     if (tile.isMine) {
       dispatch(tripMine());
     } else if (tile.adjacentMineCount === 0) {
+      const { field } = getState();
       dispatch(clearConnectedSafeTiles(field, tile));
     }
   };
