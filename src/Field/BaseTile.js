@@ -1,9 +1,7 @@
 import React from 'react';
 import glamorous from 'glamorous';
 
-const GlamorousBaseTile = glamorous('rect', {
-  forwardProps: ['width', 'height'],
-})({
+const GlamorousBaseTile = glamorous.rect({
   fill: 'darkGoldenRod',
   stroke: 'pink',
   strokeWidth: 1,

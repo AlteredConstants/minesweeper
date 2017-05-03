@@ -1,17 +1,5 @@
 import React from 'react';
-import glamorous from 'glamorous';
-
-const Text = glamorous('text', {
-  forwardProps: [
-    'width',
-    'height',
-    'x',
-    'y',
-    'textAnchor',
-    'alignmentBaseline',
-    'dominantBaseline',
-  ],
-})();
+import { Text } from 'glamorous';
 
 export default function CenterText({ text, children, ...props }) {
   return (

@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "glamor": "^2.20.24",
-    "glamorous": "^3.11.2",
+    "glamorous": "^3.13.2",
     "lodash": "^4.17.4",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
