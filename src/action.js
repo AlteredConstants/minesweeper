@@ -1,22 +1,30 @@
-import { createField, getAdjacentTiles } from './util';
+// @flow
+import { createField, getConnectedSafeTiles } from './util';
+import type { Tile, Field } from './util';
 
 const DefaultField = { width: 30, height: 16, mineCount: 99 };
 
-export function startNewField(initProps = DefaultField) {
+export function startNewField(
+  options: {
+    width: number,
+    height: number,
+    mineCount: number,
+  } = DefaultField,
+) {
   return {
     type: 'START_NEW_FIELD',
-    payload: createField(initProps),
+    payload: createField(options),
   };
 }
 
-export function toggleFlagTile(tile) {
+export function toggleFlagTile(tile: Tile) {
   return {
     type: 'TOGGLE_FLAG_TILE',
     payload: { tile },
   };
 }
 
-export function clearTile(tile) {
+export function clearTile(tile: Tile) {
   return (dispatch, getState) => {
     dispatch({
       type: 'CLEAR_TILE',
@@ -34,28 +42,10 @@ export function clearTile(tile) {
   };
 }
 
-function* getConnectedSafeTiles(
-  field,
-  tile,
-  seenTiles = Array(field.tiles.length),
-) {
-  if (seenTiles[tile.index]) {
-    return;
-  }
-  seenTiles[tile.index] = true;
-  yield tile;
-  if (tile.adjacentMineCount !== 0) {
-    return;
-  }
-  for (let adjacentTile of getAdjacentTiles(field, tile)) {
-    yield* getConnectedSafeTiles(field, adjacentTile, seenTiles);
-  }
-}
-
-export function clearConnectedSafeTiles(field, tile) {
+export function clearConnectedSafeTiles(field: Field, tile: Tile) {
   return {
     type: 'CLEAR_CONNECTED_SAFE_TILES',
-    payload: [...getConnectedSafeTiles(field, tile)],
+    payload: getConnectedSafeTiles(field, tile),
   };
 }
 

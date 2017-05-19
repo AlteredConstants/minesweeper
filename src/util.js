@@ -1,17 +1,36 @@
-import { flow, fill, map, shuffle, filter, sumBy, _, curry } from 'lodash/fp';
+// @flow
+import { flow, fill, map, shuffle, filter, sumBy } from 'lodash/fp';
 
-const mapFull = map.convert({ cap: false });
+export type Tile = {
+  index: number,
+  row: number,
+  column: number,
+  isMine: boolean,
+  adjacentMineCount: number,
+  isCleared: boolean,
+  isFlagged: boolean,
+};
+
+export type Field = {
+  width: number,
+  height: number,
+  mineCount: number,
+  tiles: Array<Tile>,
+  isExploded: boolean,
+};
+
+const mapWithIndex = map.convert({ cap: false });
 
 const distributeMines = count => flow(fill(0, count, true), shuffle);
 
 const createTiles = width =>
-  mapFull((isMine, index) => ({
+  mapWithIndex((isMine, index: number): Tile => ({
     index,
     row: Math.floor(index / width),
     column: index % width,
-    isMine: !!isMine,
+    isMine,
+    adjacentMineCount: 0,
     isCleared: false,
-    adjacentMineCount: null,
     isFlagged: false,
   }));
 
@@ -32,7 +51,7 @@ const getAdjacentCoordinates = ({ row, column }) => {
   ];
 };
 
-export const getAdjacentTiles = curry(({ width, height, tiles }, tile) =>
+const getAdjacentTiles = ({ width, height, tiles }) =>
   flow(
     getAdjacentCoordinates,
     filter(
@@ -40,11 +59,10 @@ export const getAdjacentTiles = curry(({ width, height, tiles }, tile) =>
         row >= 0 && row < height && column >= 0 && column < width,
     ),
     map(([row, column]) => tiles[row * width + column]),
-  )(tile),
-);
+  );
 
 const updateAdjacentMineCount = (width, height) =>
-  mapFull((tile, _, tiles) => ({
+  mapWithIndex((tile, index: number, tiles) => ({
     ...tile,
     adjacentMineCount: flow(
       getAdjacentTiles({ width, height, tiles }),
@@ -52,13 +70,17 @@ const updateAdjacentMineCount = (width, height) =>
     )(tile),
   }));
 
-export function createField({ width, height, mineCount }) {
+export function createField(
+  options: { width: number, height: number, mineCount: number },
+): Field {
+  const { width, height, mineCount } = options;
+  const size = width * height;
   const tiles = flow(
-    () => Array(width * height),
+    fill(0, size, false),
     distributeMines(mineCount),
     createTiles(width),
     updateAdjacentMineCount(width, height),
-  )();
+  )(Array(size));
   return {
     width,
     height,
@@ -66,4 +88,22 @@ export function createField({ width, height, mineCount }) {
     tiles,
     isExploded: false,
   };
+}
+
+function* getConnectedSafeTilesGenerator(field, tile, seenTiles = new Map()) {
+  if (seenTiles.get(tile.index)) {
+    return;
+  }
+  seenTiles.set(tile.index, true);
+  yield tile;
+  if (tile.adjacentMineCount !== 0) {
+    return;
+  }
+  for (let adjacentTile of getAdjacentTiles(field)(tile)) {
+    yield* getConnectedSafeTilesGenerator(field, adjacentTile, seenTiles);
+  }
+}
+
+export function getConnectedSafeTiles(field: Field, tile: Tile) {
+  return [...getConnectedSafeTilesGenerator(field, tile)];
 }
