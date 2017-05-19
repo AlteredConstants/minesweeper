@@ -1724,22 +1724,22 @@ declare module 'lodash/fp' {
     static pickBy: ObjectPredicateFilter;
     static result: ObjectPathSearch<mixed>;
     static set: {
-      <T:ObjMap<mixed>>(path: ObjPath, ...None): {
+      <T:Object>(path: ObjPath, ...None): {
         (value: mixed, ...None): (object: T) => T,
         (value: mixed, object: T): T,
       },
-      <T:ObjMap<mixed>>(path: ObjPath, value: mixed, ...None): (object: T) => T,
-      <T:ObjMap<mixed>>(path: ObjPath, value: mixed, object: T): T,
+      <T:Object>(path: ObjPath, value: mixed, ...None): (object: T) => T,
+      <T:Object>(path: ObjPath, value: mixed, object: T): T,
     };
     static setWith: {
-      <T:ObjMap<mixed>>(customizer: ObjectUpdateCustomizer, ...None): {
+      <T:Object>(customizer: ObjectUpdateCustomizer, ...None): {
         (path: ObjPath, ...None): SetWithCurried2<T>,
         (path: ObjPath, value: mixed, ...None): (object: T) => T,
         (path: ObjPath, value: mixed, object: T): T,
       },
-      <T:ObjMap<mixed>>(customizer: ObjectUpdateCustomizer, path: ObjPath, ...None): SetWithCurried2<T>,
-      <T:ObjMap<mixed>>(customizer: ObjectUpdateCustomizer, path: ObjPath, value: mixed, ...None): (object: T) => T,
-      <T:ObjMap<mixed>>(customizer: ObjectUpdateCustomizer, path: ObjPath, value: mixed, object: T): T,
+      <T:Object>(customizer: ObjectUpdateCustomizer, path: ObjPath, ...None): SetWithCurried2<T>,
+      <T:Object>(customizer: ObjectUpdateCustomizer, path: ObjPath, value: mixed, ...None): (object: T) => T,
+      <T:Object>(customizer: ObjectUpdateCustomizer, path: ObjPath, value: mixed, object: T): T,
     };
     static toPairs: ObjectPairs;
     static toPairsIn: ObjectPairs;

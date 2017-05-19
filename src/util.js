@@ -1,24 +1,6 @@
 // @flow
 import { flow, fill, map, shuffle, filter, sumBy } from 'lodash/fp';
 
-export type Tile = {
-  index: number,
-  row: number,
-  column: number,
-  isMine: boolean,
-  adjacentMineCount: number,
-  isCleared: boolean,
-  isFlagged: boolean,
-};
-
-export type Field = {
-  width: number,
-  height: number,
-  mineCount: number,
-  tiles: Array<Tile>,
-  isExploded: boolean,
-};
-
 const mapWithIndex = map.convert({ cap: false });
 
 const distributeMines = count => flow(fill(0, count, true), shuffle);

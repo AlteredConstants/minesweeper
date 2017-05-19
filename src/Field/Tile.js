@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { clearTile, toggleFlagTile } from '../action';
+import { clear, toggleFlagTile } from '../action';
 import BaseTile from './BaseTile';
 import CenterText from './CenterText';
 
@@ -30,7 +30,7 @@ const CoveredTile = ({ tile: { isFlagged }, onClick, onContextMenu }) => (
 
 const CoveredTileContainer = connect(null, (dispatch, ownProps) => ({
   onClick: () => {
-    !ownProps.tile.isFlagged && dispatch(clearTile(ownProps.tile));
+    !ownProps.tile.isFlagged && dispatch(clear(ownProps.tile));
   },
   onContextMenu: event => {
     event.preventDefault();
