@@ -1,4 +1,4 @@
-import { flow, fill, map, shuffle, filter, sumBy, _, curry } from 'lodash/fp';
+import { flow, fill, map, shuffle, filter, sumBy, curry } from 'lodash/fp';
 
 const mapFull = map.convert({ cap: false });
 

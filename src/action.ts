@@ -1,4 +1,6 @@
 import { createField, getAdjacentTiles } from './util';
+import { Dispatch } from 'redux';
+import { Tile, Field, State } from './index';
 
 const DefaultField = { width: 30, height: 16, mineCount: 99 };
 
@@ -9,15 +11,15 @@ export function startNewField(initProps = DefaultField) {
   };
 }
 
-export function toggleFlagTile(tile) {
+export function toggleFlagTile(tile: Tile) {
   return {
     type: 'TOGGLE_FLAG_TILE',
     payload: { tile },
   };
 }
 
-export function clearTile(tile) {
-  return (dispatch, getState) => {
+export function clearTile(tile: Tile) {
+  return (dispatch: Dispatch<State>, getState: () => State) => {
     dispatch({
       type: 'CLEAR_TILE',
       payload: { tile },
@@ -29,16 +31,18 @@ export function clearTile(tile) {
       dispatch(tripMine());
     } else if (tile.adjacentMineCount === 0) {
       const { field } = getState();
-      dispatch(clearConnectedSafeTiles(field, tile));
+      if (field) {
+        dispatch(clearConnectedSafeTiles(field, tile));
+      }
     }
   };
 }
 
 function* getConnectedSafeTiles(
-  field,
-  tile,
-  seenTiles = Array(field.tiles.length),
-) {
+  field: Field,
+  tile: Tile,
+  seenTiles = new Map<number, boolean>(),
+): Iterable<Tile> {
   if (seenTiles[tile.index]) {
     return;
   }
@@ -52,7 +56,7 @@ function* getConnectedSafeTiles(
   }
 }
 
-export function clearConnectedSafeTiles(field, tile) {
+export function clearConnectedSafeTiles(field: Field, tile: Tile) {
   return {
     type: 'CLEAR_CONNECTED_SAFE_TILES',
     payload: [...getConnectedSafeTiles(field, tile)],
