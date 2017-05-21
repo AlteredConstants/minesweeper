@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable */
 
-declare type Tile = {
+declare type Mine$Tile = {
   +index: number,
   +row: number,
   +column: number,
@@ -13,7 +13,7 @@ declare type Tile = {
 
 // $Shape doesn't preserve covariance so have to duplicate:
 // https://github.com/facebook/flow/issues/3713
-declare type PartialTile = $Shape<{|
+declare type Mine$PartialTile = $Shape<{|
   index: number,
   row: number,
   column: number,
@@ -23,10 +23,10 @@ declare type PartialTile = $Shape<{|
   isFlagged: boolean,
 |}>;
 
-declare type Field = {
+declare type Mine$Field = {
   +width: number,
   +height: number,
   +mineCount: number,
-  +tiles: $ReadOnlyArray<Tile>,
+  +tiles: $ReadOnlyArray<Mine$Tile>,
   +isExploded: boolean,
 };

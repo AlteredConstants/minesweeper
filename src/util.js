@@ -6,7 +6,7 @@ const mapWithIndex = map.convert({ cap: false });
 const distributeMines = count => flow(fill(0, count, true), shuffle);
 
 const createTiles = width =>
-  mapWithIndex((isMine, index: number): Tile => ({
+  mapWithIndex((isMine, index: number): Mine$Tile => ({
     index,
     row: Math.floor(index / width),
     column: index % width,
@@ -54,7 +54,7 @@ const updateAdjacentMineCount = (width, height) =>
 
 export function createField(
   options: { width: number, height: number, mineCount: number },
-): Field {
+): Mine$Field {
   const { width, height, mineCount } = options;
   const size = width * height;
   const tiles = flow(
@@ -72,7 +72,11 @@ export function createField(
   };
 }
 
-function* getConnectedSafeTilesGenerator(field, tile, seenTiles = new Map()) {
+function* getConnectedSafeTilesGenerator(
+  field: Mine$Field,
+  tile: Mine$Tile,
+  seenTiles: Map<number, boolean> = new Map(),
+): Iterable<Mine$Tile> {
   if (seenTiles.get(tile.index)) {
     return;
   }
@@ -86,6 +90,6 @@ function* getConnectedSafeTilesGenerator(field, tile, seenTiles = new Map()) {
   }
 }
 
-export function getConnectedSafeTiles(field: Field, tile: Tile) {
+export function getConnectedSafeTiles(field: Mine$Field, tile: Mine$Tile) {
   return [...getConnectedSafeTilesGenerator(field, tile)];
 }
