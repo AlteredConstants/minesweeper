@@ -4,6 +4,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import registerServiceWorker from './registerServiceWorker';
 import reducer from './reducer';
 import { startNewField } from './action';
 import App from './App';
@@ -21,3 +22,4 @@ render(
 );
 
 store.dispatch(startNewField());
+registerServiceWorker();
