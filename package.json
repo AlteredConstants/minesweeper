@@ -3,14 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/jest": "^19.2.3",
-    "@types/lodash": "^4.14.64",
-    "@types/node": "^7.0.21",
-    "@types/react": "^15.0.24",
-    "@types/react-dom": "^15.5.0",
-    "@types/react-redux": "^4.4.40",
     "glamor": "^2.20.24",
-    "glamorous": "^3.13.2",
+    "glamorous": "^3.20.0",
     "lodash": "^4.17.4",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -20,15 +14,21 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "prettier": "prettier/prettier#fa8408b53fd109857b304bd0622aebf0435fb2b5",
-    "react-scripts-ts": "1.4.0",
-    "typescript-eslint-parser": "eslint/typescript-eslint-parser#f5fcc879b493138eb97b9bdfb39afc4d210b1ddf"
+    "@types/jest": "^19.2.3",
+    "@types/lodash": "^4.14.64",
+    "@types/node": "^7.0.21",
+    "@types/react": "^15.0.26",
+    "@types/react-dom": "^15.5.0",
+    "@types/react-redux": "^4.4.41",
+    "prettier": "^1.4.1",
+    "react-scripts-ts": "^1.4.0",
+    "typescript": "^2.4.0-dev.20170606"
   },
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "format": "prettier --single-quote --trailing-comma all --parser typescript --write \"src/**/*.ts\""
+    "format": "prettier --single-quote --trailing-comma all --write \"src/**/*.*\""
   }
 }

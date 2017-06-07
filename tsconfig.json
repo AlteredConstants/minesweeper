@@ -8,25 +8,21 @@
       "dom"
     ],
     "sourceMap": true,
-    "allowJs": true,
+    "newLine": "LF",
     "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "src",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "strict": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedParameters": true
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts"
+  "include": [
+    "src",
+    "lodash-fp.d.ts"
   ],
   "types": [
     "typePatches"

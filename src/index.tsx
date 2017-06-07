@@ -21,7 +21,7 @@ export interface Tile {
   readonly adjacentMineCount: number;
   readonly isCleared: boolean;
   readonly isFlagged: boolean;
-};
+}
 
 export interface Field {
   readonly width: number;
@@ -29,10 +29,14 @@ export interface Field {
   readonly mineCount: number;
   readonly tiles: ReadonlyArray<Tile>;
   readonly isExploded: boolean;
-};
+}
+
+export interface Game {
+  readonly field?: Field;
+}
 
 export interface State {
-  field: Field | null;
+  readonly game: Game;
 }
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
