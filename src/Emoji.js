@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const emoji = {
-  bomb: '💣',
+  bomb: "💣",
 };
 
 export default function Emoji({ name, ...rest }) {

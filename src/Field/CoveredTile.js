@@ -1,13 +1,13 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import glamorous from 'glamorous';
-import { clear, toggleFlagTile } from '../action';
-import BaseTile from './BaseTile';
-import CenterText from './CenterText';
+import React from "react";
+import { connect } from "react-redux";
+import glamorous from "glamorous";
+import { clear, toggleFlagTile } from "../action";
+import BaseTile from "./BaseTile";
+import CenterText from "./CenterText";
 
 const HoverTile = glamorous(BaseTile)({
-  ':hover': { fill: 'tan' },
-  transition: 'fill 200ms',
+  ":hover": { fill: "tan" },
+  transition: "fill 200ms",
 });
 
 const CoveredTile = ({ tile, onClear, onToggleFlag }) =>

@@ -1,7 +1,7 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import BaseTile from './BaseTile';
-import Tile from './Tile';
+import React from "react";
+import { connect } from "react-redux";
+import BaseTile from "./BaseTile";
+import Tile from "./Tile";
 
 export const TileSize = 23;
 

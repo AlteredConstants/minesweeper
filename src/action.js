@@ -1,31 +1,31 @@
-import { createField, getConnectedSafeTiles } from './util';
+import { createField, getConnectedSafeTiles } from "./util";
 
 const DefaultField = { width: 30, height: 16, mineCount: 99 };
 
 export function startNewField(options = DefaultField) {
   return {
-    type: 'START_NEW_FIELD',
+    type: "START_NEW_FIELD",
     field: createField(options),
   };
 }
 
 export function toggleFlagTile(tile) {
   return {
-    type: 'TOGGLE_FLAG_TILE',
+    type: "TOGGLE_FLAG_TILE",
     tile,
   };
 }
 
 export function clearTile(tile) {
   return {
-    type: 'CLEAR_TILE',
+    type: "CLEAR_TILE",
     tile,
   };
 }
 
 export function clearConnectedSafeTiles(field, tile) {
   return {
-    type: 'CLEAR_CONNECTED_SAFE_TILES',
+    type: "CLEAR_CONNECTED_SAFE_TILES",
     originTile: tile,
     tiles: getConnectedSafeTiles(field, tile),
   };
@@ -33,7 +33,7 @@ export function clearConnectedSafeTiles(field, tile) {
 
 export function tripMine() {
   return {
-    type: 'TRIP_MINE',
+    type: "TRIP_MINE",
   };
 }
 
