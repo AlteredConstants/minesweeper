@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import BaseTile from './BaseTile';
 import CenterText from './CenterText';
@@ -21,7 +22,8 @@ const MineTile = () =>
     <CenterText fontSize="1em" value="💥" />
   </g>;
 
-const CountTile = ({ count }) =>
+type CountTileProps = { count: number };
+const CountTile = ({ count }: CountTileProps) =>
   <g>
     <BaseTile fill={CountColors[count].background} />
     <CenterText
@@ -31,10 +33,14 @@ const CountTile = ({ count }) =>
     />
   </g>;
 
-const ClearedTile = ({ tile: { isMine, adjacentMineCount } }) =>
+type ClearedTileProps = { tile: Mine$Tile };
+const ClearedTile = ({
+  tile: { isMine, adjacentMineCount },
+}: ClearedTileProps) =>
   isMine ? <MineTile /> : <CountTile count={adjacentMineCount} />;
 
-export default function Tile({ tile, size }) {
+type TileProps = { tile: Mine$Tile, size: number };
+export default function Tile({ tile, size }: TileProps) {
   const { row, column, isCleared } = tile;
   return (
     <svg x={column * size} y={row * size} width={size} height={size}>

@@ -1,17 +1,18 @@
+// @flow
 import { flow, fill, map, shuffle, filter, sumBy } from 'lodash/fp';
 
-const mapFull = map.convert({ cap: false });
+const mapWithIndex = map.convert({ cap: false });
 
 const distributeMines = count => flow(fill(0, count, true), shuffle);
 
 const createTiles = width =>
-  mapFull((isMine, index) => ({
+  mapWithIndex((isMine, index: number): Mine$Tile => ({
     index,
     row: Math.floor(index / width),
     column: index % width,
-    isMine: isMine,
-    isCleared: false,
+    isMine,
     adjacentMineCount: 0,
+    isCleared: false,
     isFlagged: false,
   }));
 
@@ -43,7 +44,7 @@ const getAdjacentTiles = ({ width, height, tiles }) =>
   );
 
 const updateAdjacentMineCount = (width, height) =>
-  mapFull((tile, _, tiles) => ({
+  mapWithIndex((tile, index: number, tiles) => ({
     ...tile,
     adjacentMineCount: flow(
       getAdjacentTiles({ width, height, tiles }),
@@ -51,7 +52,11 @@ const updateAdjacentMineCount = (width, height) =>
     )(tile),
   }));
 
-export function createField(options) {
+export function createField(options: {
+  width: number,
+  height: number,
+  mineCount: number,
+}): Mine$Field {
   const { width, height, mineCount } = options;
   const size = width * height;
   const tiles = flow(
@@ -69,7 +74,11 @@ export function createField(options) {
   };
 }
 
-function* connectedSafeTilesGenerator(field, tile, seenTiles = new Map()) {
+function* connectedSafeTilesGenerator(
+  field: Mine$Field,
+  tile: Mine$Tile,
+  seenTiles: Map<number, boolean> = new Map(),
+): Iterable<Mine$Tile> {
   if (seenTiles.get(tile.index)) {
     return;
   }
@@ -83,7 +92,7 @@ function* connectedSafeTilesGenerator(field, tile, seenTiles = new Map()) {
   }
 }
 
-export function getConnectedSafeTiles(field, tile) {
+export function getConnectedSafeTiles(field: Mine$Field, tile: Mine$Tile) {
   return [...connectedSafeTilesGenerator(field, tile)];
 }
 
@@ -100,13 +109,21 @@ function matches(object, newProps) {
   );
 }
 
-export function updateInObject(object, key, newProps) {
+export function updateInObject<T: { [string]: * }, U: { [string]: T }>(
+  object: U,
+  key: string,
+  newProps: $Shape<T>, // TODO: This doesn't work: https://github.com/facebook/flow/issues/3713
+) {
   return matches(object[key], newProps)
     ? object
     : { ...object, [key]: { ...object[key], ...newProps } };
 }
 
-export function updateInArray(array, indexes, newProps) {
+export function updateInArray<T: { [string]: * }, U: $ReadOnlyArray<T>>(
+  array: U,
+  indexes: number | Array<number>,
+  newProps: $Shape<T>, // TODO: This doesn't work: https://github.com/facebook/flow/issues/3713
+) {
   const updateIndexes = Array.isArray(indexes) ? indexes : [indexes];
   let isUpdated = false;
   const newArray = array.map((item, index) => {

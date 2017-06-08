@@ -1,29 +1,56 @@
+// @flow
 import { createField, getConnectedSafeTiles } from './util';
+import type { State } from './reducer';
 
 const DefaultField = { width: 30, height: 16, mineCount: 99 };
 
-export function startNewField(options = DefaultField) {
+type StartNewFieldAction = {
+  type: 'START_NEW_FIELD',
+  field: Mine$Field,
+};
+export function startNewField(
+  options: {
+    width: number,
+    height: number,
+    mineCount: number,
+  } = DefaultField,
+): StartNewFieldAction {
   return {
     type: 'START_NEW_FIELD',
     field: createField(options),
   };
 }
 
-export function toggleFlagTile(tile) {
+type ToggleFlagTileAction = {
+  type: 'TOGGLE_FLAG_TILE',
+  tile: Mine$Tile,
+};
+export function toggleFlagTile(tile: Mine$Tile): ToggleFlagTileAction {
   return {
     type: 'TOGGLE_FLAG_TILE',
     tile,
   };
 }
 
-export function clearTile(tile) {
+type ClearTileAction = {
+  type: 'CLEAR_TILE',
+  tile: Mine$Tile,
+};
+export function clearTile(tile: Mine$Tile): ClearTileAction {
   return {
     type: 'CLEAR_TILE',
     tile,
   };
 }
 
-export function clearConnectedSafeTiles(field, tile) {
+type ClearConnectSafeTilesAction = {
+  type: 'CLEAR_CONNECTED_SAFE_TILES',
+  tiles: Array<Mine$Tile>,
+};
+export function clearConnectedSafeTiles(
+  field: Mine$Field,
+  tile: Mine$Tile,
+): ClearConnectSafeTilesAction {
   return {
     type: 'CLEAR_CONNECTED_SAFE_TILES',
     originTile: tile,
@@ -31,13 +58,31 @@ export function clearConnectedSafeTiles(field, tile) {
   };
 }
 
-export function tripMine() {
+type TripMineAction = {
+  type: 'TRIP_MINE',
+};
+export function tripMine(): TripMineAction {
   return {
     type: 'TRIP_MINE',
   };
 }
 
-export function clear(tile) {
+export type Action =
+  | ClearConnectSafeTilesAction
+  | ClearTileAction
+  | StartNewFieldAction
+  | ToggleFlagTileAction
+  | TripMineAction;
+
+type GetState = () => State;
+type $Dispatch<A: Action> = (action: A | ThunkAction<$Subtype<A>>) => A;
+type ThunkAction<A> = (dispatch: $Dispatch<A>, getState: GetState) => void;
+export type Dispatch = $Dispatch<Action>;
+
+type ClearAction = ThunkAction<
+  ClearTileAction | ClearConnectSafeTilesAction | TripMineAction,
+>;
+export function clear(tile: Mine$Tile): ClearAction {
   return (dispatch, getState) => {
     dispatch(clearTile(tile));
     if (tile.isCleared) {

@@ -1,17 +1,21 @@
+// @flow
 import { combineReducers } from 'redux';
 import { updateInArray, updateInObject } from './util';
+import type { Action } from './action';
 
 function updateField(game, newProps) {
   return game.field ? updateInObject(game, 'field', newProps) : game;
 }
 
 function updateTile(game, indexes, newProps) {
-  return updateField(game, {
-    tiles: updateInArray(game.field.tiles, indexes, newProps),
-  });
+  return game.field
+    ? updateField(game, {
+        tiles: updateInArray(game.field.tiles, indexes, newProps),
+      })
+    : game;
 }
 
-function gameReducer(state = {}, action) {
+function gameReducer(state: Mine$Game = {}, action: Action): Mine$Game {
   switch (action.type) {
     case 'START_NEW_FIELD': {
       return { ...state, field: action.field };
@@ -41,4 +45,9 @@ function gameReducer(state = {}, action) {
   }
 }
 
-export default combineReducers({ game: gameReducer });
+const reducers = { game: gameReducer };
+
+type $ExtractFunctionReturn = <V>(v: (...args: any) => V) => V;
+export type State = $ObjMap<typeof reducers, $ExtractFunctionReturn>;
+
+export default combineReducers(reducers);

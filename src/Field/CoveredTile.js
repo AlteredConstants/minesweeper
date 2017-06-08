@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { connect } from 'react-redux';
 import glamorous from 'glamorous';
@@ -10,7 +11,12 @@ const HoverTile = glamorous(BaseTile)({
   transition: 'fill 200ms',
 });
 
-const CoveredTile = ({ tile, onClear, onToggleFlag }) =>
+type Props = {
+  tile: Mine$Tile,
+  onClear: (tile: Mine$Tile) => void,
+  onToggleFlag: (tile: Mine$Tile) => void,
+};
+const CoveredTile = ({ tile, onClear, onToggleFlag }: Props) =>
   <g
     onClick={() => {
       if (!tile.isFlagged) {
@@ -26,6 +32,8 @@ const CoveredTile = ({ tile, onClear, onToggleFlag }) =>
     {tile.isFlagged && <CenterText fontSize="1em" value="🚩" />}
   </g>;
 
+// Not sure how to apply this type....
+type ContainerProps = { tile: Mine$Tile };
 export default connect(null, {
   onClear: clear,
   onToggleFlag: toggleFlagTile,
