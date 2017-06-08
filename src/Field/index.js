@@ -1,44 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Svg } from 'glamorous';
 import BaseTile from './BaseTile';
 import Tile from './Tile';
 
 export const TileSize = 23;
 
-const FieldFrame = ({ children, width, height }) => (
-  <Svg
+const FieldFrame = ({ children, width, height }) =>
+  <svg
     width={width + 2}
     height={height + 2}
     onContextMenu={event => event.preventDefault()}
-    css={{
-      display: 'block',
-      userSelect: 'none',
-      cursor: 'url(./bomb-detector.png) 0 32, default',
-    }}
   >
     <BaseTile />
     <svg width={width} height={height} x="1" y="1">
       {children}
     </svg>
-  </Svg>
-);
+  </svg>;
 
 const LoadingField = () => <strong>Loading...</strong>;
 
-const LoadedField = ({ field }) => (
+const LoadedField = ({ field }) =>
   <FieldFrame width={TileSize * field.width} height={TileSize * field.height}>
-    {field.tiles.map(tile => (
+    {field.tiles.map(tile =>
       <Tile
         key={`tile-${tile.row}-${tile.column}`}
         tile={tile}
         size={TileSize}
-      />
-    ))}
-  </FieldFrame>
-);
+      />,
+    )}
+  </FieldFrame>;
 
 const Field = ({ field }) =>
-  (field ? <LoadedField field={field} /> : <LoadingField />);
+  field ? <LoadedField field={field} /> : <LoadingField />;
 
-export default connect(state => ({ field: state.field }))(Field);
+export default connect(state => ({ field: state.game.field }))(Field);

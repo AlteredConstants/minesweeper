@@ -1,47 +1,38 @@
 import { combineReducers } from 'redux';
-import { set } from 'lodash/fp';
+import { updateInArray, updateInObject } from './util';
 
-function updateTile({ field, tile, newProps }) {
-  return set(`tiles[${tile.index}]`, { ...tile, ...newProps }, field);
+function updateField(game, newProps) {
+  return game.field ? updateInObject(game, 'field', newProps) : game;
 }
 
-function clearTile(field, tile) {
-  if (tile.isCleared) {
-    return field;
-  }
-  return updateTile({ field, tile, newProps: { isCleared: true } });
+function updateTile(game, indexes, newProps) {
+  return updateField(game, {
+    tiles: updateInArray(game.field.tiles, indexes, newProps),
+  });
 }
 
-function fieldReducer(state = null, action) {
-  const { type, payload } = action;
-  switch (type) {
+function gameReducer(state = {}, action) {
+  switch (action.type) {
     case 'START_NEW_FIELD': {
-      return payload;
+      return { ...state, field: action.field };
     }
 
     case 'TOGGLE_FLAG_TILE': {
-      const { tile } = payload;
-      return updateTile({
-        field: state,
-        tile,
-        newProps: {
-          isFlagged: !tile.isFlagged,
-        },
-      });
+      const { tile } = action;
+      return updateTile(state, tile.index, { isFlagged: !tile.isFlagged });
     }
 
     case 'CLEAR_TILE': {
-      const { tile } = payload;
-      return clearTile(state, tile);
+      return updateTile(state, action.tile.index, { isCleared: true });
     }
 
     case 'CLEAR_CONNECTED_SAFE_TILES': {
-      const tiles = payload;
-      return tiles.reduce(clearTile, state);
+      const indexes = action.tiles.map(tile => tile.index);
+      return updateTile(state, indexes, { isCleared: true });
     }
 
     case 'TRIP_MINE': {
-      return { ...state, isExploded: true };
+      return updateField(state, { isExploded: true });
     }
 
     default: {
@@ -50,4 +41,4 @@ function fieldReducer(state = null, action) {
   }
 }
 
-export default combineReducers({ field: fieldReducer });
+export default combineReducers({ game: gameReducer });

@@ -1,4 +1,4 @@
-import { flow, fill, map, shuffle, filter, sumBy, _, curry } from 'lodash/fp';
+import { flow, fill, map, shuffle, filter, sumBy } from 'lodash/fp';
 
 const mapFull = map.convert({ cap: false });
 
@@ -9,9 +9,9 @@ const createTiles = width =>
     index,
     row: Math.floor(index / width),
     column: index % width,
-    isMine: !!isMine,
+    isMine: isMine,
     isCleared: false,
-    adjacentMineCount: null,
+    adjacentMineCount: 0,
     isFlagged: false,
   }));
 
@@ -32,7 +32,7 @@ const getAdjacentCoordinates = ({ row, column }) => {
   ];
 };
 
-export const getAdjacentTiles = curry(({ width, height, tiles }, tile) =>
+const getAdjacentTiles = ({ width, height, tiles }) =>
   flow(
     getAdjacentCoordinates,
     filter(
@@ -40,25 +40,26 @@ export const getAdjacentTiles = curry(({ width, height, tiles }, tile) =>
         row >= 0 && row < height && column >= 0 && column < width,
     ),
     map(([row, column]) => tiles[row * width + column]),
-  )(tile),
-);
+  );
 
 const updateAdjacentMineCount = (width, height) =>
   mapFull((tile, _, tiles) => ({
     ...tile,
     adjacentMineCount: flow(
       getAdjacentTiles({ width, height, tiles }),
-      sumBy(tile => (tile.isMine ? 1 : 0)),
+      sumBy(adjacentTile => (adjacentTile.isMine ? 1 : 0)),
     )(tile),
   }));
 
-export function createField({ width, height, mineCount }) {
+export function createField(options) {
+  const { width, height, mineCount } = options;
+  const size = width * height;
   const tiles = flow(
-    () => Array(width * height),
+    fill(0, size, false),
     distributeMines(mineCount),
     createTiles(width),
     updateAdjacentMineCount(width, height),
-  )();
+  )(Array(size));
   return {
     width,
     height,
@@ -66,4 +67,54 @@ export function createField({ width, height, mineCount }) {
     tiles,
     isExploded: false,
   };
+}
+
+function* connectedSafeTilesGenerator(field, tile, seenTiles = new Map()) {
+  if (seenTiles.get(tile.index)) {
+    return;
+  }
+  seenTiles.set(tile.index, true);
+  yield tile;
+  if (tile.adjacentMineCount !== 0) {
+    return;
+  }
+  for (let adjacentTile of getAdjacentTiles(field)(tile)) {
+    yield* connectedSafeTilesGenerator(field, adjacentTile, seenTiles);
+  }
+}
+
+export function getConnectedSafeTiles(field, tile) {
+  return [...connectedSafeTilesGenerator(field, tile)];
+}
+
+function matches(object, newProps) {
+  if (object === newProps) {
+    return false;
+  }
+  if (object == null || newProps == null) {
+    return true;
+  }
+  return Object.entries(newProps).reduce(
+    (result, [key, value]) => result || object[key] === value,
+    false,
+  );
+}
+
+export function updateInObject(object, key, newProps) {
+  return matches(object[key], newProps)
+    ? object
+    : { ...object, [key]: { ...object[key], ...newProps } };
+}
+
+export function updateInArray(array, indexes, newProps) {
+  const updateIndexes = Array.isArray(indexes) ? indexes : [indexes];
+  let isUpdated = false;
+  const newArray = array.map((item, index) => {
+    if (!updateIndexes.includes(index) || matches(array[index], newProps)) {
+      return item;
+    }
+    isUpdated = true;
+    return { ...item, ...newProps };
+  });
+  return isUpdated ? newArray : array;
 }
