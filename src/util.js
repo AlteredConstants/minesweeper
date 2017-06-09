@@ -1,17 +1,17 @@
 import { flow, fill, map, shuffle, filter, sumBy } from "lodash/fp";
 
-const mapFull = map.convert({ cap: false });
+const mapWithIndex = map.convert({ cap: false });
 
 const distributeMines = count => flow(fill(0, count, true), shuffle);
 
 const createTiles = width =>
-  mapFull((isMine, index) => ({
+  mapWithIndex((isMine, index) => ({
     index,
     row: Math.floor(index / width),
     column: index % width,
-    isMine: isMine,
-    isCleared: false,
+    isMine,
     adjacentMineCount: 0,
+    isCleared: false,
     isFlagged: false,
   }));
 
@@ -43,7 +43,7 @@ const getAdjacentTiles = ({ width, height, tiles }) =>
   );
 
 const updateAdjacentMineCount = (width, height) =>
-  mapFull((tile, _, tiles) => ({
+  mapWithIndex((tile, _, tiles) => ({
     ...tile,
     adjacentMineCount: flow(
       getAdjacentTiles({ width, height, tiles }),

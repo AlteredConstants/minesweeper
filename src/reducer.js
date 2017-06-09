@@ -6,9 +6,11 @@ function updateField(game, newProps) {
 }
 
 function updateTile(game, indexes, newProps) {
-  return updateField(game, {
-    tiles: updateInArray(game.field.tiles, indexes, newProps),
-  });
+  return game.field
+    ? updateField(game, {
+        tiles: updateInArray(game.field.tiles, indexes, newProps),
+      })
+    : game;
 }
 
 function gameReducer(state = {}, action) {
