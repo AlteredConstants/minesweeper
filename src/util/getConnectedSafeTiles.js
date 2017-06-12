@@ -6,7 +6,7 @@ function* connectedSafeTilesGenerator(field, tile, seenTiles = new Map()) {
   }
   seenTiles.set(tile.index, true);
   yield tile;
-  if (tile.adjacentMineCount !== 0) {
+  if (tile.adjacentMineCount !== 0 || tile.isMine) {
     return;
   }
   for (let adjacentTile of getAdjacentTiles(field, tile)) {

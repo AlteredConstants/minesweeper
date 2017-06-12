@@ -17,7 +17,7 @@ const getAdjacentCoordinates = ({ row, column }) => {
   ];
 };
 
-export const createAdjacentTilesFactory = ({ width, height, tiles }) =>
+export const createAdjacentTilesGetter = ({ width, height, tiles }) =>
   flow(
     getAdjacentCoordinates,
     filter(
@@ -28,6 +28,6 @@ export const createAdjacentTilesFactory = ({ width, height, tiles }) =>
   );
 
 export const getAdjacentTiles = (field, tile) =>
-  createAdjacentTilesFactory(field)(tile);
+  createAdjacentTilesGetter(field)(tile);
 
 export default getAdjacentTiles;
