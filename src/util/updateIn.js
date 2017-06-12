@@ -1,13 +1,10 @@
 function matches(object, newProps) {
-  if (object === newProps) {
-    return false;
-  }
-  if (object == null || newProps == null) {
+  if (object === newProps || object == null || newProps == null) {
     return true;
   }
   return Object.entries(newProps).reduce(
-    (result, [key, value]) => result || object[key] === value,
-    false,
+    (result, [key, value]) => result && object[key] === value,
+    true,
   );
 }
 
@@ -28,4 +25,10 @@ export function updateInArray(array, indexes, newProps) {
     return { ...item, ...newProps };
   });
   return isUpdated ? newArray : array;
+}
+
+export default function updateIn(...props) {
+  return Array.isArray(props[0])
+    ? updateInArray(...props)
+    : updateInObject(...props);
 }
