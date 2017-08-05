@@ -1,5 +1,4 @@
-import { combineReducers } from "redux";
-import { updateInArray, updateInObject } from "./util";
+import { updateInArray, updateInObject } from "../util";
 
 function updateField(game, newProps) {
   return game.field ? updateInObject(game, "field", newProps) : game;
@@ -13,7 +12,7 @@ function updateTile(game, indexes, newProps) {
     : game;
 }
 
-function gameReducer(state = {}, action) {
+export default function gameReducer(state = {}, action) {
   switch (action.type) {
     case "START_NEW_FIELD": {
       return { ...state, field: action.field };
@@ -42,5 +41,3 @@ function gameReducer(state = {}, action) {
     }
   }
 }
-
-export default combineReducers({ game: gameReducer });

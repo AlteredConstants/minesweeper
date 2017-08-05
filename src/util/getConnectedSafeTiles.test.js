@@ -1,8 +1,5 @@
 import getConnectedSafeTiles from "./getConnectedSafeTiles";
-import createField from "./createField";
-jest.mock("./distributeMines");
-
-const field = createField({ width: 4, height: 4, mineCount: 4 });
+import field from "./testField";
 
 it("should return all connected safe tiles when given a zero tile", () => {
   const tiles = getConnectedSafeTiles(field, field.tiles[4]);
