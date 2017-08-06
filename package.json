@@ -16,7 +16,7 @@
   "devDependencies": {
     "deep-freeze": "0.0.1",
     "prettier": "^1.4.1",
-    "react-scripts": "^1.0.7"
+    "react-scripts": "^1.0.10"
   },
   "scripts": {
     "start": "react-scripts start",
