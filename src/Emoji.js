@@ -5,5 +5,9 @@ const emoji = {
 };
 
 export default function Emoji({ name, ...rest }) {
-  return <span role="img" aria-label={name} {...rest}>{emoji[name]}</span>;
+  return (
+    <span role="img" aria-label={name} {...rest}>
+      {emoji[name]}
+    </span>
+  );
 }

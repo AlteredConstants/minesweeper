@@ -17,7 +17,9 @@ import { startNewField } from "./action";
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 render(
-  <Provider store={store}><App /></Provider>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById("root"),
 );
 
