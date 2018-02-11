@@ -1,27 +1,32 @@
 import getConnectedSafeTiles from "./getConnectedSafeTiles";
-import field from "./testField";
+import {
+  mockField,
+  mockZeroTile,
+  mockNumberTile,
+  mockSurroundedNumberTile,
+  mockMineTile,
+  mockConnectedSafeTilesForZeroTile,
+} from "./createField";
 
 it("should return all connected safe tiles when given a zero tile", () => {
-  const tiles = getConnectedSafeTiles(field, field.tiles[4]);
+  const tiles = getConnectedSafeTiles(mockField, mockZeroTile);
   expect(tiles).toHaveLength(8);
   expect(tiles).toEqual(
-    expect.arrayContaining(
-      [0, 1, 2, 5, 4, 6, 8, 9].map(index => expect.objectContaining({ index })),
-    ),
+    expect.arrayContaining(mockConnectedSafeTilesForZeroTile),
   );
 });
 
 it("should return only the given tile when it is a number tile next to a zero tile", () => {
-  const tiles = getConnectedSafeTiles(field, field.tiles[5]);
+  const tiles = getConnectedSafeTiles(mockField, mockNumberTile);
   expect(tiles).toEqual([expect.objectContaining({ index: 5 })]);
 });
 
 it("should return only the given tile when it is a number tile not next to a zero tile", () => {
-  const tiles = getConnectedSafeTiles(field, field.tiles[13]);
+  const tiles = getConnectedSafeTiles(mockField, mockSurroundedNumberTile);
   expect(tiles).toEqual([expect.objectContaining({ index: 13 })]);
 });
 
 it("should return only the given tile when it is a mine tile with no adjacent mines", () => {
-  const tiles = getConnectedSafeTiles(field, field.tiles[12]);
+  const tiles = getConnectedSafeTiles(mockField, mockMineTile);
   expect(tiles).toEqual([expect.objectContaining({ index: 12 })]);
 });

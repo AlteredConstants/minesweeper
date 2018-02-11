@@ -1,4 +1,5 @@
 import distributeMines from "./distributeMines";
+jest.unmock("./distributeMines");
 
 it("should create an array", () => {
   const field = distributeMines(9, 3);

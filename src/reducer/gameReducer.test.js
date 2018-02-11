@@ -1,6 +1,6 @@
 import freeze from "deep-freeze";
 import reducer from "./gameReducer";
-import field from "../util/testField";
+import { mockField as field } from "../util/createField";
 
 const game = freeze({ field });
 

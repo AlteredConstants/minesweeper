@@ -1,6 +1,6 @@
 import createField from "./createField";
 import distributeMines from "./distributeMines";
-jest.mock("./distributeMines");
+jest.unmock("./createField");
 
 it("should create a field", async () => {
   const field = createField({ width: 4, height: 4, mineCount: 4 });
