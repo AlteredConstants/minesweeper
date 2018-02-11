@@ -1,11 +1,17 @@
-import React from "react";
+import * as React from "react";
 import { connect } from "react-redux";
 import BaseTile from "./BaseTile";
 import Tile from "./Tile";
+import { Field, State } from "../interface";
 
 export const TileSize = 23;
 
-const FieldFrame = ({ children, width, height }) => (
+interface FieldFrameProps {
+  children: JSX.Element[];
+  width: number;
+  height: number;
+}
+const FieldFrame = ({ children, width, height }: FieldFrameProps) => (
   <svg
     width={width + 2}
     height={height + 2}
@@ -20,7 +26,10 @@ const FieldFrame = ({ children, width, height }) => (
 
 const LoadingField = () => <strong>Loading...</strong>;
 
-const LoadedField = ({ field }) => (
+interface LoadedFieldProps {
+  field: Field;
+}
+const LoadedField = ({ field }: LoadedFieldProps) => (
   <FieldFrame width={TileSize * field.width} height={TileSize * field.height}>
     {field.tiles.map(tile => (
       <Tile
@@ -32,7 +41,10 @@ const LoadedField = ({ field }) => (
   </FieldFrame>
 );
 
-const Field = ({ field }) =>
+interface FieldProps {
+  field: Field;
+}
+const Field = ({ field }: FieldProps) =>
   field ? <LoadedField field={field} /> : <LoadingField />;
 
-export default connect(state => ({ field: state.game.field }))(Field);
+export default connect((state: State) => ({ field: state.game.field }))(Field);

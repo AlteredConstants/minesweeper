@@ -1,6 +1,9 @@
-import React from "react";
+import * as React from "react";
 
-export default function CenterText({ value, children, ...props }) {
+type CenterTextProps = {
+  value: string;
+} & React.SVGProps<SVGTextElement>;
+export default function CenterText({ value, ...props }: CenterTextProps) {
   return (
     <text
       textAnchor="middle"
@@ -12,7 +15,7 @@ export default function CenterText({ value, children, ...props }) {
       height="100%"
       {...props}
     >
-      {value || children}
+      {value}
     </text>
   );
 }

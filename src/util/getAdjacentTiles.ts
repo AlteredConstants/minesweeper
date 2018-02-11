@@ -1,6 +1,7 @@
 import { flow, map, filter } from "lodash/fp";
+import { Field, Tile } from "../interface";
 
-const getAdjacentCoordinates = ({ row, column }) => {
+const getAdjacentCoordinates = ({ row, column }: Tile) => {
   const top = row - 1;
   const bottom = row + 1;
   const left = column - 1;
@@ -17,7 +18,15 @@ const getAdjacentCoordinates = ({ row, column }) => {
   ];
 };
 
-export const createAdjacentTilesGetter = ({ width, height, tiles }) =>
+export const createAdjacentTilesGetter = ({
+  width,
+  height,
+  tiles,
+}: {
+  width: number;
+  height: number;
+  tiles: ReadonlyArray<Tile>;
+}) =>
   flow(
     getAdjacentCoordinates,
     filter(
@@ -27,7 +36,7 @@ export const createAdjacentTilesGetter = ({ width, height, tiles }) =>
     map(([row, column]) => tiles[row * width + column]),
   );
 
-export const getAdjacentTiles = (field, tile) =>
+export const getAdjacentTiles = (field: Field, tile: Tile) =>
   createAdjacentTilesGetter(field)(tile);
 
 export default getAdjacentTiles;

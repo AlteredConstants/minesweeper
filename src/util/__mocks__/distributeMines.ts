@@ -6,7 +6,7 @@ import { fill } from "lodash/fp";
   1 2 x 3
   x 2 2 x
 */
-function distributeMines(fieldSize, mineCount) {
+function distributeMines(fieldSize: number, mineCount: number) {
   if (fieldSize !== 16 || mineCount !== 4) {
     throw new Error("Mocked fields must be of size 16 (4x4) with 4 mines.");
   }

@@ -1,10 +1,11 @@
-import React from "react";
+import * as React from "react";
 import { connect } from "react-redux";
 import { keyframes } from "glamor";
 import glamorous from "glamorous";
 import { startNewField } from "./action";
 import Field from "./Field";
 import Emoji from "./Emoji";
+import { State } from "./interface";
 
 const PaddedEmoji = glamorous(Emoji)({ margin: "0.8em" });
 
@@ -20,7 +21,10 @@ const OverlayContainer = glamorous.div(
   }),
 );
 
-const Overlay = glamorous.div(
+interface OverlayProps {
+  show: boolean;
+}
+const Overlay = glamorous.div<OverlayProps>(
   {
     position: "absolute",
     width: "100%",
@@ -46,7 +50,11 @@ const Overlay = glamorous.div(
   },
 );
 
-const App = ({ isExploded = false, onReset }) => (
+type AppProps = {
+  isExploded?: boolean;
+  onReset: () => void;
+};
+const App = ({ isExploded = false, onReset }: AppProps) => (
   <div className="App">
     <header>
       <h1>Minesweeper</h1>
@@ -61,6 +69,8 @@ const App = ({ isExploded = false, onReset }) => (
 );
 
 export default connect(
-  state => ({ isExploded: state.game.field && state.game.field.isExploded }),
+  (state: State) => ({
+    isExploded: state.game.field && state.game.field.isExploded,
+  }),
   { onReset: startNewField },
 )(App);

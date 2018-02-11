@@ -1,11 +1,12 @@
 import { flow, map, sumBy } from "lodash/fp";
 import distributeMines from "./distributeMines";
 import { createAdjacentTilesGetter } from "./getAdjacentTiles";
+import { Field, Tile } from "../interface";
 
 const uncappedMap = map.convert({ cap: false });
 
-const createTilesCreator = width =>
-  uncappedMap((isMine, index) => ({
+const createTilesCreator = (width: number) =>
+  uncappedMap((isMine: boolean, index): Tile => ({
     index,
     row: Math.floor(index / width),
     column: index % width,
@@ -15,8 +16,8 @@ const createTilesCreator = width =>
     isFlagged: false,
   }));
 
-const createAdjacentMineCountUpdater = (width, height) =>
-  uncappedMap((tile, _, tiles) => ({
+const createAdjacentMineCountUpdater = (width: number, height: number) =>
+  uncappedMap((tile: Tile, index, tiles: Tile[]): Tile => ({
     ...tile,
     adjacentMineCount: flow(
       createAdjacentTilesGetter({ width, height, tiles }),
@@ -24,7 +25,11 @@ const createAdjacentMineCountUpdater = (width, height) =>
     )(tile),
   }));
 
-export default function createField(options) {
+export default function createField(options: {
+  width: number;
+  height: number;
+  mineCount: number;
+}): Field {
   const { width, height, mineCount } = options;
   const createTiles = createTilesCreator(width);
   const updateAdjacentMineCount = createAdjacentMineCountUpdater(width, height);

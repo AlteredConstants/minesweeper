@@ -1,6 +1,11 @@
 import getAdjacentTiles from "./getAdjacentTiles";
+import { Field, Tile } from "../interface";
 
-function* connectedSafeTilesGenerator(field, tile, seenTiles = new Map()) {
+function* connectedSafeTilesGenerator(
+  field: Field,
+  tile: Tile,
+  seenTiles: Map<number, boolean> = new Map(),
+): IterableIterator<Tile> {
   if (seenTiles.get(tile.index)) {
     return;
   }
@@ -14,6 +19,9 @@ function* connectedSafeTilesGenerator(field, tile, seenTiles = new Map()) {
   }
 }
 
-export default function getConnectedSafeTiles(field, tile) {
+export default function getConnectedSafeTiles(
+  field: Field,
+  tile: Tile,
+): ReadonlyArray<Tile> {
   return [...connectedSafeTilesGenerator(field, tile)];
 }

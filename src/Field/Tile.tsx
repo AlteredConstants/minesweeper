@@ -1,7 +1,8 @@
-import React from "react";
+import * as React from "react";
 import BaseTile from "./BaseTile";
 import CenterText from "./CenterText";
 import CoveredTile from "./CoveredTile";
+import { Tile } from "../interface";
 
 const CountColors = [
   { foreground: "transparent", background: "antiqueWhite" },
@@ -22,7 +23,10 @@ const MineTile = () => (
   </g>
 );
 
-const CountTile = ({ count }) => (
+interface CountTileProps {
+  count: number;
+}
+const CountTile = ({ count }: CountTileProps) => (
   <g>
     <BaseTile fill={CountColors[count].background} />
     <CenterText
@@ -33,10 +37,19 @@ const CountTile = ({ count }) => (
   </g>
 );
 
-const ClearedTile = ({ tile: { isMine, adjacentMineCount } }) =>
+interface ClearedTileProps {
+  tile: Tile;
+}
+const ClearedTile = ({
+  tile: { isMine, adjacentMineCount },
+}: ClearedTileProps) =>
   isMine ? <MineTile /> : <CountTile count={adjacentMineCount} />;
 
-export default function Tile({ tile, size }) {
+interface TileProps {
+  tile: Tile;
+  size: number;
+}
+export default function Tile({ tile, size }: TileProps) {
   const { row, column, isCleared } = tile;
   return (
     <svg x={column * size} y={row * size} width={size} height={size}>

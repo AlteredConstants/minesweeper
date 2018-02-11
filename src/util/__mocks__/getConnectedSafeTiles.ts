@@ -4,8 +4,9 @@ import {
   mockSurroundedNumberTile,
   mockConnectedSafeTilesForZeroTile,
 } from "./createField";
+import { Field, Tile } from "../../interface";
 
-function getConnectedSafeTiles(field, tile) {
+function getConnectedSafeTiles(field: Field, tile: Tile) {
   if (isEqual(tile, mockZeroTile)) {
     return mockConnectedSafeTilesForZeroTile;
   }

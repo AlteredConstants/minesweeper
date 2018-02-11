@@ -1,10 +1,16 @@
 import { updateInArray, updateInObject } from "../util";
+import { Game, Field, Tile } from "../interface";
+import { Action } from "../action";
 
-function updateField(game, newProps) {
+function updateField(game: Game, newProps: Partial<Field>): Game {
   return game.field ? updateInObject(game, "field", newProps) : game;
 }
 
-function updateTile(game, indexes, newProps) {
+function updateTile(
+  game: Game,
+  indexes: number | ReadonlyArray<number>,
+  newProps: Partial<Tile>,
+): Game {
   return game.field
     ? updateField(game, {
         tiles: updateInArray(game.field.tiles, indexes, newProps),
@@ -12,7 +18,7 @@ function updateTile(game, indexes, newProps) {
     : game;
 }
 
-export default function gameReducer(state = {}, action) {
+export default function gameReducer(state: Game = {}, action: Action) {
   switch (action.type) {
     case "START_NEW_FIELD": {
       return { ...state, field: action.field };
