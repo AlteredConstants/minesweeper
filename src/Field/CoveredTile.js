@@ -10,7 +10,7 @@ const HoverTile = glamorous(BaseTile)({
   transition: "fill 200ms",
 });
 
-const CoveredTile = ({ tile, onClear, onToggleFlag }) =>
+const CoveredTile = ({ tile, onClear, onToggleFlag }) => (
   <g
     onClick={() => {
       if (!tile.isFlagged) {
@@ -24,7 +24,8 @@ const CoveredTile = ({ tile, onClear, onToggleFlag }) =>
   >
     <HoverTile />
     {tile.isFlagged && <CenterText fontSize="1em" value="🚩" />}
-  </g>;
+  </g>
+);
 
 export default connect(null, {
   onClear: clear,

@@ -3,26 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "glamor": "^2.20.24",
+    "glamor": "^2.20.40",
     "glamorous": "^3.13.2",
-    "lodash": "^4.17.4",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
-    "react-redux": "^5.0.4",
+    "lodash": "^4.17.5",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "react-redux": "^5.0.6",
     "redux": "^3.6.0",
     "redux-devtools-extension": "^2.13.0",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "deep-freeze": "0.0.1",
-    "prettier": "^1.5.3",
-    "react-scripts": "^1.0.10"
+    "prettier": "^1.10.2",
+    "react-scripts": "^1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "format": "prettier --trailing-comma all --write \"src/**/*.*\""
+    "format": "prettier --write \"src/**/*.{js,json,css,md}\""
   }
 }

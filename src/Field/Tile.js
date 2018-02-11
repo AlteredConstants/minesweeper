@@ -15,13 +15,14 @@ const CountColors = [
   { foreground: "dimGrey", background: "whiteSmoke" },
 ];
 
-const MineTile = () =>
+const MineTile = () => (
   <g>
     <BaseTile fill="red" />
     <CenterText fontSize="1em" value="💥" />
-  </g>;
+  </g>
+);
 
-const CountTile = ({ count }) =>
+const CountTile = ({ count }) => (
   <g>
     <BaseTile fill={CountColors[count].background} />
     <CenterText
@@ -29,7 +30,8 @@ const CountTile = ({ count }) =>
       fill={CountColors[count].foreground}
       value={count.toString()}
     />
-  </g>;
+  </g>
+);
 
 const ClearedTile = ({ tile: { isMine, adjacentMineCount } }) =>
   isMine ? <MineTile /> : <CountTile count={adjacentMineCount} />;

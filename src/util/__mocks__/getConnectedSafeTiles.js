@@ -2,7 +2,7 @@ import { isEqual } from "lodash/fp";
 import {
   mockZeroTile,
   mockSurroundedNumberTile,
-  mockConnectedSafeTilesForZeroTile
+  mockConnectedSafeTilesForZeroTile,
 } from "./createField";
 
 function getConnectedSafeTiles(field, tile) {

@@ -46,7 +46,7 @@ const Overlay = glamorous.div(
   },
 );
 
-const App = ({ isExploded = false, onReset }) =>
+const App = ({ isExploded = false, onReset }) => (
   <div className="App">
     <header>
       <h1>Minesweeper</h1>
@@ -57,7 +57,8 @@ const App = ({ isExploded = false, onReset }) =>
         <PaddedEmoji name="bomb" />Boom<PaddedEmoji name="bomb" />
       </Overlay>
     </OverlayContainer>
-  </div>;
+  </div>
+);
 
 export default connect(
   state => ({ isExploded: state.game.field && state.game.field.isExploded }),
