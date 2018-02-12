@@ -77,10 +77,10 @@ export function tripMine(): TripMineAction {
 
 export function clear(tile: Tile) {
   return (dispatch: Dispatch<State>, getState: () => State) => {
-    dispatch(clearTile(tile));
     if (tile.isCleared) {
       return;
     }
+    dispatch(clearTile(tile));
     if (tile.isMine) {
       dispatch(tripMine());
     } else if (tile.adjacentMineCount === 0) {

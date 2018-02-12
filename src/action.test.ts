@@ -1,6 +1,12 @@
 import * as creator from "./action";
 import createField from "./util/createField";
-import { mockField, mockZeroTile } from "./util/__mocks__/createField";
+import {
+  mockConnectedSafeTilesForZeroTile,
+  mockField,
+  mockMineTile,
+  mockSurroundedNumberTile,
+  mockZeroTile,
+} from "./util/__mocks__/createField";
 import getConnectedSafeTiles from "./util/getConnectedSafeTiles";
 
 jest.mock("./util/getConnectedSafeTiles");
@@ -56,12 +62,54 @@ describe("clear", () => {
     expect(action).toBeInstanceOf(Function);
   });
 
-  describe("safe tile", () => {
-    it("should create a thunk action", () => {
-      const action = creator.clear(mockZeroTile);
-      const dispatch = jest.fn();
-      const getState = jest.fn(() => ({ game: mockField }));
-      action(dispatch, getState);
+  it("should not dispatch any actions if the tile is already cleared", () => {
+    const action = creator.clear({ ...mockZeroTile, isCleared: true });
+    const dispatch = jest.fn();
+    const getState = jest.fn(() => ({ game: { field: mockField } }));
+    action(dispatch, getState);
+    expect(dispatch).not.toHaveBeenCalled();
+  });
+
+  it("should dispatch a CLEAR_TILE action", () => {
+    const action = creator.clear(mockZeroTile);
+    const dispatch = jest.fn();
+    const getState = jest.fn(() => ({ game: { field: mockField } }));
+    action(dispatch, getState);
+    expect(dispatch).toHaveBeenCalledWith({
+      type: "CLEAR_TILE",
+      tile: mockZeroTile,
+    });
+  });
+
+  it("should dispatch a TRIP_MINE action for a mine tile", () => {
+    const action = creator.clear(mockMineTile);
+    const dispatch = jest.fn();
+    const getState = jest.fn(() => ({ game: {} }));
+    action(dispatch, getState);
+    expect(dispatch).toHaveBeenCalledWith({ type: "TRIP_MINE" });
+  });
+
+  it("should dispatch a CLEAR_CONNECTED_SAFE_TILES action for a tile with no adjacent mines", () => {
+    const action = creator.clear(mockZeroTile);
+    const dispatch = jest.fn();
+    const getState = jest.fn(() => ({ game: { field: mockField } }));
+    action(dispatch, getState);
+    expect(dispatch).toHaveBeenCalledWith({
+      type: "CLEAR_CONNECTED_SAFE_TILES",
+      originTile: mockZeroTile,
+      tiles: mockConnectedSafeTilesForZeroTile,
+    });
+  });
+
+  it("should not dispatch a CLEAR_CONNECTED_SAFE_TILES action for a tile with adjacent mines", () => {
+    const action = creator.clear(mockSurroundedNumberTile);
+    const dispatch = jest.fn();
+    const getState = jest.fn(() => ({ game: { field: mockField } }));
+    action(dispatch, getState);
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith({
+      type: "CLEAR_TILE",
+      tile: mockSurroundedNumberTile,
     });
   });
 });
