@@ -1,17 +1,18 @@
 import * as creator from "./action";
-import createField, { mockField, mockZeroTile } from "./util/createField";
+import createField from "./util/createField";
+import { mockField, mockZeroTile } from "./util/__mocks__/createField";
 import getConnectedSafeTiles from "./util/getConnectedSafeTiles";
 
 jest.mock("./util/getConnectedSafeTiles");
 
 describe("startNewField", () => {
   it("should call createField", () => {
-    creator.startNewField("<Mock options>");
+    creator.startNewField("<Mock options>" as any);
     expect(createField).toHaveBeenCalledWith("<Mock options>");
   });
 
   it("should create a START_NEW_FIELD action", () => {
-    const action = creator.startNewField("<Mock options>");
+    const action = creator.startNewField("<Mock options>" as any);
     expect(action).toMatchSnapshot();
   });
 });

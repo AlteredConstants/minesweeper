@@ -8,11 +8,10 @@ function matches<T>(object: T, newProps: Partial<T>) {
   );
 }
 
-export function updateInObject<T, K extends keyof T>(
-  object: T,
-  key: K,
-  newProps: Partial<T[K]>,
-): T {
+export function updateInObject<
+  T extends { [K in Key]: T[K] },
+  Key extends keyof T
+>(object: T, key: Key, newProps: Partial<T[Key]>): T {
   return matches(object[key], newProps)
     ? object
     : Object.assign({}, object, {
@@ -20,10 +19,10 @@ export function updateInObject<T, K extends keyof T>(
       });
 }
 
-export function updateInArray<T extends ReadonlyArray<U>, U>(
+export function updateInArray<T extends ReadonlyArray<object>>(
   array: T,
   indexes: number | ReadonlyArray<number>,
-  newProps: Partial<U>,
+  newProps: Partial<T[0]>,
 ): T {
   const updateIndexes = Array.isArray(indexes) ? indexes : [indexes];
   let isUpdated = false;

@@ -6,7 +6,7 @@ import {
   mockSurroundedNumberTile,
   mockMineTile,
   mockConnectedSafeTilesForZeroTile,
-} from "./createField";
+} from "./__mocks__/createField";
 
 it("should return all connected safe tiles when given a zero tile", () => {
   const tiles = getConnectedSafeTiles(mockField, mockZeroTile);

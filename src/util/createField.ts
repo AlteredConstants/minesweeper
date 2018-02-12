@@ -43,3 +43,5 @@ export default function createField(options: {
     isExploded: false,
   };
 }
+
+export type FieldCreator = typeof createField;

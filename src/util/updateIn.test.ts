@@ -15,7 +15,7 @@ describe("updateInObject", () => {
 
   it("should return the original object if the original key value is undefined", () => {
     const original = {};
-    const updated = updateInObject(original, "key", { subKey: 2 });
+    const updated = updateInObject(original, "key" as never, { subKey: 2 });
     expect(updated).toBe(original);
   });
 
@@ -46,7 +46,8 @@ describe("updateInObject", () => {
   });
 
   it("should return a new object with new props added", () => {
-    const original = { key: { subKey: 1 } };
+    type TestObj = { key: { subKey: number; otherSubKey?: number } };
+    const original: TestObj = { key: { subKey: 1 } };
     const updated = updateInObject(original, "key", { otherSubKey: 2 });
     expect(updated).toEqual({ key: { subKey: 1, otherSubKey: 2 } });
   });
@@ -110,7 +111,8 @@ describe("updateInArray", () => {
   });
 
   it("should return an array with new props added", () => {
-    const original = [{ subKey: 1 }];
+    type TestObj = Array<{ subKey: number; otherSubKey?: number }>;
+    const original: TestObj = [{ subKey: 1 }];
     const updated = updateInArray(original, 0, { otherSubKey: 2 });
     expect(updated).toEqual([{ subKey: 1, otherSubKey: 2 }]);
   });

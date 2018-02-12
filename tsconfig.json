@@ -10,7 +10,8 @@
     "rootDir": "src",
     "downlevelIteration": true,
     "allowUnreachableCode": false,
-    "esModuleInterop": true,
+    // Seemingly not well supported by library typedefs yet, e.g. deep-freeze.
+    // "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
