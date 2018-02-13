@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Field, State } from "../interface";
 import BaseTile from "./BaseTile";
 import Tile from "./Tile";
-import { Field, State } from "../interface";
 
 export const TileSize = 23;
 

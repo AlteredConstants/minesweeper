@@ -1,6 +1,6 @@
 import { Action, Dispatch } from "redux";
+import { Field, State, Tile } from "./interface";
 import { createField, getConnectedSafeTiles } from "./util";
-import { Field, Tile, State } from "./interface";
 import { getAdjacentTiles } from "./util/getAdjacentTiles";
 
 const DefaultField = { width: 30, height: 16, mineCount: 99 };

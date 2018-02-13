@@ -1,10 +1,10 @@
-import * as React from "react";
-import { connect } from "react-redux";
 import { keyframes } from "glamor";
 import glamorous from "glamorous";
+import * as React from "react";
+import { connect } from "react-redux";
 import { startNewField } from "./action";
-import Field from "./Field";
 import Emoji from "./Emoji";
+import Field from "./Field";
 import { State } from "./interface";
 
 const PaddedEmoji = glamorous(Emoji)({ margin: "0.8em" });
@@ -50,10 +50,10 @@ const Overlay = glamorous.div<OverlayProps>(
   },
 );
 
-type AppProps = {
+interface AppProps {
   isExploded?: boolean;
   onReset: () => void;
-};
+}
 const App = ({ isExploded = false, onReset }: AppProps) => (
   <div className="App" onContextMenu={event => event.preventDefault()}>
     <header>

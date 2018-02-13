@@ -1,8 +1,8 @@
-import * as React from "react";
 import glamorous from "glamorous";
+import * as React from "react";
+import { Tile } from "../interface";
 import BaseTile from "./BaseTile";
 import CenterText from "./CenterText";
-import { Tile } from "../interface";
 
 const HoverTile = glamorous(BaseTile)({
   ":hover": { fill: "tan" },

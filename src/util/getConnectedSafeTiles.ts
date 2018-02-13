@@ -1,5 +1,5 @@
-import getAdjacentTiles from "./getAdjacentTiles";
 import { Field, Tile } from "../interface";
+import getAdjacentTiles from "./getAdjacentTiles";
 
 function* connectedSafeTilesGenerator(
   field: Field,
@@ -14,7 +14,7 @@ function* connectedSafeTilesGenerator(
   if (tile.adjacentMineCount !== 0 || tile.isMine) {
     return;
   }
-  for (let adjacentTile of getAdjacentTiles(field, tile)) {
+  for (const adjacentTile of getAdjacentTiles(field, tile)) {
     yield* connectedSafeTilesGenerator(field, adjacentTile, seenTiles);
   }
 }

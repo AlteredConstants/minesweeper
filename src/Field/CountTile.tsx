@@ -1,7 +1,7 @@
 import * as React from "react";
+import { Tile } from "../interface";
 import BaseTile from "./BaseTile";
 import CenterText from "./CenterText";
-import { Tile } from "../interface";
 
 const CountColors = [
   { foreground: "transparent", background: "antiqueWhite" },
@@ -26,11 +26,11 @@ export default class CountTile extends React.Component<
   CountTileProps,
   CountTileState
 > {
-  state = {
+  public state = {
     shouldClear: false,
   };
 
-  render() {
+  public render() {
     const { tile, onClearSurrounding } = this.props;
     const { adjacentMineCount } = tile;
     const { shouldClear } = this.state;

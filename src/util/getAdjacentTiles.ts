@@ -1,4 +1,4 @@
-import { flow, map, filter } from "lodash/fp";
+import { filter, flow, map } from "lodash/fp";
 import { Field, Tile } from "../interface";
 
 const getAdjacentCoordinates = ({ row, column }: Tile) => {

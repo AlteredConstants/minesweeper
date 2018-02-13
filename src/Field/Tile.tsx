@@ -1,11 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { clear, clearSurrounding, toggleFlagTile } from "../action";
+import { Tile } from "../interface";
 import BaseTile from "./BaseTile";
 import CenterText from "./CenterText";
-import CoveredTile from "./CoveredTile";
 import CountTile from "./CountTile";
-import { Tile } from "../interface";
+import CoveredTile from "./CoveredTile";
 
 const MineTile = () => (
   <g>

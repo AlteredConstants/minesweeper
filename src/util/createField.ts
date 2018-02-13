@@ -1,7 +1,7 @@
 import { flow, map, sumBy } from "lodash/fp";
+import { Field, Tile } from "../interface";
 import distributeMines from "./distributeMines";
 import { createAdjacentTilesGetter } from "./getAdjacentTiles";
-import { Field, Tile } from "../interface";
 
 const uncappedMap = map.convert({ cap: false });
 

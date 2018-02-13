@@ -1,6 +1,6 @@
-import { updateInArray, updateInObject } from "../util";
-import { Game, Field, Tile } from "../interface";
 import { Action } from "../action";
+import { Field, Game, Tile } from "../interface";
+import { updateInArray, updateInObject } from "../util";
 
 function updateField(game: Game, newProps: Partial<Field>): Game {
   return game.field ? updateInObject(game, "field", newProps) : game;

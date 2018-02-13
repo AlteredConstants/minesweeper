@@ -1,14 +1,14 @@
 import * as React from "react";
 import { render } from "react-dom";
-import { createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
 import { Provider } from "react-redux";
+import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import "./index.css";
-import App from "./App";
-import registerServiceWorker from "./registerServiceWorker";
-import reducer from "./reducer";
+import thunk from "redux-thunk";
 import { startNewField } from "./action";
+import App from "./App";
+import "./index.css";
+import reducer from "./reducer";
+import registerServiceWorker from "./registerServiceWorker";
 
 // Beginner: 9x9x10
 // Intermediate: 16x16x40
