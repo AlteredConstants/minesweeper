@@ -55,7 +55,7 @@ type AppProps = {
   onReset: () => void;
 };
 const App = ({ isExploded = false, onReset }: AppProps) => (
-  <div className="App">
+  <div className="App" onContextMenu={event => event.preventDefault()}>
     <header>
       <h1>Minesweeper</h1>
     </header>

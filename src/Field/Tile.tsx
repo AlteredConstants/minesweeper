@@ -1,20 +1,11 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { clear, clearSurrounding, toggleFlagTile } from "../action";
 import BaseTile from "./BaseTile";
 import CenterText from "./CenterText";
 import CoveredTile from "./CoveredTile";
+import CountTile from "./CountTile";
 import { Tile } from "../interface";
-
-const CountColors = [
-  { foreground: "transparent", background: "antiqueWhite" },
-  { foreground: "navy", background: "lightSkyBlue" },
-  { foreground: "darkOliveGreen", background: "paleGreen" },
-  { foreground: "fireBrick", background: "lightCoral" },
-  { foreground: "midnightBlue", background: "lightSteelBlue" },
-  { foreground: "maroon", background: "lightSalmon" },
-  { foreground: "darkCyan", background: "lightCyan" },
-  { foreground: "black", background: "gainsboro" },
-  { foreground: "dimGrey", background: "whiteSmoke" },
-];
 
 const MineTile = () => (
   <g>
@@ -23,37 +14,40 @@ const MineTile = () => (
   </g>
 );
 
-interface CountTileProps {
-  count: number;
-}
-const CountTile = ({ count }: CountTileProps) => (
-  <g>
-    <BaseTile fill={CountColors[count].background} />
-    <CenterText
-      fontSize="1.1em"
-      fill={CountColors[count].foreground}
-      value={count.toString()}
-    />
-  </g>
-);
-
-interface ClearedTileProps {
-  tile: Tile;
-}
-const ClearedTile = ({
-  tile: { isMine, adjacentMineCount },
-}: ClearedTileProps) =>
-  isMine ? <MineTile /> : <CountTile count={adjacentMineCount} />;
-
 interface TileProps {
   tile: Tile;
   size: number;
+  onClear: (tile: Tile) => any;
+  onClearSurrounding: (tile: Tile) => any;
+  onToggleFlag: (tile: Tile) => any;
 }
-export default function Tile({ tile, size }: TileProps) {
+function Tile({
+  tile,
+  size,
+  onClear,
+  onClearSurrounding,
+  onToggleFlag,
+}: TileProps) {
   const { row, column, isCleared } = tile;
   return (
     <svg x={column * size} y={row * size} width={size} height={size}>
-      {isCleared ? <ClearedTile tile={tile} /> : <CoveredTile tile={tile} />}
+      {!isCleared ? (
+        <CoveredTile
+          tile={tile}
+          onClear={onClear}
+          onToggleFlag={onToggleFlag}
+        />
+      ) : tile.isMine ? (
+        <MineTile />
+      ) : (
+        <CountTile tile={tile} onClearSurrounding={onClearSurrounding} />
+      )}
     </svg>
   );
 }
+
+export default connect(null, {
+  onClear: clear,
+  onClearSurrounding: clearSurrounding,
+  onToggleFlag: toggleFlagTile,
+})(Tile);

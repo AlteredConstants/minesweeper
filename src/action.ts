@@ -1,6 +1,7 @@
 import { Action, Dispatch } from "redux";
 import { createField, getConnectedSafeTiles } from "./util";
 import { Field, Tile, State } from "./interface";
+import { getAdjacentTiles } from "./util/getAdjacentTiles";
 
 const DefaultField = { width: 30, height: 16, mineCount: 99 };
 
@@ -88,6 +89,26 @@ export function clear(tile: Tile) {
       if (field) {
         dispatch(clearConnectedSafeTiles(field, tile));
       }
+    }
+  };
+}
+
+export function clearSurrounding(tile: Tile) {
+  return (dispatch: Dispatch<State>, getState: () => State) => {
+    if (!tile.isCleared) {
+      return;
+    }
+    const { game: { field } } = getState();
+    if (!field) {
+      return;
+    }
+    const adjacentTiles = getAdjacentTiles(field, tile);
+    const flaggedTilesCount = adjacentTiles.filter(t => t.isFlagged).length;
+    if (flaggedTilesCount !== tile.adjacentMineCount) {
+      return;
+    }
+    for (const adjacentTile of adjacentTiles.filter(t => !t.isFlagged)) {
+      dispatch(clear(adjacentTile));
     }
   };
 }
