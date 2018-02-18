@@ -1,17 +1,17 @@
 import * as freeze from "deep-freeze";
-import reducer from "./gameReducer";
-import { mockField as field } from "../util/__mocks__/createField";
 import { Game } from "../interface";
+import { mockField as field } from "../util/__mocks__/createField";
+import reducer from "./gameReducer";
 
 const game = freeze<Game>({ field }) as Game;
 
 it("should initialize correctly", () => {
   const state = reducer(undefined, {} as any);
-  expect(state).toEqual({});
+  expect(state).toEqual({ field: null });
 });
 
 it("should return the given state when given an unrecognized action", () => {
-  const original = {};
+  const original = { field: null };
   const state = reducer(original, { type: "TOTALLY_NOT_A_REAL_ACTION" as any });
   expect(state).toBe(original);
 });

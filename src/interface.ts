@@ -17,7 +17,7 @@ export interface Field {
 }
 
 export interface Game {
-  readonly field?: Field;
+  readonly field: Field | null;
 }
 
 export interface State {
