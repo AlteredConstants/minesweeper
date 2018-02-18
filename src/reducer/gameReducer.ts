@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import { Action } from "../action";
-import { Field, Game, Tile } from "../interface";
+import { Field, FieldState, Game, Tile } from "../interface";
 import { updateInArray } from "../util";
 
 function tilesReducer(
@@ -52,7 +52,13 @@ function fieldReducer(
   }
 
   if (action.type === "TRIP_MINE") {
-    nextField = { ...nextField, isExploded: true };
+    return { ...nextField, state: FieldState.Exploded };
+  }
+  if (
+    action.type === "CLEAR_TILE" &&
+    nextField.tiles.filter(t => !t.isMine && !t.isCleared).length === 0
+  ) {
+    return { ...nextField, state: FieldState.Cleared };
   }
 
   return nextField;

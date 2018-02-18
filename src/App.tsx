@@ -3,26 +3,30 @@ import glamorous from "glamorous";
 import * as React from "react";
 import { connect } from "react-redux";
 import { startNewField } from "./action";
-import Emoji from "./Emoji";
+import Emoji, { EmojiType } from "./Emoji";
 import Field from "./Field";
-import { State } from "./interface";
+import { FieldState, State } from "./interface";
 
 const PaddedEmoji = glamorous(Emoji)({ margin: "0.8em" });
 
-const OverlayContainer = glamorous.div(
+interface OverlayContainerProps {
+  isActive: boolean;
+}
+const OverlayContainer = glamorous.div<OverlayContainerProps>(
   {
     position: "relative",
     width: "fit-content",
     margin: "auto",
     userSelect: "none",
   },
-  ({ isExploded }) => ({
-    cursor: isExploded ? "pointer" : "url(./bomb-detector.png) 0 32, default",
+  ({ isActive }) => ({
+    cursor: isActive ? "url(./bomb-detector.png) 0 32, default" : "pointer",
   }),
 );
 
 interface OverlayProps {
-  show: boolean;
+  backgroundColor1: string;
+  backgroundColor2: string;
 }
 const Overlay = glamorous.div<OverlayProps>(
   {
@@ -37,40 +41,75 @@ const Overlay = glamorous.div<OverlayProps>(
     alignItems: "center",
     transition: "visibility 0ms 0ms, opacity 100ms ease-out",
   },
-  props => {
+  ({ backgroundColor1, backgroundColor2 }) => {
     const flash = keyframes({
-      "0%": { backgroundColor: "rgba(255, 87, 34, 0.6)", fontSize: "1.5em" },
-      "100%": { backgroundColor: "rgba(255, 0, 0, 0.7)", fontSize: "1.6em" },
+      "0%": { backgroundColor: backgroundColor1, fontSize: "1.5em" },
+      "100%": { backgroundColor: backgroundColor2, fontSize: "1.6em" },
     });
     return {
-      opacity: props.show ? 1 : 0,
-      visibility: props.show ? "visible" : "hidden",
       animation: `${flash} 1.5s infinite ease-in-out alternate`,
     };
   },
 );
 
-interface AppProps {
-  isExploded?: boolean;
+interface OverlayMessageProps {
+  emoji: EmojiType;
+  text: string;
+}
+const OverlayMessage = ({ emoji, text }: OverlayMessageProps) => (
+  <>
+    <PaddedEmoji type={emoji} css={{ transform: "scale(-1,1)" }} />
+    {text}
+    <PaddedEmoji type={emoji} />
+  </>
+);
+
+interface FieldStateOverlayProps {
+  fieldState: FieldState;
+  onClick: () => any;
+}
+const ClearedOverlay = ({ fieldState, onClick }: FieldStateOverlayProps) => (
+  <Overlay
+    backgroundColor1="rgba(87, 255, 34, 0.6)"
+    backgroundColor2="rgba(0, 255, 0, 0.7)"
+    onClick={onClick}
+  >
+    <OverlayMessage emoji="party popper" text="Cleared" />
+  </Overlay>
+);
+const ExplodedOverlay = ({ fieldState, onClick }: FieldStateOverlayProps) => (
+  <Overlay
+    backgroundColor1="rgba(255, 87, 34, 0.6)"
+    backgroundColor2="rgba(255, 0, 0, 0.7)"
+    onClick={onClick}
+  >
+    <OverlayMessage emoji="bomb" text="Boom" />
+  </Overlay>
+);
+
+interface AppStateProps {
+  fieldState: FieldState | null;
+}
+interface AppDispatchProps {
   onReset: () => void;
 }
-const App = ({ isExploded = false, onReset }: AppProps) => (
+const App = ({ fieldState, onReset }: AppStateProps & AppDispatchProps) => (
   <div className="App" onContextMenu={event => event.preventDefault()}>
     <header>
       <h1>Minesweeper</h1>
     </header>
-    <OverlayContainer isExploded={isExploded}>
+    <OverlayContainer isActive={fieldState === FieldState.Active}>
       <Field />
-      <Overlay show={isExploded} onClick={() => onReset()}>
-        <PaddedEmoji name="bomb" />Boom<PaddedEmoji name="bomb" />
-      </Overlay>
+      {fieldState === FieldState.Cleared ? (
+        <ClearedOverlay fieldState={fieldState} onClick={() => onReset()} />
+      ) : fieldState === FieldState.Exploded ? (
+        <ExplodedOverlay fieldState={fieldState} onClick={() => onReset()} />
+      ) : null}
     </OverlayContainer>
   </div>
 );
 
-export default connect(
-  (state: State) => ({
-    isExploded: state.game.field && state.game.field.isExploded,
-  }),
+export default connect<AppStateProps, AppDispatchProps, {}, State>(
+  state => ({ fieldState: state.game.field && state.game.field.state }),
   { onReset: startNewField },
 )(App);

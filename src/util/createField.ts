@@ -1,5 +1,5 @@
 import { flow, map, sumBy } from "lodash/fp";
-import { Field, Tile } from "../interface";
+import { Field, FieldState, Tile } from "../interface";
 import distributeMines from "./distributeMines";
 import { createAdjacentTilesGetter } from "./getAdjacentTiles";
 
@@ -40,7 +40,7 @@ export default function createField(options: {
     height,
     mineCount,
     tiles,
-    isExploded: false,
+    state: FieldState.Active,
   };
 }
 

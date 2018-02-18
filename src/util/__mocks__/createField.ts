@@ -9,6 +9,12 @@ export const mockField = freeze<Field>(
   createField({ width: 4, height: 4, mineCount: 4 }),
 ) as Field;
 
+const mineTileIndexes = [7, 10, 12, 15];
+export const mockMineTiles = mineTileIndexes.map(i => mockField.tiles[i]);
+export const mockSafeTiles = mockField.tiles.filter(
+  ({ index }) => !mineTileIndexes.includes(index),
+);
+
 export const mockZeroTile = mockField.tiles[4];
 export const mockNumberTile = mockField.tiles[5];
 export const mockSurroundedNumberTile = mockField.tiles[13];

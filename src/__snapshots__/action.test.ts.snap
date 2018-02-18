@@ -108,8 +108,8 @@ exports[`startNewField should create a START_NEW_FIELD action 1`] = `
 Object {
   "field": Object {
     "height": 4,
-    "isExploded": false,
     "mineCount": 4,
+    "state": "active",
     "tiles": Array [
       Object {
         "adjacentMineCount": 0,

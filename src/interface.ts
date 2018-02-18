@@ -8,12 +8,18 @@ export interface Tile {
   readonly isFlagged: boolean;
 }
 
+export enum FieldState {
+  Active = "active",
+  Cleared = "cleared",
+  Exploded = "exploded",
+}
+
 export interface Field {
   readonly width: number;
   readonly height: number;
   readonly mineCount: number;
   readonly tiles: ReadonlyArray<Tile>;
-  readonly isExploded: boolean;
+  readonly state: FieldState;
 }
 
 export interface Game {

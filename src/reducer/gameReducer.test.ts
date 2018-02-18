@@ -1,6 +1,9 @@
 import * as freeze from "deep-freeze";
-import { Game } from "../interface";
-import { mockField as field } from "../util/__mocks__/createField";
+import { FieldState, Game } from "../interface";
+import {
+  mockField as field,
+  mockSafeTiles,
+} from "../util/__mocks__/createField";
 import reducer from "./gameReducer";
 
 const game = freeze<Game>({ field }) as Game;
@@ -56,5 +59,14 @@ it("should mark all connected safe tiles as cleared when given CLEAR_CONNECTED_S
 
 it("should mark the field as exploded when given TRIP_MINE action", () => {
   const state = reducer(game, { type: "TRIP_MINE" });
-  expect(state.field.isExploded).toEqual(true);
+  expect(state.field.state).toEqual(FieldState.Exploded);
+});
+
+it("should mark the field as cleared when all safe tiles are cleared", () => {
+  const clearTileActions = mockSafeTiles.map(tile => ({
+    type: "CLEAR_TILE",
+    tile,
+  }));
+  const state = clearTileActions.reduce(reducer, game);
+  expect(state.field.state).toEqual(FieldState.Cleared);
 });

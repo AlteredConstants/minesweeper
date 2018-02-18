@@ -2,15 +2,18 @@ import * as React from "react";
 
 const emoji = {
   bomb: "💣",
+  "party popper": "🎉",
 };
 
+export type EmojiType = keyof typeof emoji;
+
 type EmojiProps = {
-  name: keyof typeof emoji;
+  type: EmojiType;
 } & React.HTMLAttributes<HTMLSpanElement>;
-export default function Emoji({ name, ...rest }: EmojiProps) {
+export default function Emoji({ type, ...rest }: EmojiProps) {
   return (
-    <span role="img" aria-label={name} {...rest}>
-      {emoji[name]}
+    <span role="img" aria-label={type} {...rest}>
+      {emoji[type]}
     </span>
   );
 }

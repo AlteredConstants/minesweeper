@@ -3,8 +3,8 @@
 exports[`should create a field 1`] = `
 Object {
   "height": 4,
-  "isExploded": false,
   "mineCount": 4,
+  "state": "active",
   "tiles": Array [
     Object {
       "adjacentMineCount": 0,
