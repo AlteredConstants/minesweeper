@@ -28,11 +28,7 @@ interface LoadedFieldProps {
 const LoadedField = ({ field }: LoadedFieldProps) => (
   <FieldFrame width={TileSize * field.width} height={TileSize * field.height}>
     {field.tiles.map(tile => (
-      <Tile
-        key={`tile-${tile.row}-${tile.column}`}
-        tile={tile}
-        size={TileSize}
-      />
+      <Tile key={`tile-${tile.index}`} tile={tile} size={TileSize} />
     ))}
   </FieldFrame>
 );
