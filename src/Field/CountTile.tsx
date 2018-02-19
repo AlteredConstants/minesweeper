@@ -17,7 +17,7 @@ const CountColors = [
 
 interface CountTileProps {
   tile: Tile;
-  onClearSurrounding: (tile: Tile) => any;
+  onClearAdjacent: (tile: Tile) => {};
 }
 interface CountTileState {
   shouldClear: boolean;
@@ -31,7 +31,7 @@ export default class CountTile extends React.Component<
   };
 
   public render() {
-    const { tile, onClearSurrounding } = this.props;
+    const { tile, onClearAdjacent } = this.props;
     const { adjacentMineCount } = tile;
     const { shouldClear } = this.state;
     return (
@@ -43,7 +43,7 @@ export default class CountTile extends React.Component<
         }}
         onMouseUp={() => {
           if (shouldClear) {
-            onClearSurrounding(tile);
+            onClearAdjacent(tile);
           }
         }}
       >

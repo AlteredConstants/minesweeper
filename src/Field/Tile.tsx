@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { clear, clearSurrounding, toggleFlagTile } from "../action";
+import { clearAdjacentTiles, clearTile, toggleFlagTile } from "../action";
 import { Tile } from "../interface";
 import BaseTile from "./BaseTile";
 import CenterText from "./CenterText";
@@ -14,20 +14,22 @@ const MineTile = () => (
   </g>
 );
 
-interface TileProps {
+interface TileOwnProps {
   tile: Tile;
   size: number;
-  onClear: (tile: Tile) => any;
-  onClearSurrounding: (tile: Tile) => any;
-  onToggleFlag: (tile: Tile) => any;
+}
+interface TileDispatchProps {
+  onClear: (tile: Tile) => {};
+  onClearAdjacent: (tile: Tile) => {};
+  onToggleFlag: (tile: Tile) => {};
 }
 function Tile({
   tile,
   size,
   onClear,
-  onClearSurrounding,
+  onClearAdjacent,
   onToggleFlag,
-}: TileProps) {
+}: TileOwnProps & TileDispatchProps) {
   const { row, column, isCleared } = tile;
   return (
     <svg x={column * size} y={row * size} width={size} height={size}>
@@ -40,14 +42,14 @@ function Tile({
       ) : tile.isMine ? (
         <MineTile />
       ) : (
-        <CountTile tile={tile} onClearSurrounding={onClearSurrounding} />
+        <CountTile tile={tile} onClearAdjacent={onClearAdjacent} />
       )}
     </svg>
   );
 }
 
-export default connect(null, {
-  onClear: clear,
-  onClearSurrounding: clearSurrounding,
+export default connect<{}, TileDispatchProps>(null, {
+  onClear: clearTile,
+  onClearAdjacent: clearAdjacentTiles,
   onToggleFlag: toggleFlagTile,
 })(Tile);

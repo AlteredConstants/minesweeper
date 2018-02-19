@@ -33,10 +33,12 @@ const LoadedField = ({ field }: LoadedFieldProps) => (
   </FieldFrame>
 );
 
-interface FieldProps {
-  field: Field;
+interface FieldStateProps {
+  field: Field | null;
 }
-const Field = ({ field }: FieldProps) =>
+const Field = ({ field }: FieldStateProps) =>
   field ? <LoadedField field={field} /> : <LoadingField />;
 
-export default connect((state: State) => ({ field: state.game.field }))(Field);
+export default connect<FieldStateProps, {}, {}, State>(state => ({
+  field: state.game.field,
+}))(Field);

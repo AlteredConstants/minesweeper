@@ -1,12 +1,44 @@
 import { combineReducers } from "redux";
 import { Action } from "../action";
 import { Field, FieldState, Game, Tile } from "../interface";
-import { updateInArray } from "../util";
+import {
+  getAdjacentTiles,
+  getConnectedSafeTiles,
+  updateInArray,
+} from "../util";
 
-function tilesReducer(
-  tiles: ReadonlyArray<Tile>,
-  action: Action,
-): ReadonlyArray<Tile> {
+type Tiles = ReadonlyArray<Tile>;
+
+function setClearedTileFlag(state: Tiles, tiles: Tiles): Tiles {
+  const indexes = tiles.filter(t => !t.isCleared).map(t => t.index);
+  if (indexes.length === 0) {
+    return state;
+  }
+  return updateInArray(state, indexes, { isCleared: true });
+}
+
+function clearAllMines(state: Tiles, { isMine }: Tile): Tiles {
+  const mineTiles = state.filter(t => t.isMine);
+  return setClearedTileFlag(state, mineTiles);
+}
+
+function clearConnectedSafeTiles(state: Tiles, tile: Tile): Tiles {
+  const connectedSafeTiles = getConnectedSafeTiles(state, tile);
+  return setClearedTileFlag(state, connectedSafeTiles);
+}
+
+function clearTile(state: Tiles, tile: Tile): Tiles {
+  const nextState = setClearedTileFlag(state, [tile]);
+  if (tile.isMine) {
+    return clearAllMines(nextState, tile);
+  }
+  if (tile.adjacentMineCount === 0) {
+    return clearConnectedSafeTiles(nextState, tile);
+  }
+  return nextState;
+}
+
+function tilesReducer(tiles: Tiles, action: Action): Tiles {
   switch (action.type) {
     case "TOGGLE_FLAG_TILE": {
       const { tile: { index, isFlagged } } = action;
@@ -14,21 +46,22 @@ function tilesReducer(
     }
 
     case "CLEAR_TILE": {
-      const { tile: { index, isMine } } = action;
-      const nextTiles = updateInArray(tiles, index, { isCleared: true });
-      if (!isMine) {
-        return nextTiles;
-      }
-      return updateInArray(
-        nextTiles,
-        nextTiles.filter(t => t.isMine && !t.isCleared).map(t => t.index),
-        { isCleared: true },
-      );
+      const { tile } = action;
+      return clearTile(tiles, tile);
     }
 
-    case "CLEAR_CONNECTED_SAFE_TILES": {
-      const indexes = action.tiles.map(t => t.index);
-      return updateInArray(tiles, indexes, { isCleared: true });
+    case "CLEAR_ADJACENT_TILES": {
+      const { tile } = action;
+      const { isCleared } = tile;
+      if (!isCleared) {
+        return tiles;
+      }
+      const adjacentTiles = getAdjacentTiles(tiles, tile);
+      const flaggedTilesCount = adjacentTiles.filter(t => t.isFlagged).length;
+      if (flaggedTilesCount !== tile.adjacentMineCount) {
+        return tiles;
+      }
+      return adjacentTiles.filter(t => !t.isFlagged).reduce(clearTile, tiles);
     }
 
     default: {
@@ -37,11 +70,19 @@ function tilesReducer(
   }
 }
 
+function isMineCleared(tiles: Tiles): boolean {
+  return tiles.some(t => t.isMine && t.isCleared);
+}
+
+function getRemainingSafeTiles(tiles: Tiles): Tiles {
+  return tiles.filter(t => !t.isMine && !t.isCleared);
+}
+
 function fieldReducer(
-  field: Field | null = null,
+  state: Field | null = null,
   action: Action,
 ): Field | null {
-  let nextField = action.type === "START_NEW_FIELD" ? action.field : field;
+  let nextField = action.type === "START_NEW_FIELD" ? action.field : state;
   if (!nextField) {
     return null;
   }
@@ -51,14 +92,12 @@ function fieldReducer(
     nextField = { ...nextField, tiles };
   }
 
-  if (action.type === "TRIP_MINE") {
-    return { ...nextField, state: FieldState.Exploded };
-  }
-  if (
-    action.type === "CLEAR_TILE" &&
-    nextField.tiles.filter(t => !t.isMine && !t.isCleared).length === 0
-  ) {
-    return { ...nextField, state: FieldState.Cleared };
+  if (action.type === "CLEAR_TILE" || action.type === "CLEAR_ADJACENT_TILES") {
+    if (isMineCleared(nextField.tiles)) {
+      return { ...nextField, state: FieldState.Exploded };
+    } else if (getRemainingSafeTiles(nextField.tiles).length === 0) {
+      return { ...nextField, state: FieldState.Cleared };
+    }
   }
 
   return nextField;

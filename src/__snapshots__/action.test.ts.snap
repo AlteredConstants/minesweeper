@@ -1,91 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`clearConnectedSafeTiles should create a CLEAR_CONNECTED_SAFE_TILES action 1`] = `
+exports[`clearAdjacentTile should create a CLEAR_ADJACENT_TILE action 1`] = `
 Object {
-  "originTile": Object {
-    "adjacentMineCount": 0,
-    "column": 0,
-    "index": 4,
+  "tile": Object {
+    "adjacentMineCount": 1,
+    "column": 1,
+    "index": 5,
     "isCleared": false,
     "isFlagged": false,
     "isMine": false,
     "row": 1,
   },
-  "tiles": Array [
-    Object {
-      "adjacentMineCount": 0,
-      "column": 0,
-      "index": 0,
-      "isCleared": false,
-      "isFlagged": false,
-      "isMine": false,
-      "row": 0,
-    },
-    Object {
-      "adjacentMineCount": 0,
-      "column": 1,
-      "index": 1,
-      "isCleared": false,
-      "isFlagged": false,
-      "isMine": false,
-      "row": 0,
-    },
-    Object {
-      "adjacentMineCount": 1,
-      "column": 2,
-      "index": 2,
-      "isCleared": false,
-      "isFlagged": false,
-      "isMine": false,
-      "row": 0,
-    },
-    Object {
-      "adjacentMineCount": 1,
-      "column": 1,
-      "index": 5,
-      "isCleared": false,
-      "isFlagged": false,
-      "isMine": false,
-      "row": 1,
-    },
-    Object {
-      "adjacentMineCount": 0,
-      "column": 0,
-      "index": 4,
-      "isCleared": false,
-      "isFlagged": false,
-      "isMine": false,
-      "row": 1,
-    },
-    Object {
-      "adjacentMineCount": 2,
-      "column": 2,
-      "index": 6,
-      "isCleared": false,
-      "isFlagged": false,
-      "isMine": false,
-      "row": 1,
-    },
-    Object {
-      "adjacentMineCount": 1,
-      "column": 0,
-      "index": 8,
-      "isCleared": false,
-      "isFlagged": false,
-      "isMine": false,
-      "row": 2,
-    },
-    Object {
-      "adjacentMineCount": 2,
-      "column": 1,
-      "index": 9,
-      "isCleared": false,
-      "isFlagged": false,
-      "isMine": false,
-      "row": 2,
-    },
-  ],
-  "type": "CLEAR_CONNECTED_SAFE_TILES",
+  "type": "CLEAR_TILE",
 }
 `;
 
@@ -274,11 +200,5 @@ Object {
     "row": 1,
   },
   "type": "TOGGLE_FLAG_TILE",
-}
-`;
-
-exports[`tripMine should create a TRIP_MINE action 1`] = `
-Object {
-  "type": "TRIP_MINE",
 }
 `;

@@ -3,6 +3,7 @@ import {
   mockConnectedSafeTilesForZeroTile,
   mockField,
   mockMineTile,
+  mockNumberTile,
   mockSurroundedNumberTile,
   mockZeroTile,
 } from "./util/__mocks__/createField";
@@ -37,34 +38,16 @@ describe("clearTile", () => {
   });
 });
 
-describe("clearConnectedSafeTiles", () => {
-  it("should call getConnectedSafeTiles", () => {
-    creator.clearConnectedSafeTiles(mockField, mockZeroTile);
-    expect(getConnectedSafeTiles).toHaveBeenCalledWith(
-      mockField.tiles,
-      mockZeroTile,
-    );
-  });
-
-  it("should create a CLEAR_CONNECTED_SAFE_TILES action", () => {
-    const action = creator.clearConnectedSafeTiles(mockField, mockZeroTile);
+describe("clearAdjacentTile", () => {
+  it("should create a CLEAR_ADJACENT_TILE action", () => {
+    const action = creator.clearTile(mockNumberTile);
     expect(action).toMatchSnapshot();
   });
 });
 
-describe("tripMine", () => {
-  it("should create a TRIP_MINE action", () => {
-    const action = creator.tripMine();
-    expect(action).toMatchSnapshot();
-  });
-});
-
-describe("clear", () => {
-  it("should create a thunk action", () => {
-    const action = creator.clear(mockZeroTile);
-    expect(action).toBeInstanceOf(Function);
-  });
-
+// This action creator no longer exists.
+// TODO: probably migrate these to the relevant reducer tests.
+describe.skip("clear", () => {
   it("should not dispatch any actions if the tile is already cleared", () => {
     const action = creator.clear({ ...mockZeroTile, isCleared: true });
     const dispatch = jest.fn();

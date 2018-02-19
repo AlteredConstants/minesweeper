@@ -1,8 +1,11 @@
 import * as freeze from "deep-freeze";
 import { FieldState, Game } from "../interface";
 import {
+  mockConnectedSafeTilesForZeroTile,
   mockField as field,
+  mockMineTile,
   mockSafeTiles,
+  mockZeroTile,
 } from "../util/__mocks__/createField";
 import reducer from "./gameReducer";
 
@@ -44,21 +47,20 @@ it("should mark the tile as cleared when given CLEAR_TILE action", () => {
   expect(state.field.tiles[0]).toEqual({ ...tile, isCleared: true });
 });
 
-it("should mark all connected safe tiles as cleared when given CLEAR_CONNECTED_SAFE_TILES action for a safe tile", () => {
+it("should mark all connected safe tiles as cleared when given CLEAR_TILE action for a safe tile", () => {
   const state = reducer(game, {
-    type: "CLEAR_CONNECTED_SAFE_TILES",
-    originTile: field.tiles[0],
-    tiles: [field.tiles[0], field.tiles[1], field.tiles[4]],
+    type: "CLEAR_TILE",
+    tile: mockZeroTile,
   });
   const expectedTiles = [...field.tiles];
-  expectedTiles[0] = { ...expectedTiles[0], isCleared: true };
-  expectedTiles[1] = { ...expectedTiles[1], isCleared: true };
-  expectedTiles[4] = { ...expectedTiles[4], isCleared: true };
+  mockConnectedSafeTilesForZeroTile.forEach(({ index }) => {
+    expectedTiles[index] = { ...expectedTiles[index], isCleared: true };
+  });
   expect(state.field.tiles).toEqual(expectedTiles);
 });
 
-it("should mark the field as exploded when given TRIP_MINE action", () => {
-  const state = reducer(game, { type: "TRIP_MINE" });
+it("should mark the field as exploded when given CLEAR_TILE action for a mine tile", () => {
+  const state = reducer(game, { type: "CLEAR_TILE", tile: mockMineTile });
   expect(state.field.state).toEqual(FieldState.Exploded);
 });
 

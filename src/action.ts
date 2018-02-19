@@ -1,16 +1,14 @@
-import { Action, Dispatch } from "redux";
-import { Field, State, Tile } from "./interface";
-import { createField, getConnectedSafeTiles } from "./util";
-import { getAdjacentTiles } from "./util/getAdjacentTiles";
+import { Action } from "redux";
+import { Field, Tile } from "./interface";
+import { createField } from "./util";
 
 const DefaultField = { width: 30, height: 16, mineCount: 99 };
 
 export type Action =
-  | ClearConnectSafeTilesAction
+  | ClearAdjacentTilesAction
   | ClearTileAction
   | StartNewFieldAction
-  | ToggleFlagTileAction
-  | TripMineAction;
+  | ToggleFlagTileAction;
 
 interface StartNewFieldAction extends Action {
   type: "START_NEW_FIELD";
@@ -51,64 +49,13 @@ export function clearTile(tile: Tile): ClearTileAction {
   };
 }
 
-interface ClearConnectSafeTilesAction extends Action {
-  type: "CLEAR_CONNECTED_SAFE_TILES";
-  originTile: Tile;
-  tiles: ReadonlyArray<Tile>;
+interface ClearAdjacentTilesAction extends Action {
+  type: "CLEAR_ADJACENT_TILES";
+  tile: Tile;
 }
-export function clearConnectedSafeTiles(
-  field: Field,
-  tile: Tile,
-): ClearConnectSafeTilesAction {
+export function clearAdjacentTiles(tile: Tile): ClearAdjacentTilesAction {
   return {
-    type: "CLEAR_CONNECTED_SAFE_TILES",
-    originTile: tile,
-    tiles: getConnectedSafeTiles(field.tiles, tile),
-  };
-}
-
-interface TripMineAction extends Action {
-  type: "TRIP_MINE";
-}
-export function tripMine(): TripMineAction {
-  return {
-    type: "TRIP_MINE",
-  };
-}
-
-export function clear(tile: Tile) {
-  return (dispatch: Dispatch<State>, getState: () => State) => {
-    if (tile.isCleared) {
-      return;
-    }
-    dispatch(clearTile(tile));
-    if (tile.isMine) {
-      dispatch(tripMine());
-    } else if (tile.adjacentMineCount === 0) {
-      const { game: { field } } = getState();
-      if (field) {
-        dispatch(clearConnectedSafeTiles(field, tile));
-      }
-    }
-  };
-}
-
-export function clearSurrounding(tile: Tile) {
-  return (dispatch: Dispatch<State>, getState: () => State) => {
-    if (!tile.isCleared) {
-      return;
-    }
-    const { game: { field } } = getState();
-    if (!field) {
-      return;
-    }
-    const adjacentTiles = getAdjacentTiles(field.tiles, tile);
-    const flaggedTilesCount = adjacentTiles.filter(t => t.isFlagged).length;
-    if (flaggedTilesCount !== tile.adjacentMineCount) {
-      return;
-    }
-    for (const adjacentTile of adjacentTiles.filter(t => !t.isFlagged)) {
-      dispatch(clear(adjacentTile));
-    }
+    type: "CLEAR_ADJACENT_TILES",
+    tile,
   };
 }
