@@ -1,5 +1,4 @@
 import * as creator from "./action";
-import createField from "./util/createField";
 import {
   mockConnectedSafeTilesForZeroTile,
   mockField,
@@ -7,6 +6,7 @@ import {
   mockSurroundedNumberTile,
   mockZeroTile,
 } from "./util/__mocks__/createField";
+import createField from "./util/createField";
 import getConnectedSafeTiles from "./util/getConnectedSafeTiles";
 
 jest.mock("./util/getConnectedSafeTiles");
@@ -40,7 +40,10 @@ describe("clearTile", () => {
 describe("clearConnectedSafeTiles", () => {
   it("should call getConnectedSafeTiles", () => {
     creator.clearConnectedSafeTiles(mockField, mockZeroTile);
-    expect(getConnectedSafeTiles).toHaveBeenCalledWith(mockField, mockZeroTile);
+    expect(getConnectedSafeTiles).toHaveBeenCalledWith(
+      mockField.tiles,
+      mockZeroTile,
+    );
   });
 
   it("should create a CLEAR_CONNECTED_SAFE_TILES action", () => {

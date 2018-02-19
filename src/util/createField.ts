@@ -16,14 +16,15 @@ const createTilesCreator = (width: number) =>
     isFlagged: false,
   }));
 
-const createAdjacentMineCountUpdater = (width: number, height: number) =>
-  uncappedMap((tile: Tile, index, tiles: Tile[]): Tile => ({
+const updateAdjacentMineCount = uncappedMap(
+  (tile: Tile, index, tiles: Tile[]): Tile => ({
     ...tile,
     adjacentMineCount: flow(
-      createAdjacentTilesGetter({ width, height, tiles }),
+      createAdjacentTilesGetter(tiles),
       sumBy(adjacentTile => (adjacentTile.isMine ? 1 : 0)),
     )(tile),
-  }));
+  }),
+);
 
 export default function createField(options: {
   width: number;
@@ -32,7 +33,6 @@ export default function createField(options: {
 }): Field {
   const { width, height, mineCount } = options;
   const createTiles = createTilesCreator(width);
-  const updateAdjacentMineCount = createAdjacentMineCountUpdater(width, height);
   const mines = distributeMines(width * height, mineCount);
   const tiles = updateAdjacentMineCount(createTiles(mines));
   return {

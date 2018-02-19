@@ -63,7 +63,7 @@ export function clearConnectedSafeTiles(
   return {
     type: "CLEAR_CONNECTED_SAFE_TILES",
     originTile: tile,
-    tiles: getConnectedSafeTiles(field, tile),
+    tiles: getConnectedSafeTiles(field.tiles, tile),
   };
 }
 
@@ -102,7 +102,7 @@ export function clearSurrounding(tile: Tile) {
     if (!field) {
       return;
     }
-    const adjacentTiles = getAdjacentTiles(field, tile);
+    const adjacentTiles = getAdjacentTiles(field.tiles, tile);
     const flaggedTilesCount = adjacentTiles.filter(t => t.isFlagged).length;
     if (flaggedTilesCount !== tile.adjacentMineCount) {
       return;

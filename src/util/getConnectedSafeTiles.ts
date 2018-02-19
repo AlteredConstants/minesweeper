@@ -1,10 +1,10 @@
-import { Field, Tile } from "../interface";
+import { Tile } from "../interface";
 import getAdjacentTiles from "./getAdjacentTiles";
 
 function* connectedSafeTilesGenerator(
-  field: Field,
+  tiles: ReadonlyArray<Tile>,
   tile: Tile,
-  seenTiles: Map<number, boolean> = new Map(),
+  seenTiles = new Map<number, boolean>(),
 ): IterableIterator<Tile> {
   if (seenTiles.get(tile.index)) {
     return;
@@ -14,14 +14,14 @@ function* connectedSafeTilesGenerator(
   if (tile.adjacentMineCount !== 0 || tile.isMine) {
     return;
   }
-  for (const adjacentTile of getAdjacentTiles(field, tile)) {
-    yield* connectedSafeTilesGenerator(field, adjacentTile, seenTiles);
+  for (const adjacentTile of getAdjacentTiles(tiles, tile)) {
+    yield* connectedSafeTilesGenerator(tiles, adjacentTile, seenTiles);
   }
 }
 
 export default function getConnectedSafeTiles(
-  field: Field,
+  tiles: ReadonlyArray<Tile>,
   tile: Tile,
 ): ReadonlyArray<Tile> {
-  return [...connectedSafeTilesGenerator(field, tile)];
+  return [...connectedSafeTilesGenerator(tiles, tile)];
 }
