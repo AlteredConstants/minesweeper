@@ -22,10 +22,6 @@ export interface Field {
   readonly state: FieldState;
 }
 
-export interface Game {
-  readonly field: Field | null;
-}
-
 export interface State {
-  readonly game: Game;
+  readonly field: Field | null;
 }

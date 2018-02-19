@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import { Action } from "../action";
 import { State } from "../interface";
-import game from "./gameReducer";
+import field from "./field";
 
-export default combineReducers<State, Action>({ game });
+export default combineReducers<State, Action>({ field });

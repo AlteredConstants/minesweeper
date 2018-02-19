@@ -110,6 +110,6 @@ const App = ({ fieldState, onReset }: AppStateProps & AppDispatchProps) => (
 );
 
 export default connect<AppStateProps, AppDispatchProps, {}, State>(
-  state => ({ fieldState: state.game.field && state.game.field.state }),
+  ({ field }) => ({ fieldState: field && field.state }),
   { onReset: startNewField },
 )(App);
