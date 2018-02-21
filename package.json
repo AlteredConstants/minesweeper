@@ -28,9 +28,10 @@
     "typescript": "^2.7.1"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
+    "start": "BROWSER=none react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
+    "test:coverage": "npm run test -- --coverage --mapCoverage",
     "eject": "react-scripts-ts eject",
     "lint": "tslint --project . --config tslint.cli.json",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\""
