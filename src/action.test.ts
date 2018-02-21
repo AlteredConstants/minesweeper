@@ -8,7 +8,6 @@ import {
   mockZeroTile,
 } from "./util/__mocks__/createField";
 import createField from "./util/createField";
-import getConnectedSafeTiles from "./util/getConnectedSafeTiles";
 
 jest.mock("./util/getConnectedSafeTiles");
 

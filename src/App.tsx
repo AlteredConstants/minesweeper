@@ -66,22 +66,22 @@ const OverlayMessage = ({ emoji, text }: OverlayMessageProps) => (
 
 interface FieldStateOverlayProps {
   fieldState: FieldState;
-  onClick: () => any;
+  onDismiss: () => {};
 }
-const ClearedOverlay = ({ fieldState, onClick }: FieldStateOverlayProps) => (
+const ClearedOverlay = ({ fieldState, onDismiss }: FieldStateOverlayProps) => (
   <Overlay
     backgroundColor1="rgba(87, 255, 34, 0.6)"
     backgroundColor2="rgba(0, 255, 0, 0.7)"
-    onClick={onClick}
+    onDoubleClick={onDismiss}
   >
     <OverlayMessage emoji="party popper" text="Cleared" />
   </Overlay>
 );
-const ExplodedOverlay = ({ fieldState, onClick }: FieldStateOverlayProps) => (
+const ExplodedOverlay = ({ fieldState, onDismiss }: FieldStateOverlayProps) => (
   <Overlay
     backgroundColor1="rgba(255, 87, 34, 0.6)"
     backgroundColor2="rgba(255, 0, 0, 0.7)"
-    onClick={onClick}
+    onDoubleClick={onDismiss}
   >
     <OverlayMessage emoji="bomb" text="Boom" />
   </Overlay>
@@ -91,7 +91,7 @@ interface AppStateProps {
   fieldState: FieldState | null;
 }
 interface AppDispatchProps {
-  onReset: () => void;
+  onReset: () => {};
 }
 const App = ({ fieldState, onReset }: AppStateProps & AppDispatchProps) => (
   <div className="App" onContextMenu={event => event.preventDefault()}>
@@ -101,9 +101,9 @@ const App = ({ fieldState, onReset }: AppStateProps & AppDispatchProps) => (
     <OverlayContainer isActive={fieldState === FieldState.Active}>
       <Field />
       {fieldState === FieldState.Cleared ? (
-        <ClearedOverlay fieldState={fieldState} onClick={() => onReset()} />
+        <ClearedOverlay fieldState={fieldState} onDismiss={() => onReset()} />
       ) : fieldState === FieldState.Exploded ? (
-        <ExplodedOverlay fieldState={fieldState} onClick={() => onReset()} />
+        <ExplodedOverlay fieldState={fieldState} onDismiss={() => onReset()} />
       ) : null}
     </OverlayContainer>
   </div>
