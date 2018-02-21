@@ -14,48 +14,40 @@ interface StartNewFieldAction extends Action {
   type: "START_NEW_FIELD";
   field: Field;
 }
-export function startNewField(
+export const startNewField = (
   options: {
     width: number;
     height: number;
     mineCount: number;
   } = DefaultField,
-): StartNewFieldAction {
-  return {
-    type: "START_NEW_FIELD",
-    field: createField(options),
-  };
-}
+): StartNewFieldAction => ({
+  type: "START_NEW_FIELD",
+  field: createField(options),
+});
 
 interface ToggleFlagTileAction extends Action {
   type: "TOGGLE_FLAG_TILE";
   tile: Tile;
 }
-export function toggleFlagTile(tile: Tile): ToggleFlagTileAction {
-  return {
-    type: "TOGGLE_FLAG_TILE",
-    tile,
-  };
-}
+export const toggleFlagTile = (tile: Tile): ToggleFlagTileAction => ({
+  type: "TOGGLE_FLAG_TILE",
+  tile,
+});
 
 interface ClearTileAction extends Action {
   type: "CLEAR_TILE";
   tile: Tile;
 }
-export function clearTile(tile: Tile): ClearTileAction {
-  return {
-    type: "CLEAR_TILE",
-    tile,
-  };
-}
+export const clearTile = (tile: Tile): ClearTileAction => ({
+  type: "CLEAR_TILE",
+  tile,
+});
 
 interface ClearAdjacentTilesAction extends Action {
   type: "CLEAR_ADJACENT_TILES";
   tile: Tile;
 }
-export function clearAdjacentTiles(tile: Tile): ClearAdjacentTilesAction {
-  return {
-    type: "CLEAR_ADJACENT_TILES",
-    tile,
-  };
-}
+export const clearAdjacentTiles = (tile: Tile): ClearAdjacentTilesAction => ({
+  type: "CLEAR_ADJACENT_TILES",
+  tile,
+});
