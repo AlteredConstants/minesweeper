@@ -20,7 +20,7 @@ declare module "redux" {
     ): Store<S>;
     <S, A extends Action>(
       reducer: Reducer2<S, A>,
-      preloadedState: S,
+      preloadedState: Partial<S>,
       enhancer?: StoreEnhancer<S>,
     ): Store<S>;
   }

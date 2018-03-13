@@ -20,12 +20,10 @@ const FieldFrame = ({ children, width, height }: FieldFrameProps) => (
   </svg>
 );
 
-const LoadingField = () => <strong>Loading...</strong>;
-
-interface LoadedFieldProps {
+interface FieldProps {
   field: Field;
 }
-const LoadedField = ({ field }: LoadedFieldProps) => (
+const Field = ({ field }: FieldProps) => (
   <FieldFrame width={TileSize * field.width} height={TileSize * field.height}>
     {field.tiles.map(tile => (
       <Tile key={`tile-${tile.index}`} tile={tile} size={TileSize} />
@@ -33,12 +31,6 @@ const LoadedField = ({ field }: LoadedFieldProps) => (
   </FieldFrame>
 );
 
-interface FieldStateProps {
-  field: Field | null;
-}
-const Field = ({ field }: FieldStateProps) =>
-  field ? <LoadedField field={field} /> : <LoadingField />;
-
-export default connect<FieldStateProps, {}, {}, State>(({ field }) => ({
+export default connect<FieldProps, {}, {}, State>(({ field }) => ({
   field,
 }))(Field);

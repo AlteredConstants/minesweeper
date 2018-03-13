@@ -113,6 +113,11 @@ declare module "lodash/fp" {
     ): (object: U) => Array<R>;
   } & MapWithPropertyIterateeShorthand;
 
+  var pick: {
+    <T, K extends keyof T>(keys: K | Array<K>, object: T): Pick<T, K>;
+    <T, K extends keyof T>(keys: K | Array<K>): (object: T) => Pick<T, K>;
+  };
+
   function shuffle<T>(collection: Collection<T>): Array<T>;
 
   // type MatchesIterateeShorthand = Dictionary<mixed>;

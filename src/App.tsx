@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { startNewField } from "./action";
 import Emoji, { EmojiType } from "./Emoji";
 import Field from "./Field";
-import { FieldState, State } from "./interface";
+import { FieldConfig, FieldState, State } from "./interface";
 
 const PaddedEmoji = glamorous(Emoji)({ margin: "0.8em" });
 
@@ -87,13 +87,11 @@ const ExplodedOverlay = ({ fieldState, onDismiss }: FieldStateOverlayProps) => (
   </Overlay>
 );
 
-interface AppStateProps {
-  fieldState: FieldState | null;
-}
-interface AppDispatchProps {
+interface AppProps {
+  fieldState: FieldState;
   onReset: () => {};
 }
-const App = ({ fieldState, onReset }: AppStateProps & AppDispatchProps) => (
+const App = ({ fieldState, onReset }: AppProps) => (
   <div className="App" onContextMenu={event => event.preventDefault()}>
     <header>
       <h1>Minesweeper</h1>
@@ -109,7 +107,18 @@ const App = ({ fieldState, onReset }: AppStateProps & AppDispatchProps) => (
   </div>
 );
 
-export default connect<AppStateProps, AppDispatchProps, {}, State>(
-  ({ field }) => ({ fieldState: field && field.state }),
+interface AppStateProps {
+  fieldState: FieldState;
+  fieldConfig: FieldConfig;
+}
+interface AppDispatchProps {
+  onReset: (config: FieldConfig) => {};
+}
+export default connect<AppStateProps, AppDispatchProps, {}, AppProps, State>(
+  ({ field, fieldConfig }) => ({ fieldState: field.state, fieldConfig }),
   { onReset: startNewField },
+  ({ fieldConfig, ...rest }, { onReset }) => ({
+    ...rest,
+    onReset: () => onReset(fieldConfig),
+  }),
 )(App);

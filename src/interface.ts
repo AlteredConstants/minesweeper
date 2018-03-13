@@ -14,6 +14,12 @@ export enum FieldState {
   Exploded = "exploded",
 }
 
+export interface FieldConfig {
+  width: number;
+  height: number;
+  mineCount: number;
+}
+
 export interface Field {
   readonly width: number;
   readonly height: number;
@@ -23,5 +29,6 @@ export interface Field {
 }
 
 export interface State {
-  readonly field: Field | null;
+  readonly fieldConfig: FieldConfig;
+  readonly field: Field;
 }

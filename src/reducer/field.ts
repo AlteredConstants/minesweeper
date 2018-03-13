@@ -1,15 +1,15 @@
 import { Action } from "../action";
 import { Field, FieldState } from "../interface";
-import tilesReducer, { getRemainingSafeTiles, isMineCleared } from "./tiles";
+import { createField } from "../util";
+import { defaultFieldConfig } from "./";
+import tilesReducer, { areAllSafeTilesCleared, isMineCleared } from "./tiles";
 
 export default function reducer(
-  state: Field | null = null,
+  // TODO: Probably should not generate and then throw away new fields every time.
+  state = createField(defaultFieldConfig),
   action: Action,
-): Field | null {
+): Field {
   let nextField = action.type === "START_NEW_FIELD" ? action.field : state;
-  if (!nextField) {
-    return null;
-  }
 
   const tiles = tilesReducer(nextField.tiles, action);
   if (tiles !== nextField.tiles) {
@@ -19,7 +19,7 @@ export default function reducer(
   if (action.type === "CLEAR_TILE" || action.type === "CLEAR_ADJACENT_TILES") {
     if (isMineCleared(nextField.tiles)) {
       return { ...nextField, state: FieldState.Exploded };
-    } else if (getRemainingSafeTiles(nextField.tiles).length === 0) {
+    } else if (areAllSafeTilesCleared(nextField.tiles)) {
       return { ...nextField, state: FieldState.Cleared };
     }
   }

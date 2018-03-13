@@ -9,7 +9,7 @@ import reducer from "./field";
 
 it("should initialize correctly", () => {
   const state = reducer(undefined, {} as any);
-  expect(state).toEqual(null);
+  expect(state).toEqual(field);
 });
 
 it("should return the given state when given an unrecognized action", () => {

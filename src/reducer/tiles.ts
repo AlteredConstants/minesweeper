@@ -73,6 +73,6 @@ export function isMineCleared(tiles: Tiles): boolean {
   return tiles.some(t => t.isMine && t.isCleared);
 }
 
-export function getRemainingSafeTiles(tiles: Tiles): Tiles {
-  return tiles.filter(t => !t.isMine && !t.isCleared);
+export function areAllSafeTilesCleared(tiles: Tiles): boolean {
+  return tiles.filter(t => !t.isMine && !t.isCleared).length === 0;
 }

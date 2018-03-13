@@ -4,17 +4,26 @@ import { Provider } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
-import { startNewField } from "./action";
 import App from "./App";
 import "./index.css";
 import reducer from "./reducer";
 import registerServiceWorker from "./registerServiceWorker";
+import { deserialize, serialize } from "./util/fieldSerialization";
 
-// Beginner: 9x9x10
-// Intermediate: 16x16x40
-// Expert: 30x16x99
+const fieldString = localStorage.getItem("field");
+const initialField = fieldString ? deserialize(fieldString) : undefined;
+const initialState = { field: initialField };
 
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(
+  reducer,
+  initialState,
+  composeWithDevTools(applyMiddleware(thunk)),
+);
+
+store.subscribe(() => {
+  const { field } = store.getState();
+  localStorage.setItem("field", serialize(field));
+});
 
 render(
   <Provider store={store}>
@@ -23,5 +32,4 @@ render(
   document.getElementById("root"),
 );
 
-store.dispatch(startNewField());
 registerServiceWorker();

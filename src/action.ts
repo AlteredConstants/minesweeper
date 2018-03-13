@@ -1,8 +1,6 @@
 import { Action } from "redux";
-import { Field, Tile } from "./interface";
+import { Field, FieldConfig, Tile } from "./interface";
 import { createField } from "./util";
-
-const DefaultField = { width: 30, height: 16, mineCount: 99 };
 
 export type Action =
   | ClearAdjacentTilesAction
@@ -14,13 +12,7 @@ interface StartNewFieldAction extends Action {
   type: "START_NEW_FIELD";
   field: Field;
 }
-export const startNewField = (
-  options: {
-    width: number;
-    height: number;
-    mineCount: number;
-  } = DefaultField,
-): StartNewFieldAction => ({
+export const startNewField = (options: FieldConfig): StartNewFieldAction => ({
   type: "START_NEW_FIELD",
   field: createField(options),
 });

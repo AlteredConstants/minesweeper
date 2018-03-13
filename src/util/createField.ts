@@ -16,7 +16,7 @@ const createTilesCreator = (width: number) =>
     isFlagged: false,
   }));
 
-const updateAdjacentMineCount = uncappedMap(
+export const updateAdjacentMineCount = uncappedMap(
   (tile: Tile, index, tiles: Tile[]): Tile => ({
     ...tile,
     adjacentMineCount: flow(
