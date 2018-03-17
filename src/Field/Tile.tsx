@@ -32,7 +32,13 @@ function Tile({
 }: TileOwnProps & TileDispatchProps) {
   const { row, column, isCleared } = tile;
   return (
-    <svg x={column * size} y={row * size} width={size} height={size}>
+    <svg
+      x={column * size}
+      y={row * size}
+      width={size}
+      height={size}
+      data-test="tile"
+    >
       {!isCleared ? (
         <CoveredTile
           tile={tile}

@@ -14,7 +14,7 @@ interface FieldFrameProps {
 const FieldFrame = ({ children, width, height }: FieldFrameProps) => (
   <svg width={width + 2} height={height + 2}>
     <BaseTile />
-    <svg width={width} height={height} x="1" y="1">
+    <svg width={width} height={height} x="1" y="1" data-test="field">
       {children}
     </svg>
   </svg>

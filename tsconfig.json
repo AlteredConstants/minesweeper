@@ -4,6 +4,7 @@
     "module": "esnext",
     "target": "es5",
     "lib": ["esnext", "dom"],
+    "types": ["node"],
     "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",

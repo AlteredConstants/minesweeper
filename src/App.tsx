@@ -96,7 +96,10 @@ const App = ({ fieldState, onReset }: AppProps) => (
     <header>
       <h1>Minesweeper</h1>
     </header>
-    <OverlayContainer isActive={fieldState === FieldState.Active}>
+    <OverlayContainer
+      isActive={fieldState === FieldState.Active}
+      data-test="overlay"
+    >
       <Field />
       {fieldState === FieldState.Cleared ? (
         <ClearedOverlay fieldState={fieldState} onDismiss={() => onReset()} />
