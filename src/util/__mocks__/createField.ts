@@ -1,13 +1,13 @@
-import * as freeze from "deep-freeze";
-import { Field } from "../../interface";
+import freeze from "deep-freeze";
+import { StartedField } from "../../interface";
 import { FieldCreator } from "../createField";
 const createField: FieldCreator = require.requireActual("../createField")
   .default;
 
 // Will use mocked `distributeMines` to generate a consistent field.
-export const mockField = freeze<Field>(
+export const mockField = freeze<StartedField>(
   createField({ width: 4, height: 4, mineCount: 4 }),
-) as Field;
+) as StartedField;
 
 const mineTileIndexes = [7, 10, 12, 15];
 export const mockMineTiles = mineTileIndexes.map(i => mockField.tiles[i]);

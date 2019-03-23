@@ -1,6 +1,7 @@
 import { pick } from "lodash/fp";
-import { Field, FieldState, Tile } from "../interface";
+import { StartedField, StartedFieldState, Tile } from "../interface";
 import { areAllSafeTilesCleared, isMineCleared } from "../reducer/tiles";
+import { getCoordinates } from "./";
 import { updateAdjacentMineCount } from "./createField";
 
 interface SerializedField {
@@ -12,21 +13,20 @@ interface SerializedField {
   }>;
 }
 
-function prepareSerialize(field: Field): SerializedField {
+function prepareSerialize(field: StartedField): SerializedField {
   const { width } = field;
   const tiles = field.tiles.map(pick(["isMine", "isCleared", "isFlagged"]));
   return { width, tiles };
 }
 
-function prepareDeserialize(field: SerializedField): Field {
+function prepareDeserialize(field: SerializedField): StartedField {
   const { width } = field;
   const height = field.tiles.length / width;
   const mineCount = field.tiles.filter(t => t.isMine).length;
   const tiles = updateAdjacentMineCount(
     field.tiles.map(({ isMine, isCleared, isFlagged }, index) => ({
       index,
-      row: Math.floor(index / width),
-      column: index % width,
+      ...getCoordinates(index, width),
       adjacentMineCount: 0,
       isMine,
       isCleared,
@@ -38,20 +38,20 @@ function prepareDeserialize(field: SerializedField): Field {
   return { width, height, mineCount, tiles, state };
 }
 
-function getFieldState(tiles: ReadonlyArray<Tile>) {
+function getFieldState(tiles: ReadonlyArray<Tile>): StartedFieldState {
   if (isMineCleared(tiles)) {
-    return FieldState.Exploded;
+    return "exploded";
   } else if (areAllSafeTilesCleared(tiles)) {
-    return FieldState.Cleared;
+    return "cleared";
   } else {
-    return FieldState.Active;
+    return "active";
   }
 }
 
-export function serialize(field: Field): string {
+export function serialize(field: StartedField): string {
   return JSON.stringify(prepareSerialize(field));
 }
 
-export function deserialize(field: string): Field {
+export function deserialize(field: string): StartedField {
   return prepareDeserialize(JSON.parse(field));
 }

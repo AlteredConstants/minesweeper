@@ -39,8 +39,14 @@ function clearTile(state: Tiles, tile: Tile): Tiles {
 
 export default function reducer(tiles: Tiles, action: Action): Tiles {
   switch (action.type) {
+    case "START_NEW_FIELD": {
+      const index = action.startTileIndex;
+      const tile = tiles[index];
+      return clearTile(tiles, tile);
+    }
+
     case "TOGGLE_FLAG_TILE": {
-      const { tile: { index, isFlagged } } = action;
+      const { index, isFlagged } = action.tile;
       return updateInArray(tiles, index, { isFlagged: !isFlagged });
     }
 

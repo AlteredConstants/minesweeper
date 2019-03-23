@@ -22,7 +22,11 @@ const store = createStore(
 
 store.subscribe(() => {
   const { field } = store.getState();
-  localStorage.setItem("field", serialize(field));
+  if (field.state === "init") {
+    localStorage.removeItem("field");
+  } else {
+    localStorage.setItem("field", serialize(field));
+  }
 });
 
 render(

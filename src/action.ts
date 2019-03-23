@@ -1,20 +1,32 @@
 import { Action } from "redux";
-import { Field, FieldConfig, Tile } from "./interface";
-import { createField } from "./util";
+import { FieldConfig, Tile } from "./interface";
 
 export type Action =
   | ClearAdjacentTilesAction
   | ClearTileAction
+  | InitFieldAction
   | StartNewFieldAction
   | ToggleFlagTileAction;
 
+interface InitFieldAction extends Action {
+  type: "INIT_NEW_FIELD";
+}
+export const initField = (): InitFieldAction => ({
+  type: "INIT_NEW_FIELD",
+});
+
 interface StartNewFieldAction extends Action {
   type: "START_NEW_FIELD";
-  field: Field;
+  options: FieldConfig;
+  startTileIndex: number;
 }
-export const startNewField = (options: FieldConfig): StartNewFieldAction => ({
+export const startNewField = (
+  options: FieldConfig,
+  startTileIndex: number,
+): StartNewFieldAction => ({
   type: "START_NEW_FIELD",
-  field: createField(options),
+  options,
+  startTileIndex,
 });
 
 interface ToggleFlagTileAction extends Action {

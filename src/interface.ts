@@ -8,11 +8,8 @@ export interface Tile {
   readonly isFlagged: boolean;
 }
 
-export enum FieldState {
-  Active = "active",
-  Cleared = "cleared",
-  Exploded = "exploded",
-}
+export type StartedFieldState = "active" | "cleared" | "exploded";
+export type FieldState = "init" | StartedFieldState;
 
 export interface FieldConfig {
   width: number;
@@ -20,13 +17,15 @@ export interface FieldConfig {
   mineCount: number;
 }
 
-export interface Field {
+export interface StartedField {
   readonly width: number;
   readonly height: number;
   readonly mineCount: number;
   readonly tiles: ReadonlyArray<Tile>;
-  readonly state: FieldState;
+  readonly state: StartedFieldState;
 }
+
+export type Field = StartedField | { state: "init" };
 
 export interface State {
   readonly fieldConfig: FieldConfig;

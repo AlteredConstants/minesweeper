@@ -2,10 +2,10 @@ import { keyframes } from "glamor";
 import glamorous from "glamorous";
 import * as React from "react";
 import { connect } from "react-redux";
-import { startNewField } from "./action";
+import { initField } from "./action";
 import Emoji, { EmojiType } from "./Emoji";
 import Field from "./Field";
-import { FieldConfig, FieldState, State } from "./interface";
+import { Field as FieldType, FieldState, State } from "./interface";
 
 const PaddedEmoji = glamorous(Emoji)({ margin: "0.8em" });
 
@@ -87,41 +87,29 @@ const ExplodedOverlay = ({ fieldState, onDismiss }: FieldStateOverlayProps) => (
   </Overlay>
 );
 
-interface AppProps {
-  fieldState: FieldState;
+interface AppStateProps {
+  field: FieldType;
+}
+interface AppDispatchProps {
   onReset: () => {};
 }
-const App = ({ fieldState, onReset }: AppProps) => (
+const App = ({ field, onReset }: AppStateProps & AppDispatchProps) => (
   <div className="App" onContextMenu={event => event.preventDefault()}>
     <header>
       <h1>Minesweeper</h1>
     </header>
-    <OverlayContainer
-      isActive={fieldState === FieldState.Active}
-      data-test="overlay"
-    >
-      <Field />
-      {fieldState === FieldState.Cleared ? (
-        <ClearedOverlay fieldState={fieldState} onDismiss={() => onReset()} />
-      ) : fieldState === FieldState.Exploded ? (
-        <ExplodedOverlay fieldState={fieldState} onDismiss={() => onReset()} />
+    <OverlayContainer isActive={field.state === "active"} data-test="overlay">
+      <Field field={field} />
+      {field.state === "cleared" ? (
+        <ClearedOverlay fieldState={field.state} onDismiss={() => onReset()} />
+      ) : field.state === "exploded" ? (
+        <ExplodedOverlay fieldState={field.state} onDismiss={() => onReset()} />
       ) : null}
     </OverlayContainer>
   </div>
 );
 
-interface AppStateProps {
-  fieldState: FieldState;
-  fieldConfig: FieldConfig;
-}
-interface AppDispatchProps {
-  onReset: (config: FieldConfig) => {};
-}
-export default connect<AppStateProps, AppDispatchProps, {}, AppProps, State>(
-  ({ field, fieldConfig }) => ({ fieldState: field.state, fieldConfig }),
-  { onReset: startNewField },
-  ({ fieldConfig, ...rest }, { onReset }) => ({
-    ...rest,
-    onReset: () => onReset(fieldConfig),
-  }),
+export default connect<AppStateProps, AppDispatchProps, {}, State>(
+  ({ field }) => ({ field }),
+  { onReset: initField },
 )(App);
