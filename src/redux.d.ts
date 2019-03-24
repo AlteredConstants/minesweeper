@@ -1,4 +1,6 @@
-import * as redux from "redux";
+// Needed for merging the module declaration instead of overriding, I think?
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import redux from "redux";
 
 // Need these for a) enforcing stricter types (for actions and explicit state)
 // and b) to deal with this issue: https://github.com/reactjs/redux/issues/2709

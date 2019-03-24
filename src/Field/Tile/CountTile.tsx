@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Tile } from "../../interface";
 import BaseTile from "./BaseTile";
 import CenterText from "./CenterText";

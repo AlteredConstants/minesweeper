@@ -1,13 +1,16 @@
-import * as React from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { clearAdjacentTiles, clearTile, toggleFlagTile } from "../action";
-import { StartedField, Tile as TileType } from "../interface";
+import {
+  StartedField as StartedFieldType,
+  Tile as TileType,
+} from "../interface";
 import { TileSize } from "./";
 import { FieldFrame } from "./FieldFrame";
 import Tile from "./Tile";
 
 interface StartedFieldOwnProps {
-  field: StartedField;
+  field: StartedFieldType;
 }
 interface StartedFieldDispatchProps {
   onClear: (tile: TileType) => {};

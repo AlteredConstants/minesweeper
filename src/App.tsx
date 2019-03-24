@@ -1,11 +1,11 @@
 import { keyframes } from "glamor";
 import glamorous from "glamorous";
-import * as React from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { initField } from "./action";
 import Emoji, { EmojiType } from "./Emoji";
 import Field from "./Field";
-import { Field as FieldType, FieldState, State } from "./interface";
+import { Field as FieldType, State } from "./interface";
 
 const PaddedEmoji = glamorous(Emoji)({ margin: "0.8em" });
 
@@ -65,10 +65,9 @@ const OverlayMessage = ({ emoji, text }: OverlayMessageProps) => (
 );
 
 interface FieldStateOverlayProps {
-  fieldState: FieldState;
   onDismiss: () => {};
 }
-const ClearedOverlay = ({ fieldState, onDismiss }: FieldStateOverlayProps) => (
+const ClearedOverlay = ({ onDismiss }: FieldStateOverlayProps) => (
   <Overlay
     backgroundColor1="rgba(87, 255, 34, 0.6)"
     backgroundColor2="rgba(0, 255, 0, 0.7)"
@@ -77,7 +76,7 @@ const ClearedOverlay = ({ fieldState, onDismiss }: FieldStateOverlayProps) => (
     <OverlayMessage emoji="party popper" text="Cleared" />
   </Overlay>
 );
-const ExplodedOverlay = ({ fieldState, onDismiss }: FieldStateOverlayProps) => (
+const ExplodedOverlay = ({ onDismiss }: FieldStateOverlayProps) => (
   <Overlay
     backgroundColor1="rgba(255, 87, 34, 0.6)"
     backgroundColor2="rgba(255, 0, 0, 0.7)"
@@ -101,9 +100,9 @@ const App = ({ field, onReset }: AppStateProps & AppDispatchProps) => (
     <OverlayContainer isActive={field.state === "active"} data-test="overlay">
       <Field field={field} />
       {field.state === "cleared" ? (
-        <ClearedOverlay fieldState={field.state} onDismiss={() => onReset()} />
+        <ClearedOverlay onDismiss={() => onReset()} />
       ) : field.state === "exploded" ? (
-        <ExplodedOverlay fieldState={field.state} onDismiss={() => onReset()} />
+        <ExplodedOverlay onDismiss={() => onReset()} />
       ) : null}
     </OverlayContainer>
   </div>

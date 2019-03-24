@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { FieldConfig } from "../../interface";
 import { getCoordinates } from "../../util";
 import CoveredTile from "./CoveredTile";

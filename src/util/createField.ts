@@ -1,13 +1,15 @@
-import { flow, map, sumBy } from "lodash/fp";
+import { flow, sumBy } from "lodash/fp";
 import { FieldConfig, StartedField, Tile } from "../interface";
 import distributeMines from "./distributeMines";
 import { createAdjacentTilesGetter } from "./getAdjacentTiles";
 import { getCoordinates } from "./getCoordinates";
 
-const uncappedMap = map.convert({ cap: false });
+const uncappedMap = <T, R = T>(
+  iteratee: (value: T, index: number, array: ReadonlyArray<T>) => R,
+) => (array: ReadonlyArray<T>): R[] => array.map(iteratee);
 
 const createTilesCreator = (width: number) =>
-  uncappedMap((isMine: boolean, index): Tile => ({
+  uncappedMap<boolean, Tile>((isMine, index) => ({
     index,
     ...getCoordinates(index, width),
     isMine,
@@ -28,15 +30,13 @@ function getMines(
   return [...mines.slice(0, startIndex), false, ...mines.slice(startIndex)];
 }
 
-export const updateAdjacentMineCount = uncappedMap(
-  (tile: Tile, index, tiles: Tile[]): Tile => ({
-    ...tile,
-    adjacentMineCount: flow(
-      createAdjacentTilesGetter(tiles),
-      sumBy(adjacentTile => (adjacentTile.isMine ? 1 : 0)),
-    )(tile),
-  }),
-);
+export const updateAdjacentMineCount = uncappedMap<Tile>((tile, _, tiles) => ({
+  ...tile,
+  adjacentMineCount: flow(
+    createAdjacentTilesGetter(tiles),
+    sumBy(adjacentTile => (adjacentTile.isMine ? 1 : 0)),
+  )(tile),
+}));
 
 export default function createField(
   options: FieldConfig,

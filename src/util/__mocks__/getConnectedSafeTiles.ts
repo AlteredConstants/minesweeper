@@ -6,7 +6,7 @@ import {
 } from "./createField";
 import { Field, Tile } from "../../interface";
 
-function getConnectedSafeTiles(field: Field, tile: Tile) {
+function getConnectedSafeTiles(_field: Field, tile: Tile) {
   if (isEqual(tile, mockZeroTile)) {
     return mockConnectedSafeTilesForZeroTile;
   }

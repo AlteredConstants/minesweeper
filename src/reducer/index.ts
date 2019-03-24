@@ -9,7 +9,7 @@ import field from "./field";
 
 export const defaultFieldConfig = { width: 30, height: 16, mineCount: 99 };
 
-function fieldConfig(state = defaultFieldConfig, action: Action): FieldConfig {
+function fieldConfig(state = defaultFieldConfig, _action: Action): FieldConfig {
   return state;
 }
 

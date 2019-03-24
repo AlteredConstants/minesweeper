@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Field } from "../interface";
+import React from "react";
+import { Field as FieldType } from "../interface";
 import InitField from "./InitField";
 import StartedField from "./StartedField";
 
 interface FieldProps {
-  field: Field;
+  field: FieldType;
 }
 export default function Field({ field }: FieldProps) {
   return field.state === "init" ? (

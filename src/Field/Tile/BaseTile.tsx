@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 export default function BaseTile(props: React.SVGProps<SVGRectElement>) {
   return (
