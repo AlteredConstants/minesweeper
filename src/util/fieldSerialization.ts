@@ -1,8 +1,8 @@
 import { pick } from "lodash/fp";
 import { StartedField, StartedFieldState, Tile } from "../interface";
 import { areAllSafeTilesCleared, isMineCleared } from "../reducer/tiles";
-import { getCoordinates } from "./";
 import { updateAdjacentMineCount } from "./createField";
+import { getCoordinates } from "./getCoordinates";
 
 interface SerializedField {
   width: number;

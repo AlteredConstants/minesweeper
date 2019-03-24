@@ -16,7 +16,7 @@ function setClearedTileFlag(state: Tiles, tiles: Tiles): Tiles {
   return updateInArray(state, indexes, { isCleared: true });
 }
 
-function clearAllMines(state: Tiles, { isMine }: Tile): Tiles {
+function clearAllMines(state: Tiles): Tiles {
   const mineTiles = state.filter(t => t.isMine);
   return setClearedTileFlag(state, mineTiles);
 }
@@ -29,7 +29,7 @@ function clearConnectedSafeTiles(state: Tiles, tile: Tile): Tiles {
 function clearTile(state: Tiles, tile: Tile): Tiles {
   const nextState = setClearedTileFlag(state, [tile]);
   if (tile.isMine) {
-    return clearAllMines(nextState, tile);
+    return clearAllMines(nextState);
   }
   if (tile.adjacentMineCount === 0) {
     return clearConnectedSafeTiles(nextState, tile);
@@ -41,8 +41,7 @@ export default function reducer(tiles: Tiles, action: Action): Tiles {
   switch (action.type) {
     case "START_NEW_FIELD": {
       const index = action.startTileIndex;
-      const tile = tiles[index];
-      return clearTile(tiles, tile);
+      return index == null ? tiles : clearTile(tiles, tiles[index]);
     }
 
     case "TOGGLE_FLAG_TILE": {

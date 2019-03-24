@@ -1,8 +1,8 @@
 import { flow, map, sumBy } from "lodash/fp";
 import { FieldConfig, StartedField, Tile } from "../interface";
-import { getCoordinates } from "./";
 import distributeMines from "./distributeMines";
 import { createAdjacentTilesGetter } from "./getAdjacentTiles";
+import { getCoordinates } from "./getCoordinates";
 
 const uncappedMap = map.convert({ cap: false });
 

@@ -1,5 +1,4 @@
 import * as creator from "./action";
-import { createField } from "./util";
 import {
   mockConnectedSafeTilesForZeroTile,
   mockField,
@@ -12,14 +11,13 @@ import {
 jest.mock("./util/getConnectedSafeTiles");
 
 describe("startNewField", () => {
-  it("should call createField", () => {
-    creator.startNewField("<Mock options>" as any, "<Mock index>" as any);
-    expect(createField).toHaveBeenCalledWith("<Mock options>", "<Mock index>");
-  });
-
   it("should create a START_NEW_FIELD action", () => {
-    const action = creator.startNewField("<Mock options>" as any, 0);
-    expect(action).toMatchSnapshot();
+    const action = creator.startNewField("<Mock options>" as any, 123);
+    expect(action).toEqual({
+      type: "START_NEW_FIELD",
+      options: "<Mock options>",
+      startTileIndex: 123,
+    });
   });
 });
 

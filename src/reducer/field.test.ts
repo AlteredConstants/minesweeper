@@ -1,15 +1,15 @@
 import { Action } from "../action";
-import { FieldState } from "../interface";
 import {
   mockField as field,
   mockMineTile,
   mockSafeTiles,
+  mockFieldConfig,
 } from "../util/__mocks__/createField";
 import reducer from "./field";
 
 it("should initialize correctly", () => {
   const state = reducer(undefined, {} as any);
-  expect(state).toEqual(field);
+  expect(state).toEqual({ state: "init" });
 });
 
 it("should return the given state when given an unrecognized action", () => {
@@ -18,13 +18,16 @@ it("should return the given state when given an unrecognized action", () => {
 });
 
 it("should set the new field when given START_NEW_FIELD action", () => {
-  const state = reducer({} as any, { type: "START_NEW_FIELD", field });
+  const state = reducer({} as any, {
+    type: "START_NEW_FIELD",
+    options: mockFieldConfig,
+  });
   expect(state).toEqual(field);
 });
 
 it("should mark the field as exploded when given CLEAR_TILE action for a mine tile", () => {
   const state = reducer(field, { type: "CLEAR_TILE", tile: mockMineTile });
-  expect(state.state).toEqual(FieldState.Exploded);
+  expect(state.state).toEqual("exploded");
 });
 
 it("should mark the field as cleared when all safe tiles are cleared", () => {
@@ -33,5 +36,5 @@ it("should mark the field as cleared when all safe tiles are cleared", () => {
     tile,
   }));
   const newField = clearTileActions.reduce(reducer, field);
-  expect(newField.state).toEqual(FieldState.Cleared);
+  expect(newField.state).toEqual("cleared");
 });

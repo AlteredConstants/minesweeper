@@ -18,11 +18,11 @@ export const initField = (): InitFieldAction => ({
 interface StartNewFieldAction extends Action {
   type: "START_NEW_FIELD";
   options: FieldConfig;
-  startTileIndex: number;
+  startTileIndex?: number;
 }
 export const startNewField = (
   options: FieldConfig,
-  startTileIndex: number,
+  startTileIndex?: number,
 ): StartNewFieldAction => ({
   type: "START_NEW_FIELD",
   options,
