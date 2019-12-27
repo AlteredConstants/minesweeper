@@ -4,7 +4,7 @@ import React from "react";
 import Emoji, { EmojiType } from "./Emoji";
 import { InitField, StartedField } from "./Field";
 import { InitField as InitFieldType } from "./interface";
-import { useField, TileUpdateType } from "./reducer/field";
+import { useField } from "./reducer/field";
 
 const PaddedEmoji = glamorous(Emoji)({ margin: "0.8em" });
 
@@ -107,14 +107,7 @@ export default function App() {
         {field.state === "init" ? (
           <InitField field={field} onStart={start} />
         ) : (
-          <StartedField
-            field={field}
-            onClear={tile => updateTile(TileUpdateType.Clear, tile)}
-            onClearAdjacent={tile =>
-              updateTile(TileUpdateType.ClearAdjacent, tile)
-            }
-            onToggleFlag={tile => updateTile(TileUpdateType.ToggleFlag, tile)}
-          />
+          <StartedField field={field} onUpdateTile={updateTile} />
         )}
         {field.state === "cleared" ? (
           <ClearedOverlay onDismiss={reset} />

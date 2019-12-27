@@ -17,7 +17,7 @@ const CountColors = [
 
 interface CountTileProps {
   tile: Tile;
-  onClearAdjacent: (tile: Tile) => void;
+  onClearAdjacent: () => void;
 }
 export default function CountTile({ tile, onClearAdjacent }: CountTileProps) {
   const { adjacentMineCount } = tile;
@@ -31,7 +31,7 @@ export default function CountTile({ tile, onClearAdjacent }: CountTileProps) {
       }}
       onMouseUp={() => {
         if (shouldClear) {
-          onClearAdjacent(tile);
+          onClearAdjacent();
         }
       }}
     >
