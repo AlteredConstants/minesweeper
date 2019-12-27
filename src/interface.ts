@@ -17,15 +17,16 @@ export interface FieldConfig {
   mineCount: number;
 }
 
-export interface StartedField {
-  readonly width: number;
-  readonly height: number;
-  readonly mineCount: number;
+export interface InitField extends FieldConfig {
+  state: "init";
+}
+
+export interface StartedField extends FieldConfig {
   readonly tiles: ReadonlyArray<Tile>;
   readonly state: StartedFieldState;
 }
 
-export type Field = StartedField | { state: "init" };
+export type Field = StartedField | InitField;
 
 export interface State {
   readonly fieldConfig: FieldConfig;

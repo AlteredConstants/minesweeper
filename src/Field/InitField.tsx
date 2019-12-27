@@ -1,23 +1,16 @@
 import { range } from "lodash";
 import React from "react";
-import { connect } from "react-redux";
-import { startNewField } from "../action";
-import { FieldConfig, State } from "../interface";
+import { InitField as InitFieldType } from "../interface";
 import { TileSize } from "./";
 import { FieldFrame } from "./FieldFrame";
 import { InitTile } from "./Tile";
 
-interface InitFieldStateProps {
-  config: FieldConfig;
+interface InitFieldProps {
+  field: InitFieldType;
+  onStart: (startTileIndex: number) => void;
 }
-interface InitFieldDispatchProps {
-  onStart: (config: FieldConfig, startTileIndex: number) => {};
-}
-function InitField({
-  config,
-  onStart,
-}: InitFieldStateProps & InitFieldDispatchProps) {
-  const { width, height } = config;
+export default function InitField({ field, onStart }: InitFieldProps) {
+  const { width, height } = field;
   return (
     <FieldFrame width={TileSize * width} height={TileSize * height}>
       {range(0, width * height).map(index => {
@@ -25,7 +18,7 @@ function InitField({
           <InitTile
             key={`tile-${index}`}
             index={index}
-            config={config}
+            width={width}
             size={TileSize}
             onStart={onStart}
           />
@@ -34,8 +27,3 @@ function InitField({
     </FieldFrame>
   );
 }
-
-export default connect<InitFieldStateProps, InitFieldDispatchProps, {}, State>(
-  ({ fieldConfig }) => ({ config: fieldConfig }),
-  { onStart: startNewField },
-)(InitField);

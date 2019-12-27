@@ -16,28 +16,31 @@ const MineTile = () => (
 interface TileProps {
   tile: TileType;
   size: number;
-  onClear: (tile: TileType) => {};
-  onClearAdjacent: (tile: TileType) => {};
-  onToggleFlag: (tile: TileType) => {};
+  onClear: (tile: TileType) => void;
+  onClearAdjacent: (tile: TileType) => void;
+  onToggleFlag: (tile: TileType) => void;
 }
-export default class Tile extends React.PureComponent<TileProps> {
-  public render() {
-    const { tile, size, onClear, onClearAdjacent, onToggleFlag } = this.props;
-    const { row, column, isCleared, isFlagged } = tile;
-    return (
-      <TileFrame row={row} column={column} size={size}>
-        {!isCleared ? (
-          <CoveredTile
-            isFlagged={isFlagged}
-            onClear={() => onClear(tile)}
-            onToggleFlag={() => onToggleFlag(tile)}
-          />
-        ) : tile.isMine ? (
-          <MineTile />
-        ) : (
-          <CountTile tile={tile} onClearAdjacent={onClearAdjacent} />
-        )}
-      </TileFrame>
-    );
-  }
-}
+export default React.memo(function Tile({
+  tile,
+  size,
+  onClear,
+  onClearAdjacent,
+  onToggleFlag,
+}: TileProps) {
+  const { row, column, isCleared, isFlagged } = tile;
+  return (
+    <TileFrame row={row} column={column} size={size}>
+      {!isCleared ? (
+        <CoveredTile
+          isFlagged={isFlagged}
+          onClear={() => onClear(tile)}
+          onToggleFlag={() => onToggleFlag(tile)}
+        />
+      ) : tile.isMine ? (
+        <MineTile />
+      ) : (
+        <CountTile tile={tile} onClearAdjacent={onClearAdjacent} />
+      )}
+    </TileFrame>
+  );
+});

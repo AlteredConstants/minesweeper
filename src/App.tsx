@@ -1,11 +1,11 @@
 import { keyframes } from "glamor";
 import glamorous from "glamorous";
 import React from "react";
-import { connect } from "react-redux";
-import { initField } from "./action";
 import Emoji, { EmojiType } from "./Emoji";
-import Field from "./Field";
-import { Field as FieldType, State } from "./interface";
+import { Field, InitField as InitFieldType } from "./interface";
+import reducer from "./reducer";
+import { InitField, StartedField } from "./Field";
+import { deserialize, serialize } from "./util/fieldSerialization";
 
 const PaddedEmoji = glamorous(Emoji)({ margin: "0.8em" });
 
@@ -65,7 +65,7 @@ const OverlayMessage = ({ emoji, text }: OverlayMessageProps) => (
 );
 
 interface FieldStateOverlayProps {
-  onDismiss: () => {};
+  onDismiss: () => void;
 }
 const ClearedOverlay = ({ onDismiss }: FieldStateOverlayProps) => (
   <Overlay
@@ -86,29 +86,68 @@ const ExplodedOverlay = ({ onDismiss }: FieldStateOverlayProps) => (
   </Overlay>
 );
 
-interface AppStateProps {
-  field: FieldType;
-}
-interface AppDispatchProps {
-  onReset: () => {};
-}
-const App = ({ field, onReset }: AppStateProps & AppDispatchProps) => (
-  <div className="App" onContextMenu={event => event.preventDefault()}>
-    <header>
-      <h1>Minesweeper</h1>
-    </header>
-    <OverlayContainer isActive={field.state === "active"} data-test="overlay">
-      <Field field={field} />
-      {field.state === "cleared" ? (
-        <ClearedOverlay onDismiss={() => onReset()} />
-      ) : field.state === "exploded" ? (
-        <ExplodedOverlay onDismiss={() => onReset()} />
-      ) : null}
-    </OverlayContainer>
-  </div>
-);
+// Beginner: 9x9x10
+// Intermediate: 16x16x40
+// Expert: 30x16x99
 
-export default connect<AppStateProps, AppDispatchProps, {}, State>(
-  ({ field }) => ({ field }),
-  { onReset: initField },
-)(App);
+const fieldString = localStorage.getItem("field");
+const defaultField: InitFieldType = {
+  state: "init",
+  width: 30,
+  height: 16,
+  mineCount: 99,
+};
+const initialField: Field = fieldString
+  ? deserialize(fieldString)
+  : defaultField;
+
+export default function App() {
+  const [field, dispatch] = React.useReducer(reducer, initialField);
+
+  React.useEffect(() => {
+    if (field.state === "init") {
+      localStorage.removeItem("field");
+    } else {
+      localStorage.setItem("field", serialize(field));
+    }
+  }, [field]);
+
+  function start(startTileIndex: number) {
+    return dispatch({
+      type: "START_NEW_FIELD",
+      options: field,
+      startTileIndex,
+    });
+  }
+
+  function reset() {
+    return dispatch({ type: "INIT_NEW_FIELD", initialField: defaultField });
+  }
+
+  return (
+    <div className="App" onContextMenu={event => event.preventDefault()}>
+      <header>
+        <h1>Minesweeper</h1>
+      </header>
+      <OverlayContainer isActive={field.state === "active"} data-test="overlay">
+        {field.state === "init" ? (
+          <InitField field={field} onStart={start} />
+        ) : (
+          <StartedField
+            field={field}
+            onClear={tile => dispatch({ type: "CLEAR_TILE", tile })}
+            onClearAdjacent={tile =>
+              dispatch({ type: "CLEAR_ADJACENT_TILES", tile })
+            }
+            onToggleFlag={tile => dispatch({ type: "TOGGLE_FLAG_TILE", tile })}
+          />
+        )}
+        {field.state === "cleared" ? (
+          <ClearedOverlay onDismiss={reset} />
+        ) : field.state === "exploded" ? (
+          <ExplodedOverlay onDismiss={reset} />
+        ) : null}
+      </OverlayContainer>
+    </div>
+  );
+}

@@ -10,8 +10,8 @@ const HoverTile = glamorous(BaseTile)({
 
 interface CoveredTileProps {
   isFlagged?: boolean;
-  onClear: () => {};
-  onToggleFlag?: () => {};
+  onClear: () => void;
+  onToggleFlag?: () => void;
 }
 export default function CoveredTile({
   isFlagged,

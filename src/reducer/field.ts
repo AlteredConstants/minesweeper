@@ -3,13 +3,11 @@ import { Field } from "../interface";
 import { createField } from "../util";
 import tilesReducer, { areAllSafeTilesCleared, isMineCleared } from "./tiles";
 
-const initialState: Field = { state: "init" };
-
-export default function reducer(state = initialState, action: Action): Field {
+export default function reducer(state: Field, action: Action): Field {
   let nextField: Field;
   switch (action.type) {
     case "INIT_NEW_FIELD": {
-      nextField = initialState;
+      nextField = action.initialField;
       break;
     }
     case "START_NEW_FIELD": {

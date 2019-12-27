@@ -17,43 +17,30 @@ const CountColors = [
 
 interface CountTileProps {
   tile: Tile;
-  onClearAdjacent: (tile: Tile) => {};
+  onClearAdjacent: (tile: Tile) => void;
 }
-interface CountTileState {
-  shouldClear: boolean;
-}
-export default class CountTile extends React.Component<
-  CountTileProps,
-  CountTileState
-> {
-  public state = {
-    shouldClear: false,
-  };
-
-  public render() {
-    const { tile, onClearAdjacent } = this.props;
-    const { adjacentMineCount } = tile;
-    const { shouldClear } = this.state;
-    return (
-      <g
-        onMouseDown={({ buttons }) => {
-          if (buttons === 3) {
-            this.setState({ shouldClear: true });
-          }
-        }}
-        onMouseUp={() => {
-          if (shouldClear) {
-            onClearAdjacent(tile);
-          }
-        }}
-      >
-        <BaseTile fill={CountColors[adjacentMineCount].background} />
-        <CenterText
-          fontSize="1.1em"
-          fill={CountColors[adjacentMineCount].foreground}
-          value={adjacentMineCount.toString()}
-        />
-      </g>
-    );
-  }
+export default function CountTile({ tile, onClearAdjacent }: CountTileProps) {
+  const { adjacentMineCount } = tile;
+  const [shouldClear, setShouldClear] = React.useState(false);
+  return (
+    <g
+      onMouseDown={({ buttons }) => {
+        if (buttons === 3) {
+          setShouldClear(true);
+        }
+      }}
+      onMouseUp={() => {
+        if (shouldClear) {
+          onClearAdjacent(tile);
+        }
+      }}
+    >
+      <BaseTile fill={CountColors[adjacentMineCount].background} />
+      <CenterText
+        fontSize="1.1em"
+        fill={CountColors[adjacentMineCount].foreground}
+        value={adjacentMineCount.toString()}
+      />
+    </g>
+  );
 }

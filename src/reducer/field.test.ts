@@ -7,11 +7,6 @@ import {
 } from "../util/__mocks__/createField";
 import reducer from "./field";
 
-it("should initialize correctly", () => {
-  const state = reducer(undefined, {} as any);
-  expect(state).toEqual({ state: "init" });
-});
-
 it("should return the given state when given an unrecognized action", () => {
   const state = reducer(field, { type: "TOTALLY_NOT_A_REAL_ACTION" } as any);
   expect(state).toBe(field);
