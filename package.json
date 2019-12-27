@@ -4,30 +4,30 @@
   "private": true,
   "dependencies": {
     "@types/jest": "24.0.11",
-    "@types/lodash": "^4.14.123",
+    "@types/lodash": "^4.14.149",
     "@types/node": "11.11.6",
     "@types/react": "16.8.8",
     "@types/react-dom": "16.8.3",
     "@types/react-redux": "^7.0.5",
     "glamor": "^2.20.40",
     "glamorous": "^4.11.4",
-    "lodash": "^4.17.11",
-    "react": "^16.8.5",
-    "react-dom": "^16.8.5",
+    "lodash": "^4.17.15",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "react-redux": "^5.0.6",
-    "react-scripts": "^3.0.0-next.b0cbf2ca",
+    "react-scripts": "^3.3.0",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.0",
     "redux-thunk": "^2.2.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@types/deep-freeze": "^0.1.1",
-    "cypress": "^3.2.0",
+    "@types/deep-freeze": "^0.1.2",
+    "cypress": "^3.8.1",
     "deep-freeze": "0.0.1",
-    "npm-run-all": "^4.1.2",
-    "prettier": "^1.16.4",
-    "typescript": "^3.4.0-dev.20190323"
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.4"
   },
   "scripts": {
     "start": "BROWSER=none react-scripts start",

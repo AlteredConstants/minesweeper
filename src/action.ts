@@ -1,4 +1,4 @@
-import { Action } from "redux";
+import { Action as ReduxAction } from "redux";
 import { FieldConfig, Tile } from "./interface";
 
 export type Action =
@@ -8,14 +8,14 @@ export type Action =
   | StartNewFieldAction
   | ToggleFlagTileAction;
 
-interface InitFieldAction extends Action {
+interface InitFieldAction extends ReduxAction {
   type: "INIT_NEW_FIELD";
 }
 export const initField = (): InitFieldAction => ({
   type: "INIT_NEW_FIELD",
 });
 
-interface StartNewFieldAction extends Action {
+interface StartNewFieldAction extends ReduxAction {
   type: "START_NEW_FIELD";
   options: FieldConfig;
   startTileIndex?: number;
@@ -29,7 +29,7 @@ export const startNewField = (
   startTileIndex,
 });
 
-interface ToggleFlagTileAction extends Action {
+interface ToggleFlagTileAction extends ReduxAction {
   type: "TOGGLE_FLAG_TILE";
   tile: Tile;
 }
@@ -38,7 +38,7 @@ export const toggleFlagTile = (tile: Tile): ToggleFlagTileAction => ({
   tile,
 });
 
-interface ClearTileAction extends Action {
+interface ClearTileAction extends ReduxAction {
   type: "CLEAR_TILE";
   tile: Tile;
 }
@@ -47,7 +47,7 @@ export const clearTile = (tile: Tile): ClearTileAction => ({
   tile,
 });
 
-interface ClearAdjacentTilesAction extends Action {
+interface ClearAdjacentTilesAction extends ReduxAction {
   type: "CLEAR_ADJACENT_TILES";
   tile: Tile;
 }
