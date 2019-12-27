@@ -2,10 +2,9 @@ import { keyframes } from "glamor";
 import glamorous from "glamorous";
 import React from "react";
 import Emoji, { EmojiType } from "./Emoji";
-import { Field, InitField as InitFieldType } from "./interface";
-import reducer from "./reducer";
 import { InitField, StartedField } from "./Field";
-import { deserialize, serialize } from "./util/fieldSerialization";
+import { InitField as InitFieldType } from "./interface";
+import { useField, TileUpdateType } from "./reducer/field";
 
 const PaddedEmoji = glamorous(Emoji)({ margin: "0.8em" });
 
@@ -89,40 +88,15 @@ const ExplodedOverlay = ({ onDismiss }: FieldStateOverlayProps) => (
 // Beginner: 9x9x10
 // Intermediate: 16x16x40
 // Expert: 30x16x99
-
-const fieldString = localStorage.getItem("field");
-const defaultField: InitFieldType = {
+const initialField: InitFieldType = {
   state: "init",
   width: 30,
   height: 16,
   mineCount: 99,
 };
-const initialField: Field = fieldString
-  ? deserialize(fieldString)
-  : defaultField;
 
 export default function App() {
-  const [field, dispatch] = React.useReducer(reducer, initialField);
-
-  React.useEffect(() => {
-    if (field.state === "init") {
-      localStorage.removeItem("field");
-    } else {
-      localStorage.setItem("field", serialize(field));
-    }
-  }, [field]);
-
-  function start(startTileIndex: number) {
-    return dispatch({
-      type: "START_NEW_FIELD",
-      options: field,
-      startTileIndex,
-    });
-  }
-
-  function reset() {
-    return dispatch({ type: "INIT_NEW_FIELD", initialField: defaultField });
-  }
+  const { field, start, reset, updateTile } = useField(initialField);
 
   return (
     <div className="App" onContextMenu={event => event.preventDefault()}>
@@ -135,11 +109,11 @@ export default function App() {
         ) : (
           <StartedField
             field={field}
-            onClear={tile => dispatch({ type: "CLEAR_TILE", tile })}
+            onClear={tile => updateTile(TileUpdateType.Clear, tile)}
             onClearAdjacent={tile =>
-              dispatch({ type: "CLEAR_ADJACENT_TILES", tile })
+              updateTile(TileUpdateType.ClearAdjacent, tile)
             }
-            onToggleFlag={tile => dispatch({ type: "TOGGLE_FLAG_TILE", tile })}
+            onToggleFlag={tile => updateTile(TileUpdateType.ToggleFlag, tile)}
           />
         )}
         {field.state === "cleared" ? (
