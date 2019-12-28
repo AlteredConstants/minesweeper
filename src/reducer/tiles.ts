@@ -1,4 +1,3 @@
-import { Action } from "../action";
 import { Tile } from "../interface";
 import {
   getAdjacentTiles,
@@ -7,6 +6,17 @@ import {
 } from "../util";
 
 type Tiles = ReadonlyArray<Tile>;
+
+export enum TileActionType {
+  Clear = "CLEAR_TILE",
+  ClearAdjacent = "CLEAR_ADJACENT_TILES",
+  ToggleFlag = "TOGGLE_FLAG_TILE",
+}
+
+export interface TileAction {
+  type: TileActionType;
+  tile: Tile;
+}
 
 function setClearedTileFlag(state: Tiles, tiles: Tiles): Tiles {
   const indexes = tiles.filter(t => !t.isCleared).map(t => t.index);
@@ -37,24 +47,19 @@ function clearTile(state: Tiles, tile: Tile): Tiles {
   return nextState;
 }
 
-export default function reducer(tiles: Tiles, action: Action): Tiles {
+export default function reducer(tiles: Tiles, action: TileAction): Tiles {
   switch (action.type) {
-    case "START_NEW_FIELD": {
-      const index = action.startTileIndex;
-      return index == null ? tiles : clearTile(tiles, tiles[index]);
-    }
-
-    case "TOGGLE_FLAG_TILE": {
+    case TileActionType.ToggleFlag: {
       const { index, isFlagged } = action.tile;
       return updateInArray(tiles, index, { isFlagged: !isFlagged });
     }
 
-    case "CLEAR_TILE": {
+    case TileActionType.Clear: {
       const { tile } = action;
       return clearTile(tiles, tile);
     }
 
-    case "CLEAR_ADJACENT_TILES": {
+    case TileActionType.ClearAdjacent: {
       const { tile } = action;
       const { isCleared } = tile;
       if (!isCleared) {
@@ -69,7 +74,8 @@ export default function reducer(tiles: Tiles, action: Action): Tiles {
     }
 
     default: {
-      return tiles;
+      const neverType: never = action.type;
+      throw new Error(`Unexpected action type: ${neverType}`);
     }
   }
 }

@@ -1,9 +1,13 @@
 import React from "react";
 import { render, fireEvent, within } from "@testing-library/react";
 import {
+  mockConnectedSafeTilesForZeroTileIndexes,
   mockField,
   mockMineTileIndex,
+  mockNumberTileIndex,
   mockSafeTileIndexes,
+  mockTileIndexes,
+  mockZeroTileIndex,
 } from "./util/__mocks__/createField";
 import App from "./App";
 import { serialize } from "./util/fieldSerialization";
@@ -30,4 +34,33 @@ test("Clicking all safe tiles should clear the field", () => {
   }
 
   expect(getByRole("dialog")).toHaveTextContent("Cleared");
+});
+
+test("Clicking a tile with no adjacent mines should clear all connected safe tiles", () => {
+  localStorage.setItem("field", serialize(mockField));
+  const { getAllByRole } = render(<App />);
+  const tiles = getAllByRole("cell");
+  const zeroTile = tiles[mockZeroTileIndex];
+
+  fireEvent.click(within(zeroTile).getByRole("button"));
+
+  for (const index of mockConnectedSafeTilesForZeroTileIndexes) {
+    expect(tiles[index]).toHaveTextContent(/\d/);
+  }
+});
+
+test("Clicking a tile with adjacent mines should not clear any other tiles", () => {
+  localStorage.setItem("field", serialize(mockField));
+  const { getAllByRole } = render(<App />);
+  const tiles = getAllByRole("cell");
+  const zeroTile = tiles[mockNumberTileIndex];
+
+  fireEvent.click(within(zeroTile).getByRole("button"));
+
+  for (const index of mockTileIndexes) {
+    if (index === mockNumberTileIndex) {
+      continue;
+    }
+    expect(tiles[index]).not.toHaveTextContent(/\d/);
+  }
 });

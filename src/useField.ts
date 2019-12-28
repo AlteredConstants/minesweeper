@@ -1,23 +1,18 @@
-import { useReducer, useEffect } from "react";
-import { Action } from "./action";
-import { Field, InitField, Tile } from "./interface";
+import { useEffect, useState } from "react";
+import { InitField, Tile, StartedField } from "./interface";
 import { createField } from "./util";
 import { serialize, deserialize } from "./util/fieldSerialization";
 import tilesReducer, {
   areAllSafeTilesCleared,
   isMineCleared,
+  TileAction,
+  TileActionType,
 } from "./reducer/tiles";
 
-export enum TileActionType {
-  Clear = "CLEAR_TILE",
-  ClearAdjacent = "CLEAR_ADJACENT_TILES",
-  ToggleFlag = "TOGGLE_FLAG_TILE",
-}
-
 export function useField(initialField: InitField) {
-  const [field, dispatch] = useReducer(reducer, initialField, initField => {
+  const [field, setField] = useState(() => {
     const fieldString = localStorage.getItem("field");
-    return fieldString ? deserialize(fieldString) : initField;
+    return fieldString ? deserialize(fieldString) : initialField;
   });
 
   useEffect(() => {
@@ -30,48 +25,33 @@ export function useField(initialField: InitField) {
 
   return {
     field,
-    start(startTileIndex: number) {
-      dispatch({ type: "START_NEW_FIELD", options: field, startTileIndex });
+    reset(): void {
+      setField(initialField);
     },
-    reset() {
-      dispatch({ type: "INIT_NEW_FIELD", initialField });
+    start(startTileIndex: number): void {
+      let nextField = createField(field, startTileIndex);
+      nextField = updateTiles(nextField, {
+        type: TileActionType.Clear,
+        tile: nextField.tiles[startTileIndex],
+      });
+      setField(nextField);
     },
-    dispatchTileAction(type: TileActionType, tile: Tile) {
-      dispatch({ type, tile });
+    dispatchTileAction(type: TileActionType, tile: Tile): void {
+      if (field.state === "init") {
+        throw new Error("Cannot dispatch tile action on unstarted field.");
+      }
+      let nextField = updateTiles(field, { type, tile });
+      if (isMineCleared(nextField.tiles)) {
+        nextField = { ...nextField, state: "exploded" };
+      } else if (areAllSafeTilesCleared(nextField.tiles)) {
+        nextField = { ...nextField, state: "cleared" };
+      }
+      setField(nextField);
     },
   };
 }
 
-function reducer(state: Field, action: Action): Field {
-  let nextField: Field;
-  switch (action.type) {
-    case "INIT_NEW_FIELD": {
-      nextField = action.initialField;
-      break;
-    }
-    case "START_NEW_FIELD": {
-      nextField = createField(action.options, action.startTileIndex);
-      break;
-    }
-    default: {
-      nextField = state;
-    }
-  }
-
-  if (nextField.state === "init") {
-    return nextField;
-  }
-
-  const tiles = tilesReducer(nextField.tiles, action);
-  if (tiles !== nextField.tiles) {
-    nextField = { ...nextField, tiles };
-
-    if (isMineCleared(nextField.tiles)) {
-      return { ...nextField, state: "exploded" };
-    } else if (areAllSafeTilesCleared(nextField.tiles)) {
-      return { ...nextField, state: "cleared" };
-    }
-  }
-
-  return nextField;
+function updateTiles(field: StartedField, action: TileAction): StartedField {
+  const tiles = tilesReducer(field.tiles, action);
+  return tiles !== field.tiles ? { ...field, tiles } : field;
 }
