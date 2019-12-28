@@ -3,18 +3,18 @@ import {
   StartedField as StartedFieldType,
   Tile as TileType,
 } from "../interface";
-import { TileUpdateType } from "../reducer/field";
+import { TileActionType } from "../reducer/field";
 import { TileSize } from "./";
 import { FieldFrame } from "./FieldFrame";
 import Tile from "./Tile";
 
 interface StartedFieldProps {
   field: StartedFieldType;
-  onUpdateTile: (type: TileUpdateType, tile: TileType) => void;
+  onTileAction: (type: TileActionType, tile: TileType) => void;
 }
 export default function StartedField({
   field,
-  onUpdateTile,
+  onTileAction,
 }: StartedFieldProps) {
   const { width, height } = field;
   return (
@@ -24,7 +24,7 @@ export default function StartedField({
           key={`tile-${tile.index}`}
           tile={tile}
           size={TileSize}
-          onUpdate={onUpdateTile}
+          onAction={onTileAction}
         />
       ))}
     </FieldFrame>

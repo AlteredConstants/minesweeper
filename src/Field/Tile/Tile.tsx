@@ -1,6 +1,6 @@
 import React from "react";
 import { Tile as TileType } from "../../interface";
-import { TileUpdateType } from "../../reducer/field";
+import { TileActionType } from "../../reducer/field";
 import BaseTile from "./BaseTile";
 import CenterText from "./CenterText";
 import CountTile from "./CountTile";
@@ -17,24 +17,24 @@ const MineTile = () => (
 interface TileProps {
   tile: TileType;
   size: number;
-  onUpdate: (type: TileUpdateType, tile: TileType) => void;
+  onAction: (type: TileActionType, tile: TileType) => void;
 }
-export default React.memo(function Tile({ tile, size, onUpdate }: TileProps) {
+export default React.memo(function Tile({ tile, size, onAction }: TileProps) {
   const { row, column, isCleared, isFlagged } = tile;
   return (
     <TileFrame row={row} column={column} size={size}>
       {!isCleared ? (
         <CoveredTile
           isFlagged={isFlagged}
-          onClear={() => onUpdate(TileUpdateType.Clear, tile)}
-          onToggleFlag={() => onUpdate(TileUpdateType.ToggleFlag, tile)}
+          onClear={() => onAction(TileActionType.Clear, tile)}
+          onToggleFlag={() => onAction(TileActionType.ToggleFlag, tile)}
         />
       ) : tile.isMine ? (
         <MineTile />
       ) : (
         <CountTile
           tile={tile}
-          onClearAdjacent={() => onUpdate(TileUpdateType.ClearAdjacent, tile)}
+          onClearAdjacent={() => onAction(TileActionType.ClearAdjacent, tile)}
         />
       )}
     </TileFrame>

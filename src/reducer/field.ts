@@ -5,7 +5,7 @@ import { createField } from "../util";
 import { serialize, deserialize } from "../util/fieldSerialization";
 import tilesReducer, { areAllSafeTilesCleared, isMineCleared } from "./tiles";
 
-export enum TileUpdateType {
+export enum TileActionType {
   Clear = "CLEAR_TILE",
   ClearAdjacent = "CLEAR_ADJACENT_TILES",
   ToggleFlag = "TOGGLE_FLAG_TILE",
@@ -33,7 +33,7 @@ export function useField(initialField: InitField) {
     reset() {
       dispatch({ type: "INIT_NEW_FIELD", initialField });
     },
-    updateTile(type: TileUpdateType, tile: Tile) {
+    dispatchTileAction(type: TileActionType, tile: Tile) {
       dispatch({ type, tile });
     },
   };
@@ -62,13 +62,7 @@ export default function reducer(state: Field, action: Action): Field {
   const tiles = tilesReducer(nextField.tiles, action);
   if (tiles !== nextField.tiles) {
     nextField = { ...nextField, tiles };
-  }
 
-  if (
-    action.type === "START_NEW_FIELD" ||
-    action.type === "CLEAR_TILE" ||
-    action.type === "CLEAR_ADJACENT_TILES"
-  ) {
     if (isMineCleared(nextField.tiles)) {
       return { ...nextField, state: "exploded" };
     } else if (areAllSafeTilesCleared(nextField.tiles)) {

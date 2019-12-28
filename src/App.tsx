@@ -96,7 +96,7 @@ const initialField: InitFieldType = {
 };
 
 export default function App() {
-  const { field, start, reset, updateTile } = useField(initialField);
+  const { field, start, reset, dispatchTileAction } = useField(initialField);
 
   return (
     <div className="App" onContextMenu={event => event.preventDefault()}>
@@ -107,7 +107,7 @@ export default function App() {
         {field.state === "init" ? (
           <InitField field={field} onStart={start} />
         ) : (
-          <StartedField field={field} onUpdateTile={updateTile} />
+          <StartedField field={field} onTileAction={dispatchTileAction} />
         )}
         {field.state === "cleared" ? (
           <ClearedOverlay onDismiss={reset} />
