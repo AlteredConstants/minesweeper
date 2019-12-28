@@ -22,7 +22,7 @@ export interface InitField extends FieldConfig {
 }
 
 export interface StartedField extends FieldConfig {
-  readonly tiles: ReadonlyArray<Tile>;
+  readonly tiles: readonly Tile[];
   readonly state: StartedFieldState;
 }
 

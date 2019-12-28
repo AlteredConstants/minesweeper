@@ -2,7 +2,7 @@ import { Tile } from "../interface";
 import getAdjacentTiles from "./getAdjacentTiles";
 
 function* connectedSafeTilesGenerator(
-  tiles: ReadonlyArray<Tile>,
+  tiles: readonly Tile[],
   tile: Tile,
   seenTiles = new Map<number, boolean>(),
 ): IterableIterator<Tile> {
@@ -20,8 +20,8 @@ function* connectedSafeTilesGenerator(
 }
 
 export default function getConnectedSafeTiles(
-  tiles: ReadonlyArray<Tile>,
+  tiles: readonly Tile[],
   tile: Tile,
-): ReadonlyArray<Tile> {
+): readonly Tile[] {
   return [...connectedSafeTilesGenerator(tiles, tile)];
 }

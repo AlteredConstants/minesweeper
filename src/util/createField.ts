@@ -5,8 +5,8 @@ import { createAdjacentTilesGetter } from "./getAdjacentTiles";
 import { getCoordinates } from "./getCoordinates";
 
 const uncappedMap = <T, R = T>(
-  iteratee: (value: T, index: number, array: ReadonlyArray<T>) => R,
-) => (array: ReadonlyArray<T>): R[] => array.map(iteratee);
+  iteratee: (value: T, index: number, array: readonly T[]) => R,
+) => (array: readonly T[]): R[] => array.map(iteratee);
 
 const createTilesCreator = (width: number) =>
   uncappedMap<boolean, Tile>((isMine, index) => ({
@@ -22,7 +22,7 @@ function getMines(
   fieldSize: number,
   mineCount: number,
   startIndex: number | undefined,
-): ReadonlyArray<boolean> {
+): readonly boolean[] {
   if (startIndex == null) {
     return distributeMines(fieldSize, mineCount);
   }

@@ -18,7 +18,7 @@ const getAdjacentCoordinates = ({ row, column }: Tile) => {
   ];
 };
 
-const getDimensions = (tiles: ReadonlyArray<Tile>) => {
+const getDimensions = (tiles: readonly Tile[]) => {
   const lastTile = tiles[tiles.length - 1];
   return {
     width: lastTile.column + 1,
@@ -26,7 +26,7 @@ const getDimensions = (tiles: ReadonlyArray<Tile>) => {
   };
 };
 
-export const createAdjacentTilesGetter = (tiles: ReadonlyArray<Tile>) => {
+export const createAdjacentTilesGetter = (tiles: readonly Tile[]) => {
   const { width, height } = getDimensions(tiles);
   return flow(
     getAdjacentCoordinates,
@@ -38,7 +38,7 @@ export const createAdjacentTilesGetter = (tiles: ReadonlyArray<Tile>) => {
   );
 };
 
-export const getAdjacentTiles = (tiles: ReadonlyArray<Tile>, tile: Tile) =>
+export const getAdjacentTiles = (tiles: readonly Tile[], tile: Tile) =>
   createAdjacentTilesGetter(tiles)(tile);
 
 export default getAdjacentTiles;

@@ -19,9 +19,9 @@ export function updateInObject<
       });
 }
 
-export function updateInArray<T extends ReadonlyArray<object>>(
+export function updateInArray<T extends readonly object[]>(
   array: T,
-  indexes: number | ReadonlyArray<number>,
+  indexes: number | readonly number[],
   newProps: Partial<T[0]>,
 ): T {
   const updateIndexes = Array.isArray(indexes) ? indexes : [indexes];

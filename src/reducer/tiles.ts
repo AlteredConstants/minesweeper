@@ -5,7 +5,7 @@ import {
   updateInArray,
 } from "../util";
 
-type Tiles = ReadonlyArray<Tile>;
+type Tiles = readonly Tile[];
 
 export enum TileActionType {
   Clear = "CLEAR_TILE",

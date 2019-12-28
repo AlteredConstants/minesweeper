@@ -38,7 +38,7 @@ function prepareDeserialize(field: SerializedField): StartedField {
   return { width, height, mineCount, tiles, state };
 }
 
-function getFieldState(tiles: ReadonlyArray<Tile>): StartedFieldState {
+function getFieldState(tiles: readonly Tile[]): StartedFieldState {
   if (isMineCleared(tiles)) {
     return "exploded";
   } else if (areAllSafeTilesCleared(tiles)) {
