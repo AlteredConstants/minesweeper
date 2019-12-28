@@ -24,6 +24,7 @@ export default function CountTile({ tile, onClearAdjacent }: CountTileProps) {
   const [shouldClear, setShouldClear] = React.useState(false);
   return (
     <g
+      role="button"
       onMouseDown={({ buttons }) => {
         if (buttons === 3) {
           setShouldClear(true);

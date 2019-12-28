@@ -3,7 +3,7 @@ import {
   StartedField as StartedFieldType,
   Tile as TileType,
 } from "../interface";
-import { TileActionType } from "../reducer/field";
+import { TileActionType } from "../useField";
 import { TileSize } from "./";
 import { FieldFrame } from "./FieldFrame";
 import Tile from "./Tile";

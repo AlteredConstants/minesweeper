@@ -14,6 +14,7 @@ export default function TileFrame({
 }: TileFrameProps) {
   return (
     <svg
+      role="cell"
       x={column * size}
       y={row * size}
       width={size}

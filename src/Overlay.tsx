@@ -52,6 +52,7 @@ interface FieldStateOverlayProps {
 export function ClearedOverlay({ onDismiss }: FieldStateOverlayProps) {
   return (
     <Overlay
+      role="dialog"
       backgroundColor1="rgba(87, 255, 34, 0.6)"
       backgroundColor2="rgba(0, 255, 0, 0.7)"
       onDoubleClick={onDismiss}
@@ -64,6 +65,7 @@ export function ClearedOverlay({ onDismiss }: FieldStateOverlayProps) {
 export function ExplodedOverlay({ onDismiss }: FieldStateOverlayProps) {
   return (
     <Overlay
+      role="dialog"
       backgroundColor1="rgba(255, 87, 34, 0.6)"
       backgroundColor2="rgba(255, 0, 0, 0.7)"
       onDoubleClick={onDismiss}

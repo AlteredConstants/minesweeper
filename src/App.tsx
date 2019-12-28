@@ -2,7 +2,7 @@ import React from "react";
 import { InitField, StartedField } from "./Field";
 import { InitField as InitFieldType } from "./interface";
 import { ClearedOverlay, ExplodedOverlay, OverlayContainer } from "./Overlay";
-import { useField } from "./reducer/field";
+import { useField } from "./useField";
 
 // Beginner: 9x9x10
 // Intermediate: 16x16x40

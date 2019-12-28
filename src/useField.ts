@@ -1,9 +1,12 @@
 import { useReducer, useEffect } from "react";
-import { Action } from "../action";
-import { Field, InitField, Tile } from "../interface";
-import { createField } from "../util";
-import { serialize, deserialize } from "../util/fieldSerialization";
-import tilesReducer, { areAllSafeTilesCleared, isMineCleared } from "./tiles";
+import { Action } from "./action";
+import { Field, InitField, Tile } from "./interface";
+import { createField } from "./util";
+import { serialize, deserialize } from "./util/fieldSerialization";
+import tilesReducer, {
+  areAllSafeTilesCleared,
+  isMineCleared,
+} from "./reducer/tiles";
 
 export enum TileActionType {
   Clear = "CLEAR_TILE",
@@ -39,7 +42,7 @@ export function useField(initialField: InitField) {
   };
 }
 
-export default function reducer(state: Field, action: Action): Field {
+function reducer(state: Field, action: Action): Field {
   let nextField: Field;
   switch (action.type) {
     case "INIT_NEW_FIELD": {

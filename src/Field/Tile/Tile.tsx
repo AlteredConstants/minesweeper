@@ -1,6 +1,6 @@
 import React from "react";
 import { Tile as TileType } from "../../interface";
-import { TileActionType } from "../../reducer/field";
+import { TileActionType } from "../../useField";
 import BaseTile from "./BaseTile";
 import CenterText from "./CenterText";
 import CountTile from "./CountTile";

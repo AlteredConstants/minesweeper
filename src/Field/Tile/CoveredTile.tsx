@@ -19,7 +19,11 @@ export default function CoveredTile({
   onToggleFlag,
 }: CoveredTileProps) {
   return (
-    <g onClick={() => !isFlagged && onClear()} onContextMenu={onToggleFlag}>
+    <g
+      role="button"
+      onClick={() => !isFlagged && onClear()}
+      onContextMenu={onToggleFlag}
+    >
       <HoverTile />
       {isFlagged && <CenterText fontSize="1em" value="🚩" />}
     </g>
