@@ -25,7 +25,7 @@ export default function CountTile({
   tile: { adjacentMineCount },
   onClearAdjacent,
 }: CountTileProps) {
-  const [shouldClear, setShouldClear] = React.useState(false)
+  const [isClearingAdjacent, setIsClearingAdjacent] = React.useState(false)
   return (
     <g
       ref={forwardRef}
@@ -33,11 +33,12 @@ export default function CountTile({
       tabIndex={-1}
       onMouseDown={({ buttons }) => {
         if (buttons === 3) {
-          setShouldClear(true)
+          setIsClearingAdjacent(true)
         }
       }}
       onMouseUp={() => {
-        if (shouldClear) {
+        if (isClearingAdjacent) {
+          setIsClearingAdjacent(false)
           onClearAdjacent()
         }
       }}

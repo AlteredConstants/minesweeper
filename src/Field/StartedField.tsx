@@ -33,33 +33,28 @@ export default function StartedField({
     }
   }, [selectedIndex, isClearing])
 
+  function getNextIndex(key: string): number | undefined {
+    const { row, column } = getCoordinates(selectedIndex ?? 0, width)
+
+    switch (key) {
+      case "o": // Left
+        return row * width + Math.max(column - 1, 0)
+      case "u": // Right
+        return row * width + Math.min(column + 1, width - 1)
+      case ".": // Up
+        return Math.max(row - 1, 0) * width + column
+      case "e": // Down
+        return Math.min(row + 1, height - 1) * width + column
+      default:
+        return selectedIndex
+    }
+  }
+
   return (
     <FieldFrame
       width={TileSize * width}
       height={TileSize * height}
-      onNavigate={key => {
-        const { row, column } = getCoordinates(selectedIndex ?? 0, width)
-
-        let newIndex: number | undefined
-        switch (key) {
-          case "o": // Left
-            newIndex = row * width + Math.max(column - 1, 0)
-            break
-          case "u": // Right
-            newIndex = row * width + Math.min(column + 1, width - 1)
-            break
-          case ".": // Up
-            newIndex = Math.max(row - 1, 0) * width + column
-            break
-          case "e": // Down
-            newIndex = Math.min(row + 1, height - 1) * width + column
-            break
-        }
-
-        if (newIndex != null) {
-          setSelectedIndex(newIndex)
-        }
-      }}
+      onNavigate={key => setSelectedIndex(getNextIndex(key))}
     >
       {tiles.map(tile => (
         <Tile
