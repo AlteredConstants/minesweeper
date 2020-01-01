@@ -6,6 +6,7 @@ import CenterText from "./CenterText"
 import CountTile from "./CountTile"
 import CoveredTile from "./CoveredTile"
 import TileFrame from "./TileFrame"
+import { TileRef } from "./useTileRef"
 
 const MineTile = () => (
   <g>
@@ -15,36 +16,39 @@ const MineTile = () => (
 )
 
 interface TileProps {
-  forwardRef?: React.RefObject<SVGGElement>
   tile: TileType
   size: number
   onAction(type: TileActionType, tile: TileType): void
 }
-export default React.memo(function Tile({
-  forwardRef,
-  tile,
-  tile: { row, column, isCleared, isFlagged, isMine },
-  size,
-  onAction,
-}: TileProps) {
-  return (
-    <TileFrame row={row} column={column} size={size}>
-      {!isCleared ? (
-        <CoveredTile
-          forwardRef={forwardRef}
-          isFlagged={isFlagged}
-          onClear={() => onAction(TileActionType.Clear, tile)}
-          onToggleFlag={() => onAction(TileActionType.ToggleFlag, tile)}
-        />
-      ) : isMine ? (
-        <MineTile />
-      ) : (
-        <CountTile
-          forwardRef={forwardRef}
-          tile={tile}
-          onClearAdjacent={() => onAction(TileActionType.ClearAdjacent, tile)}
-        />
-      )}
-    </TileFrame>
-  )
-})
+export default React.memo(
+  React.forwardRef(function Tile(
+    {
+      tile,
+      tile: { row, column, isCleared, isFlagged, isMine },
+      size,
+      onAction,
+    }: TileProps,
+    ref: TileRef,
+  ) {
+    return (
+      <TileFrame row={row} column={column} size={size}>
+        {!isCleared ? (
+          <CoveredTile
+            ref={ref}
+            isFlagged={isFlagged}
+            onClear={() => onAction(TileActionType.Clear, tile)}
+            onToggleFlag={() => onAction(TileActionType.ToggleFlag, tile)}
+          />
+        ) : isMine ? (
+          <MineTile />
+        ) : (
+          <CountTile
+            ref={ref}
+            tile={tile}
+            onClearAdjacent={() => onAction(TileActionType.ClearAdjacent, tile)}
+          />
+        )}
+      </TileFrame>
+    )
+  }),
+)

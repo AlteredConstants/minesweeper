@@ -7,7 +7,7 @@ import { TileActionType } from "../reducer/tiles"
 import { getCoordinates } from "../util"
 import { TileSize } from "./"
 import { FieldFrame } from "./FieldFrame"
-import Tile from "./Tile"
+import Tile, { TileRefObject } from "./Tile"
 
 interface StartedFieldProps {
   field: StartedFieldType
@@ -21,7 +21,7 @@ export default function StartedField({
   const [isClearing, setIsClearing] = React.useState(false)
 
   const tileReferenceListReference = React.useRef(
-    tiles.map(() => React.createRef<SVGGElement>()),
+    tiles.map(() => React.createRef<TileRefObject>()),
   )
 
   React.useEffect(() => {
@@ -59,7 +59,7 @@ export default function StartedField({
       {tiles.map(tile => (
         <Tile
           key={`tile-${tile.index}`}
-          forwardRef={tileReferenceListReference.current[tile.index]}
+          ref={tileReferenceListReference.current[tile.index]}
           tile={tile}
           size={TileSize}
           onAction={(type, tile) => {

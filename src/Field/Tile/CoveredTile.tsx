@@ -2,6 +2,7 @@ import glamorous from "glamorous"
 import React from "react"
 import BaseTile from "./BaseTile"
 import CenterText from "./CenterText"
+import { TileRef, useTileRef } from "./useTileRef"
 
 const HoverTile = glamorous(BaseTile)({
   ":hover": { fill: "tan" },
@@ -9,17 +10,16 @@ const HoverTile = glamorous(BaseTile)({
 })
 
 interface CoveredTileProps {
-  forwardRef?: React.RefObject<SVGGElement>
   isFlagged?: boolean
   onClear(): void
   onToggleFlag?(): void
 }
-export default function CoveredTile({
-  forwardRef,
-  isFlagged,
-  onClear,
-  onToggleFlag,
-}: CoveredTileProps) {
+export default React.forwardRef(function CoveredTile(
+  { isFlagged, onClear, onToggleFlag }: CoveredTileProps,
+  tileRef: TileRef,
+) {
+  const ref = useTileRef(tileRef)
+
   function clearIfNotFlagged(): void {
     if (!isFlagged) {
       onClear()
@@ -28,7 +28,7 @@ export default function CoveredTile({
 
   return (
     <g
-      ref={forwardRef}
+      ref={ref}
       role="button"
       tabIndex={-1}
       onClick={clearIfNotFlagged}
@@ -48,4 +48,4 @@ export default function CoveredTile({
       {isFlagged && <CenterText fontSize="1em" value="🚩" />}
     </g>
   )
-}
+})

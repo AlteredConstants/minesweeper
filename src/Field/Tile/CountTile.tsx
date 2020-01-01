@@ -2,6 +2,7 @@ import React from "react"
 import { Tile } from "../../interface"
 import BaseTile from "./BaseTile"
 import CenterText from "./CenterText"
+import { TileRef, useTileRef } from "./useTileRef"
 
 const CountColors = [
   { foreground: "transparent", background: "antiqueWhite" },
@@ -16,19 +17,19 @@ const CountColors = [
 ]
 
 interface CountTileProps {
-  forwardRef?: React.RefObject<SVGGElement>
   tile: Tile
   onClearAdjacent(): void
 }
-export default function CountTile({
-  forwardRef,
-  tile: { adjacentMineCount },
-  onClearAdjacent,
-}: CountTileProps) {
+export default React.forwardRef(function CountTile(
+  { tile: { adjacentMineCount }, onClearAdjacent }: CountTileProps,
+  tileRef: TileRef,
+) {
   const [isClearingAdjacent, setIsClearingAdjacent] = React.useState(false)
+  const ref = useTileRef(tileRef)
+
   return (
     <g
-      ref={forwardRef}
+      ref={ref}
       role="button"
       tabIndex={-1}
       onMouseDown={({ buttons }) => {
@@ -56,4 +57,4 @@ export default function CountTile({
       />
     </g>
   )
-}
+})
