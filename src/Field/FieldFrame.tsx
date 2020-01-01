@@ -1,11 +1,11 @@
-import React from "react";
-import { BaseTile } from "./Tile";
+import React from "react"
+import { BaseTile } from "./Tile"
 
 interface FieldFrameProps {
-  children: JSX.Element[];
-  width: number;
-  height: number;
-  onNavigate?(key: string): void;
+  children: JSX.Element[]
+  width: number
+  height: number
+  onNavigate?(key: string): void
 }
 export function FieldFrame({
   children,
@@ -28,5 +28,5 @@ export function FieldFrame({
         {children}
       </svg>
     </svg>
-  );
+  )
 }

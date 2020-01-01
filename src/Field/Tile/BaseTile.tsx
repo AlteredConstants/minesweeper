@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 export default function BaseTile(props: React.SVGProps<SVGRectElement>) {
   return (
@@ -10,5 +10,5 @@ export default function BaseTile(props: React.SVGProps<SVGRectElement>) {
       strokeWidth="1px"
       {...props}
     />
-  );
+  )
 }

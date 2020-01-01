@@ -1,8 +1,8 @@
-import React from "react";
+import React from "react"
 
 type CenterTextProps = {
-  value: string;
-} & React.SVGProps<SVGTextElement>;
+  value: string
+} & React.SVGProps<SVGTextElement>
 export default function CenterText({ value, ...props }: CenterTextProps) {
   return (
     <text
@@ -17,5 +17,5 @@ export default function CenterText({ value, ...props }: CenterTextProps) {
     >
       {value}
     </text>
-  );
+  )
 }

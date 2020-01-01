@@ -1,24 +1,24 @@
-import React from "react";
-import { Tile as TileType } from "../../interface";
-import { TileActionType } from "../../reducer/tiles";
-import BaseTile from "./BaseTile";
-import CenterText from "./CenterText";
-import CountTile from "./CountTile";
-import CoveredTile from "./CoveredTile";
-import TileFrame from "./TileFrame";
+import React from "react"
+import { Tile as TileType } from "../../interface"
+import { TileActionType } from "../../reducer/tiles"
+import BaseTile from "./BaseTile"
+import CenterText from "./CenterText"
+import CountTile from "./CountTile"
+import CoveredTile from "./CoveredTile"
+import TileFrame from "./TileFrame"
 
 const MineTile = () => (
   <g>
     <BaseTile fill="red" />
     <CenterText fontSize="1em" value="💥" />
   </g>
-);
+)
 
 interface TileProps {
-  forwardRef?: React.RefObject<SVGGElement>;
-  tile: TileType;
-  size: number;
-  onAction(type: TileActionType, tile: TileType): void;
+  forwardRef?: React.RefObject<SVGGElement>
+  tile: TileType
+  size: number
+  onAction(type: TileActionType, tile: TileType): void
 }
 export default React.memo(function Tile({
   forwardRef,
@@ -46,5 +46,5 @@ export default React.memo(function Tile({
         />
       )}
     </TileFrame>
-  );
-});
+  )
+})

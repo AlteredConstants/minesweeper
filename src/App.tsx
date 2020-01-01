@@ -1,8 +1,8 @@
-import React from "react";
-import { InitField, StartedField } from "./Field";
-import { InitField as InitFieldType } from "./interface";
-import { ClearedOverlay, ExplodedOverlay, OverlayContainer } from "./Overlay";
-import { useField } from "./useField";
+import React from "react"
+import { InitField, StartedField } from "./Field"
+import { InitField as InitFieldType } from "./interface"
+import { ClearedOverlay, ExplodedOverlay, OverlayContainer } from "./Overlay"
+import { useField } from "./useField"
 
 // Beginner: 9x9x10
 // Intermediate: 16x16x40
@@ -12,10 +12,10 @@ const initialField: InitFieldType = {
   width: 30,
   height: 16,
   mineCount: 99,
-};
+}
 
 export default function App() {
-  const { field, start, reset, dispatchTileAction } = useField(initialField);
+  const { field, start, reset, dispatchTileAction } = useField(initialField)
 
   return (
     <div className="App" onContextMenu={event => event.preventDefault()}>
@@ -35,5 +35,5 @@ export default function App() {
         ) : null}
       </OverlayContainer>
     </div>
-  );
+  )
 }

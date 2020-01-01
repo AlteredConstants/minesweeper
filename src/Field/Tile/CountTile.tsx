@@ -1,7 +1,7 @@
-import React from "react";
-import { Tile } from "../../interface";
-import BaseTile from "./BaseTile";
-import CenterText from "./CenterText";
+import React from "react"
+import { Tile } from "../../interface"
+import BaseTile from "./BaseTile"
+import CenterText from "./CenterText"
 
 const CountColors = [
   { foreground: "transparent", background: "antiqueWhite" },
@@ -13,19 +13,19 @@ const CountColors = [
   { foreground: "darkCyan", background: "lightCyan" },
   { foreground: "black", background: "gainsboro" },
   { foreground: "dimGrey", background: "whiteSmoke" },
-];
+]
 
 interface CountTileProps {
-  forwardRef?: React.RefObject<SVGGElement>;
-  tile: Tile;
-  onClearAdjacent(): void;
+  forwardRef?: React.RefObject<SVGGElement>
+  tile: Tile
+  onClearAdjacent(): void
 }
 export default function CountTile({
   forwardRef,
   tile: { adjacentMineCount },
   onClearAdjacent,
 }: CountTileProps) {
-  const [shouldClear, setShouldClear] = React.useState(false);
+  const [shouldClear, setShouldClear] = React.useState(false)
   return (
     <g
       ref={forwardRef}
@@ -33,17 +33,17 @@ export default function CountTile({
       tabIndex={-1}
       onMouseDown={({ buttons }) => {
         if (buttons === 3) {
-          setShouldClear(true);
+          setShouldClear(true)
         }
       }}
       onMouseUp={() => {
         if (shouldClear) {
-          onClearAdjacent();
+          onClearAdjacent()
         }
       }}
       onKeyDown={event => {
         if (event.key === "Backspace") {
-          onClearAdjacent();
+          onClearAdjacent()
         }
       }}
     >
@@ -54,5 +54,5 @@ export default function CountTile({
         value={adjacentMineCount.toString()}
       />
     </g>
-  );
+  )
 }

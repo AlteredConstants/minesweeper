@@ -1,10 +1,10 @@
-import React from "react";
+import React from "react"
 
 interface TileFrameProps {
-  children: JSX.Element;
-  row: number;
-  column: number;
-  size: number;
+  children: JSX.Element
+  row: number
+  column: number
+  size: number
 }
 export default function TileFrame({
   children,
@@ -23,5 +23,5 @@ export default function TileFrame({
     >
       {children}
     </svg>
-  );
+  )
 }

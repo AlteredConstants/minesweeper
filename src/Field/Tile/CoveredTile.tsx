@@ -1,18 +1,18 @@
-import glamorous from "glamorous";
-import React from "react";
-import BaseTile from "./BaseTile";
-import CenterText from "./CenterText";
+import glamorous from "glamorous"
+import React from "react"
+import BaseTile from "./BaseTile"
+import CenterText from "./CenterText"
 
 const HoverTile = glamorous(BaseTile)({
   ":hover": { fill: "tan" },
   transition: "fill 200ms",
-});
+})
 
 interface CoveredTileProps {
-  forwardRef?: React.RefObject<SVGGElement>;
-  isFlagged?: boolean;
-  onClear(): void;
-  onToggleFlag?(): void;
+  forwardRef?: React.RefObject<SVGGElement>
+  isFlagged?: boolean
+  onClear(): void
+  onToggleFlag?(): void
 }
 export default function CoveredTile({
   forwardRef,
@@ -22,7 +22,7 @@ export default function CoveredTile({
 }: CoveredTileProps) {
   function clearIfNotFlagged(): void {
     if (!isFlagged) {
-      onClear();
+      onClear()
     }
   }
 
@@ -36,16 +36,16 @@ export default function CoveredTile({
       onKeyDown={event => {
         switch (event.key) {
           case "Backspace":
-            clearIfNotFlagged();
-            break;
+            clearIfNotFlagged()
+            break
           case "a":
-            onToggleFlag?.();
-            break;
+            onToggleFlag?.()
+            break
         }
       }}
     >
       <HoverTile />
       {isFlagged && <CenterText fontSize="1em" value="🚩" />}
     </g>
-  );
+  )
 }

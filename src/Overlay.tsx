@@ -1,13 +1,13 @@
-import { keyframes } from "glamor";
-import glamorous from "glamorous";
-import React from "react";
-import Emoji, { EmojiType } from "./Emoji";
+import { keyframes } from "glamor"
+import glamorous from "glamorous"
+import React from "react"
+import Emoji, { EmojiType } from "./Emoji"
 
-const PaddedEmoji = glamorous(Emoji)({ margin: "0.8em" });
+const PaddedEmoji = glamorous(Emoji)({ margin: "0.8em" })
 
 interface OverlayProps {
-  backgroundColor1: string;
-  backgroundColor2: string;
+  backgroundColor1: string
+  backgroundColor2: string
 }
 const Overlay = glamorous.div<OverlayProps>(
   {
@@ -26,16 +26,16 @@ const Overlay = glamorous.div<OverlayProps>(
     const flash = keyframes({
       "0%": { backgroundColor: backgroundColor1, fontSize: "1.5em" },
       "100%": { backgroundColor: backgroundColor2, fontSize: "1.6em" },
-    });
+    })
     return {
       animation: `${flash} 1.5s infinite ease-in-out alternate`,
-    };
+    }
   },
-);
+)
 
 interface OverlayMessageProps {
-  emoji: EmojiType;
-  text: string;
+  emoji: EmojiType
+  text: string
 }
 const OverlayMessage = ({ emoji, text }: OverlayMessageProps) => (
   <>
@@ -43,10 +43,10 @@ const OverlayMessage = ({ emoji, text }: OverlayMessageProps) => (
     {text}
     <PaddedEmoji type={emoji} />
   </>
-);
+)
 
 interface FieldStateOverlayProps {
-  onDismiss: () => void;
+  onDismiss: () => void
 }
 
 export function ClearedOverlay({ onDismiss }: FieldStateOverlayProps) {
@@ -59,7 +59,7 @@ export function ClearedOverlay({ onDismiss }: FieldStateOverlayProps) {
     >
       <OverlayMessage emoji="party popper" text="Cleared" />
     </Overlay>
-  );
+  )
 }
 
 export function ExplodedOverlay({ onDismiss }: FieldStateOverlayProps) {
@@ -72,11 +72,11 @@ export function ExplodedOverlay({ onDismiss }: FieldStateOverlayProps) {
     >
       <OverlayMessage emoji="bomb" text="Boom" />
     </Overlay>
-  );
+  )
 }
 
 interface OverlayContainerProps {
-  isActive: boolean;
+  isActive: boolean
 }
 export const OverlayContainer = glamorous.div<OverlayContainerProps>(
   {
@@ -88,4 +88,4 @@ export const OverlayContainer = glamorous.div<OverlayContainerProps>(
   ({ isActive }) => ({
     cursor: isActive ? "url(./bomb-detector.png) 0 32, default" : "pointer",
   }),
-);
+)
