@@ -15,24 +15,32 @@ const MineTile = () => (
 );
 
 interface TileProps {
+  forwardRef?: React.RefObject<SVGGElement>;
   tile: TileType;
   size: number;
-  onAction: (type: TileActionType, tile: TileType) => void;
+  onAction(type: TileActionType, tile: TileType): void;
 }
-export default React.memo(function Tile({ tile, size, onAction }: TileProps) {
-  const { row, column, isCleared, isFlagged } = tile;
+export default React.memo(function Tile({
+  forwardRef,
+  tile,
+  tile: { row, column, isCleared, isFlagged, isMine },
+  size,
+  onAction,
+}: TileProps) {
   return (
     <TileFrame row={row} column={column} size={size}>
       {!isCleared ? (
         <CoveredTile
+          forwardRef={forwardRef}
           isFlagged={isFlagged}
           onClear={() => onAction(TileActionType.Clear, tile)}
           onToggleFlag={() => onAction(TileActionType.ToggleFlag, tile)}
         />
-      ) : tile.isMine ? (
+      ) : isMine ? (
         <MineTile />
       ) : (
         <CountTile
+          forwardRef={forwardRef}
           tile={tile}
           onClearAdjacent={() => onAction(TileActionType.ClearAdjacent, tile)}
         />

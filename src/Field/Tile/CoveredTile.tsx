@@ -9,20 +9,40 @@ const HoverTile = glamorous(BaseTile)({
 });
 
 interface CoveredTileProps {
+  forwardRef?: React.RefObject<SVGGElement>;
   isFlagged?: boolean;
-  onClear: () => void;
-  onToggleFlag?: () => void;
+  onClear(): void;
+  onToggleFlag?(): void;
 }
 export default function CoveredTile({
+  forwardRef,
   isFlagged,
   onClear,
   onToggleFlag,
 }: CoveredTileProps) {
+  function clearIfNotFlagged(): void {
+    if (!isFlagged) {
+      onClear();
+    }
+  }
+
   return (
     <g
+      ref={forwardRef}
       role="button"
-      onClick={() => !isFlagged && onClear()}
+      tabIndex={-1}
+      onClick={clearIfNotFlagged}
       onContextMenu={onToggleFlag}
+      onKeyDown={event => {
+        switch (event.key) {
+          case "Backspace":
+            clearIfNotFlagged();
+            break;
+          case "a":
+            onToggleFlag?.();
+            break;
+        }
+      }}
     >
       <HoverTile />
       {isFlagged && <CenterText fontSize="1em" value="🚩" />}

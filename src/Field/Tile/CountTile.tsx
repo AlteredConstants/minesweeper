@@ -16,15 +16,21 @@ const CountColors = [
 ];
 
 interface CountTileProps {
+  forwardRef?: React.RefObject<SVGGElement>;
   tile: Tile;
-  onClearAdjacent: () => void;
+  onClearAdjacent(): void;
 }
-export default function CountTile({ tile, onClearAdjacent }: CountTileProps) {
-  const { adjacentMineCount } = tile;
+export default function CountTile({
+  forwardRef,
+  tile: { adjacentMineCount },
+  onClearAdjacent,
+}: CountTileProps) {
   const [shouldClear, setShouldClear] = React.useState(false);
   return (
     <g
+      ref={forwardRef}
       role="button"
+      tabIndex={-1}
       onMouseDown={({ buttons }) => {
         if (buttons === 3) {
           setShouldClear(true);
@@ -32,6 +38,11 @@ export default function CountTile({ tile, onClearAdjacent }: CountTileProps) {
       }}
       onMouseUp={() => {
         if (shouldClear) {
+          onClearAdjacent();
+        }
+      }}
+      onKeyDown={event => {
+        if (event.key === "Backspace") {
           onClearAdjacent();
         }
       }}
