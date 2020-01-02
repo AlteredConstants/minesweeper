@@ -50,6 +50,16 @@ export default function StartedField({
     }
   }
 
+  const handleTileAction = React.useCallback(
+    (type: TileActionType, tile: TileType) => {
+      if (type === TileActionType.Clear) {
+        setIsClearing(true)
+      }
+      onTileAction(type, tile)
+    },
+    [onTileAction],
+  )
+
   return (
     <FieldFrame
       width={TileSize * width}
@@ -62,12 +72,7 @@ export default function StartedField({
           ref={tileReferenceListReference.current[tile.index]}
           tile={tile}
           size={TileSize}
-          onAction={(type, tile) => {
-            if (type === TileActionType.Clear) {
-              setIsClearing(true)
-            }
-            onTileAction(type, tile)
-          }}
+          onAction={handleTileAction}
         />
       ))}
     </FieldFrame>
