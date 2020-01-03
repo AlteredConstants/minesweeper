@@ -17,6 +17,7 @@ export function FieldFrame({
     <svg width={width + 2} height={height + 2}>
       <BaseTile />
       <svg
+        role="grid"
         width={width}
         height={height}
         x="1"

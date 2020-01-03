@@ -1,3 +1,4 @@
+import { chunk } from "lodash"
 import React from "react"
 import {
   StartedField as StartedFieldType,
@@ -60,20 +61,26 @@ export default function StartedField({
     [onTileAction],
   )
 
+  const rows = chunk(tiles, width)
+
   return (
     <FieldFrame
       width={TileSize * width}
       height={TileSize * height}
       onNavigate={key => setSelectedIndex(getNextIndex(key))}
     >
-      {tiles.map(tile => (
-        <Tile
-          key={`tile-${tile.index}`}
-          ref={tileReferenceListReference.current[tile.index]}
-          tile={tile}
-          size={TileSize}
-          onAction={handleTileAction}
-        />
+      {rows.map(row => (
+        <g role="row" key={`row-${row[0].row}`}>
+          {row.map(tile => (
+            <Tile
+              key={`tile-${tile.index}`}
+              ref={tileReferenceListReference.current[tile.index]}
+              tile={tile}
+              size={TileSize}
+              onAction={handleTileAction}
+            />
+          ))}
+        </g>
       ))}
     </FieldFrame>
   )
