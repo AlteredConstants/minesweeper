@@ -1,5 +1,6 @@
 import { chunk } from "lodash"
 import React from "react"
+import { InputConfigContext } from "../input-config"
 import {
   StartedField as StartedFieldType,
   Tile as TileType,
@@ -34,17 +35,19 @@ export default function StartedField({
     }
   }, [selectedIndex, isClearing])
 
+  const inputConfig = React.useContext(InputConfigContext)
+
   function getNextIndex(key: string): number | undefined {
     const { row, column } = getCoordinates(selectedIndex ?? 0, width)
 
     switch (key) {
-      case "o": // Left
+      case inputConfig.left:
         return row * width + Math.max(column - 1, 0)
-      case "u": // Right
+      case inputConfig.right:
         return row * width + Math.min(column + 1, width - 1)
-      case ".": // Up
+      case inputConfig.up:
         return Math.max(row - 1, 0) * width + column
-      case "e": // Down
+      case inputConfig.down:
         return Math.min(row + 1, height - 1) * width + column
       default:
         return selectedIndex

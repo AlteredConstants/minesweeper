@@ -1,5 +1,6 @@
 import glamorous from "glamorous"
 import React from "react"
+import { InputConfigContext } from "../../input-config"
 import BaseTile from "./BaseTile"
 import CenterText from "./CenterText"
 import { TileRef, useTileRef } from "./useTileRef"
@@ -26,6 +27,8 @@ export default React.forwardRef(function CoveredTile(
     }
   }
 
+  const inputConfig = React.useContext(InputConfigContext)
+
   return (
     <g
       ref={ref}
@@ -35,10 +38,10 @@ export default React.forwardRef(function CoveredTile(
       onContextMenu={onToggleFlag}
       onKeyDown={event => {
         switch (event.key) {
-          case "Backspace":
+          case inputConfig.clear:
             clearIfNotFlagged()
             break
-          case "a":
+          case inputConfig.flag:
             onToggleFlag?.()
             break
         }

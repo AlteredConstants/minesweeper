@@ -1,4 +1,5 @@
 import React from "react"
+import { InputConfigContext } from "../../input-config"
 import { Tile } from "../../interface"
 import BaseTile from "./BaseTile"
 import CenterText from "./CenterText"
@@ -27,6 +28,8 @@ export default React.forwardRef(function CountTile(
   const [isClearingAdjacent, setIsClearingAdjacent] = React.useState(false)
   const ref = useTileRef(tileRef)
 
+  const inputConfig = React.useContext(InputConfigContext)
+
   return (
     <g
       ref={ref}
@@ -44,7 +47,7 @@ export default React.forwardRef(function CountTile(
         }
       }}
       onKeyDown={event => {
-        if (event.key === "Backspace") {
+        if (event.key === inputConfig.clearAdjacent) {
           onClearAdjacent()
         }
       }}
