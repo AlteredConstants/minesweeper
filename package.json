@@ -8,7 +8,7 @@
     "@types/react-dom": "16.8.3",
     "fp-ts": "^2.3.1",
     "glamor": "^2.20.40",
-    "glamorous": "^4.11.4",
+    "glamorous": "^4.13.1",
     "io-ts": "^2.0.2",
     "lodash": "^4.17.15",
     "react": "^16.12.0",
