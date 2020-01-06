@@ -12,9 +12,13 @@ const seedField = JSON.stringify({
   }, tiles),
 })
 
-const element = name => `[data-test="${name}"]`
-const tile = index =>
-  `${element("field")} > ${element("tile")}:nth-of-type(${index + 1})`
+const role = name => `[role="${name}"]`
+const tile = index => {
+  const width = 4
+  const row = `${role("row")}:nth-of-type(${Math.floor(index / width) + 1})`
+  const cell = `${role("cell")}:nth-of-type(${(index % width) + 1})`
+  return `${role("grid")} > ${row} > ${cell}`
+}
 
 describe("Playing a game", () => {
   beforeEach(() => {
@@ -26,7 +30,7 @@ describe("Playing a game", () => {
     for (const index of [0, 3, 11, 13, 14]) {
       cy.get(tile(index)).click()
     }
-    cy.get(element("overlay")).should("contain", "Cleared")
+    cy.get(role("dialog")).should("contain", "Cleared")
 
     // prettier-ignore
     const values = [
@@ -45,7 +49,7 @@ describe("Playing a game", () => {
 
   it("set off a mine", () => {
     cy.get(tile(7)).click()
-    cy.get(element("overlay")).should("contain", "Boom")
+    cy.get(role("dialog")).should("contain", "Boom")
     for (const index of mineTileIndexes) {
       cy.get(tile(index)).should("contain", "💥")
     }

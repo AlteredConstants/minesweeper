@@ -22,7 +22,6 @@ export function FieldFrame({
         height={height}
         x="1"
         y="1"
-        data-test="field"
         tabIndex={0}
         onKeyDown={event => onNavigate?.(event.key)}
       >

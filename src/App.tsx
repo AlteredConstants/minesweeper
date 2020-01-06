@@ -33,10 +33,7 @@ export default function App() {
         <header>
           <h1>Minesweeper</h1>
         </header>
-        <OverlayContainer
-          isActive={field.state === "active"}
-          data-test="overlay"
-        >
+        <OverlayContainer isActive={field.state === "active"}>
           {field.state === "init" ? (
             <InitField field={field} onStart={start} />
           ) : (

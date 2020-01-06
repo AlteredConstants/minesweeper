@@ -19,7 +19,6 @@ export default function TileFrame({
       y={row * size}
       width={size}
       height={size}
-      data-test="tile"
     >
       {children}
     </svg>
