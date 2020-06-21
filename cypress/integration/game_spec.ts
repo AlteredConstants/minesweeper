@@ -1,3 +1,5 @@
+export {}
+
 const mineTileIndexes = [7, 10, 12, 15]
 const tiles = Array.from(Array(16), () => ({
   isMine: false,
@@ -12,8 +14,8 @@ const seedField = JSON.stringify({
   }, tiles),
 })
 
-const role = (name) => `[role="${name}"]`
-const tile = (index) => {
+const role = (name: string) => `[role="${name}"]`
+const tile = (index: number) => {
   const width = 4
   const row = `${role("row")}:nth-of-type(${Math.floor(index / width) + 1})`
   const cell = `${role("cell")}:nth-of-type(${(index % width) + 1})`
