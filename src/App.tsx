@@ -29,7 +29,7 @@ export default function App() {
 
   return (
     <InputConfigContext.Provider value={inputConfig}>
-      <div className="App" onContextMenu={event => event.preventDefault()}>
+      <div className="App" onContextMenu={(event) => event.preventDefault()}>
         <header>
           <h1>Minesweeper</h1>
         </header>

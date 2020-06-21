@@ -19,5 +19,5 @@ it("should create a field with the correct number of tiles", () => {
 
 it("should create a field with the correct number of mines", () => {
   const field = createField({ width: 4, height: 4, mineCount: 4 })
-  expect(field.tiles.filter(t => t.isMine)).toHaveLength(4)
+  expect(field.tiles.filter((t) => t.isMine)).toHaveLength(4)
 })

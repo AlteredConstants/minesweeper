@@ -11,12 +11,12 @@ export const mockField = freeze(createField(mockFieldConfig))
 
 export const mockTileIndexes = range(16)
 export const mockMineTileIndexes = [7, 10, 12, 15]
-export const mockMineTiles = mockMineTileIndexes.map(i => mockField.tiles[i])
+export const mockMineTiles = mockMineTileIndexes.map((i) => mockField.tiles[i])
 export const mockSafeTileIndexes = difference(
   mockTileIndexes,
   mockMineTileIndexes,
 )
-export const mockSafeTiles = mockSafeTileIndexes.map(i => mockField.tiles[i])
+export const mockSafeTiles = mockSafeTileIndexes.map((i) => mockField.tiles[i])
 
 export const mockZeroTileIndex = 4
 export const mockZeroTile = mockField.tiles[mockZeroTileIndex]
@@ -31,7 +31,7 @@ export const mockConnectedSafeTilesForZeroTileIndexes =
   // Commenting to format the array on a single line.
   [0, 1, 2, 5, 4, 6, 8, 9]
 export const mockConnectedSafeTilesForZeroTile = mockConnectedSafeTilesForZeroTileIndexes.map(
-  index => mockField.tiles[index],
+  (index) => mockField.tiles[index],
 )
 
 export const updateAdjacentMineCount = require.requireActual("../createField")

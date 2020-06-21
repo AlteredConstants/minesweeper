@@ -23,7 +23,7 @@ export function FieldFrame({
         x="1"
         y="1"
         tabIndex={0}
-        onKeyDown={event => onNavigate?.(event.key)}
+        onKeyDown={(event) => onNavigate?.(event.key)}
       >
         {children}
       </svg>

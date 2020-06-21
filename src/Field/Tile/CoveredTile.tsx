@@ -36,7 +36,7 @@ export default React.forwardRef(function CoveredTile(
       tabIndex={-1}
       onClick={clearIfNotFlagged}
       onContextMenu={onToggleFlag}
-      onKeyDown={event => {
+      onKeyDown={(event) => {
         switch (event.key) {
           case inputConfig.clear:
             clearIfNotFlagged()

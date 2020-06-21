@@ -34,7 +34,7 @@ export const updateAdjacentMineCount = uncappedMap<Tile>((tile, _, tiles) => ({
   ...tile,
   adjacentMineCount: flow(
     createAdjacentTilesGetter(tiles),
-    sumBy(adjacentTile => (adjacentTile.isMine ? 1 : 0)),
+    sumBy((adjacentTile) => (adjacentTile.isMine ? 1 : 0)),
   )(tile),
 }))
 

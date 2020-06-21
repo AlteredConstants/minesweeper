@@ -13,10 +13,10 @@ it("should create an array of the specified size", () => {
 
 it("should create an array containing `true` for each mine", () => {
   const field = distributeMines(9, 3)
-  expect(field.filter(t => t === true)).toHaveLength(3)
+  expect(field.filter((t) => t === true)).toHaveLength(3)
 })
 
 it("should create an array containing `false` for non-mines", () => {
   const field = distributeMines(9, 3)
-  expect(field.filter(t => t === false)).toHaveLength(6)
+  expect(field.filter((t) => t === false)).toHaveLength(6)
 })

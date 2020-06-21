@@ -12,8 +12,8 @@ const seedField = JSON.stringify({
   }, tiles),
 })
 
-const role = name => `[role="${name}"]`
-const tile = index => {
+const role = (name) => `[role="${name}"]`
+const tile = (index) => {
   const width = 4
   const row = `${role("row")}:nth-of-type(${Math.floor(index / width) + 1})`
   const cell = `${role("cell")}:nth-of-type(${(index % width) + 1})`

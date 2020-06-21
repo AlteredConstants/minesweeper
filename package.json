@@ -3,30 +3,29 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/lodash": "^4.14.149",
-    "@types/react": "16.8.8",
-    "@types/react-dom": "16.8.3",
-    "fp-ts": "^2.3.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/deep-freeze": "^0.1.2",
+    "@types/jest": "^26.0.0",
+    "@types/lodash": "^4.14.155",
+    "@types/node": "^12.12.47",
+    "@types/react": "^16.9.38",
+    "@types/react-dom": "^16.9.8",
+    "cypress": "^4.8.0",
+    "deep-freeze": "0.0.1",
+    "fp-ts": "^2.6.6",
     "glamor": "^2.20.40",
     "glamorous": "^4.13.1",
-    "io-ts": "^2.0.2",
+    "io-ts": "^2.2.6",
     "lodash": "^4.17.15",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "^3.3.0",
-    "tslib": "^1.10.0"
-  },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.4.0",
-    "@types/deep-freeze": "^0.1.2",
-    "@types/jest": "24.0.25",
-    "@types/node": "11.11.6",
-    "cypress": "^3.8.1",
-    "deep-freeze": "0.0.1",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.19.1",
-    "typescript": "^3.7.4"
+    "prettier": "^2.0.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1",
+    "tslib": "^1.13.0",
+    "typescript": "^3.9.5"
   },
   "scripts": {
     "start": "BROWSER=none react-scripts start",
@@ -37,6 +36,6 @@
     "test:coverage": "npm run test -- --coverage --mapCoverage",
     "test:e2e": "run-p --race start cypress:run",
     "lint": "eslint src --ext js,jsx,ts,tsx",
-    "format": "prettier --write \"**/*.{css,html,js,json,jsx,md,ts,tsx,yml}\""
+    "format": "prettier --write ."
   }
 }

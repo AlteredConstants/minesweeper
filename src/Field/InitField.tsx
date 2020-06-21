@@ -16,9 +16,9 @@ export default function InitField({
   const rows = chunk(range(0, width * height), width)
   return (
     <FieldFrame width={TileSize * width} height={TileSize * height}>
-      {rows.map(row => (
+      {rows.map((row) => (
         <g role="row" key={`row-${Math.floor(row[0] / width)}`}>
-          {row.map(index => {
+          {row.map((index) => {
             return (
               <InitTile
                 key={`tile-${index}`}

@@ -15,7 +15,7 @@ export interface TileAction {
 }
 
 function setClearedTileFlag(state: Tiles, tiles: Tiles): Tiles {
-  const indexes = tiles.filter(t => !t.isCleared).map(t => t.index)
+  const indexes = tiles.filter((t) => !t.isCleared).map((t) => t.index)
   if (indexes.length === 0) {
     return state
   }
@@ -23,7 +23,7 @@ function setClearedTileFlag(state: Tiles, tiles: Tiles): Tiles {
 }
 
 function clearAllMines(state: Tiles): Tiles {
-  const mineTiles = state.filter(t => t.isMine)
+  const mineTiles = state.filter((t) => t.isMine)
   return setClearedTileFlag(state, mineTiles)
 }
 
@@ -62,11 +62,11 @@ export default function reducer(tiles: Tiles, action: TileAction): Tiles {
         return tiles
       }
       const adjacentTiles = getAdjacentTiles(tiles, tile)
-      const flaggedTilesCount = adjacentTiles.filter(t => t.isFlagged).length
+      const flaggedTilesCount = adjacentTiles.filter((t) => t.isFlagged).length
       if (flaggedTilesCount !== tile.adjacentMineCount) {
         return tiles
       }
-      return adjacentTiles.filter(t => !t.isFlagged).reduce(clearTile, tiles)
+      return adjacentTiles.filter((t) => !t.isFlagged).reduce(clearTile, tiles)
     }
 
     default: {
@@ -77,9 +77,9 @@ export default function reducer(tiles: Tiles, action: TileAction): Tiles {
 }
 
 export function isMineCleared(tiles: Tiles): boolean {
-  return tiles.some(t => t.isMine && t.isCleared)
+  return tiles.some((t) => t.isMine && t.isCleared)
 }
 
 export function areAllSafeTilesCleared(tiles: Tiles): boolean {
-  return tiles.filter(t => !t.isMine && !t.isCleared).length === 0
+  return tiles.filter((t) => !t.isMine && !t.isCleared).length === 0
 }

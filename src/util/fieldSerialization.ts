@@ -22,7 +22,7 @@ function prepareSerialize(field: StartedField): SerializedField {
 function prepareDeserialize(field: SerializedField): StartedField {
   const { width } = field
   const height = field.tiles.length / width
-  const mineCount = field.tiles.filter(t => t.isMine).length
+  const mineCount = field.tiles.filter((t) => t.isMine).length
   const tiles = updateAdjacentMineCount(
     field.tiles.map(({ isMine, isCleared, isFlagged }, index) => ({
       index,

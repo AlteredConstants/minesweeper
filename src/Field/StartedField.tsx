@@ -70,11 +70,11 @@ export default function StartedField({
     <FieldFrame
       width={TileSize * width}
       height={TileSize * height}
-      onNavigate={key => setSelectedIndex(getNextIndex(key))}
+      onNavigate={(key) => setSelectedIndex(getNextIndex(key))}
     >
-      {rows.map(row => (
+      {rows.map((row) => (
         <g role="row" key={`row-${row[0].row}`}>
-          {row.map(tile => (
+          {row.map((tile) => (
             <Tile
               key={`tile-${tile.index}`}
               ref={tileReferenceListReference.current[tile.index]}

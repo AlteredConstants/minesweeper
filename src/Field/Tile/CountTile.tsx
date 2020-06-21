@@ -46,7 +46,7 @@ export default React.forwardRef(function CountTile(
           onClearAdjacent()
         }
       }}
-      onKeyDown={event => {
+      onKeyDown={(event) => {
         if (event.key === inputConfig.clearAdjacent) {
           onClearAdjacent()
         }
