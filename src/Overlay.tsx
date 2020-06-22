@@ -1,15 +1,14 @@
-import { keyframes } from "glamor"
-import glamorous from "glamorous"
 import React from "react"
+import styled, { css, keyframes } from "styled-components/macro"
 import Emoji, { EmojiType } from "./Emoji"
 
-const PaddedEmoji = glamorous(Emoji)({ margin: "0.8em" })
+const PaddedEmoji = styled(Emoji)({ margin: "0.8em" })
 
 interface OverlayProps {
   backgroundColor1: string
   backgroundColor2: string
 }
-const Overlay = glamorous.div<OverlayProps>(
+const Overlay = styled.div<OverlayProps>(
   {
     position: "absolute",
     width: "100%",
@@ -27,9 +26,9 @@ const Overlay = glamorous.div<OverlayProps>(
       "0%": { backgroundColor: backgroundColor1, fontSize: "1.5em" },
       "100%": { backgroundColor: backgroundColor2, fontSize: "1.6em" },
     })
-    return {
-      animation: `${flash} 1.5s infinite ease-in-out alternate`,
-    }
+    return css`
+      animation: ${flash} 1.5s infinite ease-in-out alternate;
+    `
   },
 )
 
@@ -78,7 +77,7 @@ export function ExplodedOverlay({ onDismiss }: FieldStateOverlayProps) {
 interface OverlayContainerProps {
   isActive: boolean
 }
-export const OverlayContainer = glamorous.div<OverlayContainerProps>(
+export const OverlayContainer = styled.div<OverlayContainerProps>(
   {
     position: "relative",
     width: "fit-content",

@@ -1,11 +1,11 @@
-import glamorous from "glamorous"
 import React from "react"
+import styled from "styled-components/macro"
 import { InputConfigContext } from "../../input-config"
 import BaseTile from "./BaseTile"
 import CenterText from "./CenterText"
 import { TileRef, useTileRef } from "./useTileRef"
 
-const HoverTile = glamorous(BaseTile)({
+const HoverTile = styled(BaseTile)({
   ":hover": { fill: "tan" },
   transition: "fill 200ms",
 })
