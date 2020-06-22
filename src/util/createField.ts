@@ -1,15 +1,13 @@
-import { flow, sumBy } from "lodash/fp"
 import { FieldConfig, StartedField, Tile } from "../interface"
 import distributeMines from "./distributeMines"
-import { createAdjacentTilesGetter } from "./getAdjacentTiles"
+import getAdjacentTiles, { getAdjacentIndexes } from "./getAdjacentTiles"
 import { getCoordinates } from "./getCoordinates"
 
-const uncappedMap = <T, R = T>(
-  iteratee: (value: T, index: number, array: readonly T[]) => R,
-) => (array: readonly T[]): R[] => array.map(iteratee)
-
-const createTilesCreator = (width: number) =>
-  uncappedMap<boolean, Tile>((isMine, index) => ({
+function createTiles(
+  width: number,
+  mines: readonly boolean[],
+): readonly Tile[] {
+  return mines.map((isMine, index) => ({
     index,
     ...getCoordinates(index, width),
     isMine,
@@ -17,35 +15,52 @@ const createTilesCreator = (width: number) =>
     isCleared: false,
     isFlagged: false,
   }))
-
-function getMines(
-  fieldSize: number,
-  mineCount: number,
-  startIndex: number | undefined,
-): readonly boolean[] {
-  if (startIndex == null) {
-    return distributeMines(fieldSize, mineCount)
-  }
-  const mines = distributeMines(fieldSize - 1, mineCount)
-  return [...mines.slice(0, startIndex), false, ...mines.slice(startIndex)]
 }
 
-export const updateAdjacentMineCount = uncappedMap<Tile>((tile, _, tiles) => ({
-  ...tile,
-  adjacentMineCount: flow(
-    createAdjacentTilesGetter(tiles),
-    sumBy((adjacentTile) => (adjacentTile.isMine ? 1 : 0)),
-  )(tile),
-}))
+function getMines(
+  { width, height, mineCount }: FieldConfig,
+  safelyClearedIndexes: number[],
+): readonly boolean[] {
+  const fieldSize = width * height
+
+  const mines = [
+    ...distributeMines(fieldSize - safelyClearedIndexes.length, mineCount),
+  ]
+
+  // Add back in the missing indexes as safe tiles.
+  for (const index of safelyClearedIndexes) {
+    mines.splice(index, 0, false)
+  }
+
+  return mines
+}
+
+export function updateAdjacentMineCount(
+  tiles: readonly Tile[],
+): readonly Tile[] {
+  return tiles.map((tile) => ({
+    ...tile,
+    adjacentMineCount: getAdjacentTiles(tiles, tile).filter((t) => t.isMine)
+      .length,
+  }))
+}
 
 export default function createField(
   options: FieldConfig,
   startIndex?: number,
 ): StartedField {
   const { width, height, mineCount } = options
-  const createTiles = createTilesCreator(width)
-  const mines = getMines(width * height, mineCount, startIndex)
-  const tiles = updateAdjacentMineCount(createTiles(mines))
+
+  // Exclude all of the adjacent tiles as well as the clicked tile from the
+  // distribution so that they can be explicitly marked as cleared.
+  const safelyClearedIndexes =
+    startIndex != null
+      ? getAdjacentIndexes({ width, height, index: startIndex })
+      : []
+
+  const mines = getMines(options, safelyClearedIndexes)
+  const tiles = updateAdjacentMineCount(createTiles(width, mines))
+
   return {
     width,
     height,
