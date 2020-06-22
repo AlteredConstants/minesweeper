@@ -1,6 +1,7 @@
 import React from "react"
 import styled, { css, keyframes } from "styled-components/macro"
 import Emoji, { EmojiType } from "./Emoji"
+import { InputConfigContext } from "./input-config"
 
 const PaddedEmoji = styled(Emoji)({ margin: "0.8em" })
 
@@ -49,12 +50,26 @@ interface FieldStateOverlayProps {
 }
 
 export function ClearedOverlay({ onDismiss }: FieldStateOverlayProps) {
+  const inputConfig = React.useContext(InputConfigContext)
+  const ref = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    ref.current?.focus()
+  }, [ref])
+
   return (
     <Overlay
+      ref={ref}
+      tabIndex={0}
       role="dialog"
       backgroundColor1="rgba(87, 255, 34, 0.6)"
       backgroundColor2="rgba(0, 255, 0, 0.7)"
       onDoubleClick={onDismiss}
+      onKeyDown={(event) => {
+        if (event.key === inputConfig.clear) {
+          onDismiss()
+        }
+      }}
     >
       <OverlayMessage emoji="party popper" text="Cleared" />
     </Overlay>
@@ -62,12 +77,26 @@ export function ClearedOverlay({ onDismiss }: FieldStateOverlayProps) {
 }
 
 export function ExplodedOverlay({ onDismiss }: FieldStateOverlayProps) {
+  const inputConfig = React.useContext(InputConfigContext)
+  const ref = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    ref.current?.focus()
+  }, [ref])
+
   return (
     <Overlay
+      ref={ref}
+      tabIndex={0}
       role="dialog"
       backgroundColor1="rgba(255, 87, 34, 0.6)"
       backgroundColor2="rgba(255, 0, 0, 0.7)"
       onDoubleClick={onDismiss}
+      onKeyDown={(event) => {
+        if (event.key === inputConfig.clear) {
+          onDismiss()
+        }
+      }}
     >
       <OverlayMessage emoji="bomb" text="Boom" />
     </Overlay>
