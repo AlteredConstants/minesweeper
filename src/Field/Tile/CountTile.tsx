@@ -1,7 +1,7 @@
 import React from "react"
 import { InputConfigContext } from "../../input-config"
 import { Tile } from "../../interface"
-import BaseTile from "./BaseTile"
+import { SelectableTile } from "./BaseTile"
 import CenterText from "./CenterText"
 import { TileRef, useTileRef } from "./useTileRef"
 
@@ -19,10 +19,11 @@ const CountColors = [
 
 interface CountTileProps {
   tile: Tile
+  isSelected: boolean
   onClearAdjacent(): void
 }
 export default React.forwardRef(function CountTile(
-  { tile: { adjacentMineCount }, onClearAdjacent }: CountTileProps,
+  { tile: { adjacentMineCount }, isSelected, onClearAdjacent }: CountTileProps,
   tileRef: TileRef,
 ) {
   const [isClearingAdjacent, setIsClearingAdjacent] = React.useState(false)
@@ -52,7 +53,10 @@ export default React.forwardRef(function CountTile(
         }
       }}
     >
-      <BaseTile fill={CountColors[adjacentMineCount].background} />
+      <SelectableTile
+        fill={CountColors[adjacentMineCount].background}
+        isSelected={isSelected}
+      />
       <CenterText
         fontSize="1.1em"
         fill={CountColors[adjacentMineCount].foreground}

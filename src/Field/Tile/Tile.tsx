@@ -18,6 +18,7 @@ const MineTile = () => (
 interface TileProps {
   tile: TileType
   size: number
+  isSelected: boolean
   onAction(type: TileActionType, tile: TileType): void
 }
 export default React.memo(
@@ -26,6 +27,7 @@ export default React.memo(
       tile,
       tile: { row, column, isCleared, isFlagged, isMine },
       size,
+      isSelected,
       onAction,
     }: TileProps,
     ref: TileRef,
@@ -36,6 +38,7 @@ export default React.memo(
           <CoveredTile
             ref={ref}
             isFlagged={isFlagged}
+            isSelected={isSelected}
             onClear={() => onAction(TileActionType.Clear, tile)}
             onToggleFlag={() => onAction(TileActionType.ToggleFlag, tile)}
           />
@@ -45,6 +48,7 @@ export default React.memo(
           <CountTile
             ref={ref}
             tile={tile}
+            isSelected={isSelected}
             onClearAdjacent={() => onAction(TileActionType.ClearAdjacent, tile)}
           />
         )}

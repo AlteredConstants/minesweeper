@@ -1,4 +1,5 @@
 import React from "react"
+import styled from "styled-components/macro"
 
 export default function BaseTile(props: React.SVGProps<SVGRectElement>) {
   return (
@@ -12,3 +13,8 @@ export default function BaseTile(props: React.SVGProps<SVGRectElement>) {
     />
   )
 }
+
+export const SelectableTile = styled(BaseTile)<{ isSelected: boolean }>(
+  ({ isSelected }) =>
+    isSelected ? { stroke: "black", strokeWidth: 3 } : undefined,
+)

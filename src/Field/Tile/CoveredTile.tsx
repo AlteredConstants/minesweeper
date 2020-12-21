@@ -1,22 +1,28 @@
 import React from "react"
 import styled from "styled-components/macro"
 import { InputConfigContext } from "../../input-config"
-import BaseTile from "./BaseTile"
+import { SelectableTile } from "./BaseTile"
 import CenterText from "./CenterText"
 import { TileRef, useTileRef } from "./useTileRef"
 
-const HoverTile = styled(BaseTile)({
+const HoverTile = styled(SelectableTile)({
   ":hover": { fill: "tan" },
   transition: "fill 200ms",
 })
 
 interface CoveredTileProps {
   isFlagged?: boolean
+  isSelected?: boolean
   onClear(): void
   onToggleFlag?(): void
 }
 export default React.forwardRef(function CoveredTile(
-  { isFlagged, onClear, onToggleFlag }: CoveredTileProps,
+  {
+    isFlagged = false,
+    isSelected = false,
+    onClear,
+    onToggleFlag,
+  }: CoveredTileProps,
   tileRef: TileRef,
 ) {
   const ref = useTileRef(tileRef)
@@ -47,7 +53,7 @@ export default React.forwardRef(function CoveredTile(
         }
       }}
     >
-      <HoverTile />
+      <HoverTile isSelected={isSelected} />
       {isFlagged && <CenterText fontSize="1em" value="🚩" />}
     </g>
   )

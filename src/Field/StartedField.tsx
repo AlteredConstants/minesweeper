@@ -80,6 +80,7 @@ export default function StartedField({
               ref={tileReferenceListReference.current[tile.index]}
               tile={tile}
               size={TileSize}
+              isSelected={selectedIndex === tile.index}
               onAction={handleTileAction}
             />
           ))}
