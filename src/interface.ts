@@ -27,8 +27,3 @@ export interface StartedField extends FieldConfig {
 }
 
 export type Field = StartedField | InitField
-
-export interface State {
-  readonly fieldConfig: FieldConfig
-  readonly field: Field
-}

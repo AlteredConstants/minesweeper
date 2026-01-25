@@ -16,9 +16,62 @@ interface StartedFieldProps {
   onTileAction(type: TileActionType, tile: TileType): void
 }
 export default function StartedField({
-  field: { width, height, tiles },
+  field,
   onTileAction,
 }: StartedFieldProps) {
+  const {
+    selectedIndex,
+    setSelectedIndex,
+    tileListReference,
+    setIsClearing,
+  } = useTileSelection(field)
+
+  const handleTileAction = React.useCallback(
+    (type: TileActionType, tile: TileType) => {
+      if (type === TileActionType.Clear) {
+        setIsClearing(true)
+      }
+      onTileAction(type, tile)
+    },
+    [onTileAction, setIsClearing],
+  )
+
+  const rows = chunk(field.tiles, field.width)
+
+  return (
+    <FieldFrame
+      width={TileSize * field.width}
+      height={TileSize * field.height}
+      onNavigate={setSelectedIndex}
+    >
+      {rows.map((row) => (
+        <g role="row" key={`row-${row[0].row}`}>
+          {row.map((tile) => (
+            <Tile
+              key={`tile-${tile.index}`}
+              ref={tileListReference.current[tile.index]}
+              tile={tile}
+              size={TileSize}
+              isSelected={selectedIndex === tile.index}
+              onAction={handleTileAction}
+            />
+          ))}
+        </g>
+      ))}
+    </FieldFrame>
+  )
+}
+
+function useTileSelection({
+  width,
+  height,
+  tiles,
+}: StartedFieldType): {
+  selectedIndex: number | undefined
+  setSelectedIndex: (key: string) => void
+  tileListReference: React.MutableRefObject<React.RefObject<TileRefObject>[]>
+  setIsClearing: (isClearing: boolean) => void
+} {
   const [selectedIndex, setSelectedIndex] = React.useState<number>()
   const [isClearing, setIsClearing] = React.useState(false)
 
@@ -54,38 +107,10 @@ export default function StartedField({
     }
   }
 
-  const handleTileAction = React.useCallback(
-    (type: TileActionType, tile: TileType) => {
-      if (type === TileActionType.Clear) {
-        setIsClearing(true)
-      }
-      onTileAction(type, tile)
-    },
-    [onTileAction],
-  )
-
-  const rows = chunk(tiles, width)
-
-  return (
-    <FieldFrame
-      width={TileSize * width}
-      height={TileSize * height}
-      onNavigate={(key) => setSelectedIndex(getNextIndex(key))}
-    >
-      {rows.map((row) => (
-        <g role="row" key={`row-${row[0].row}`}>
-          {row.map((tile) => (
-            <Tile
-              key={`tile-${tile.index}`}
-              ref={tileReferenceListReference.current[tile.index]}
-              tile={tile}
-              size={TileSize}
-              isSelected={selectedIndex === tile.index}
-              onAction={handleTileAction}
-            />
-          ))}
-        </g>
-      ))}
-    </FieldFrame>
-  )
+  return {
+    selectedIndex,
+    setSelectedIndex: (key: string) => setSelectedIndex(getNextIndex(key)),
+    tileListReference: tileReferenceListReference,
+    setIsClearing,
+  }
 }
