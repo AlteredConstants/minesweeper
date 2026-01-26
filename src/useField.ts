@@ -31,7 +31,7 @@ export function useField(initialField: InitField) {
 		start(startTileIndex: number): void {
 			let nextField = createField(field, startTileIndex);
 			nextField = updateTiles(nextField, {
-				type: TileActionType.Clear,
+				type: "clear",
 				tile: nextField.tiles[startTileIndex],
 			});
 			setField(nextField);

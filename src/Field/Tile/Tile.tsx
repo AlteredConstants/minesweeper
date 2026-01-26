@@ -39,8 +39,8 @@ export default React.memo(
 						ref={ref}
 						isFlagged={isFlagged}
 						isSelected={isSelected}
-						onClear={() => onAction(TileActionType.Clear, tile)}
-						onToggleFlag={() => onAction(TileActionType.ToggleFlag, tile)}
+						onClear={() => onAction("clear", tile)}
+						onToggleFlag={() => onAction("toggleFlag", tile)}
 					/>
 				: isMine ?
 					<MineTile />
@@ -48,7 +48,7 @@ export default React.memo(
 						ref={ref}
 						tile={tile}
 						isSelected={isSelected}
-						onClearAdjacent={() => onAction(TileActionType.ClearAdjacent, tile)}
+						onClearAdjacent={() => onAction("clearAdjacent", tile)}
 					/>
 				}
 			</TileFrame>

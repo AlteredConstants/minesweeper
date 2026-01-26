@@ -24,7 +24,7 @@ export default function StartedField({
 
 	const handleTileAction = React.useCallback(
 		(type: TileActionType, tile: TileType) => {
-			if (type === TileActionType.Clear) {
+			if (type === "clear") {
 				setIsClearing(true);
 			}
 			onTileAction(type, tile);

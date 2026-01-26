@@ -7,11 +7,7 @@ import {
 
 type Tiles = readonly Tile[];
 
-export enum TileActionType {
-	Clear = "CLEAR_TILE",
-	ClearAdjacent = "CLEAR_ADJACENT_TILES",
-	ToggleFlag = "TOGGLE_FLAG_TILE",
-}
+export type TileActionType = "clear" | "clearAdjacent" | "toggleFlag";
 
 export interface TileAction {
 	type: TileActionType;
@@ -49,17 +45,17 @@ function clearTile(state: Tiles, tile: Tile): Tiles {
 
 export default function reducer(tiles: Tiles, action: TileAction): Tiles {
 	switch (action.type) {
-		case TileActionType.ToggleFlag: {
+		case "toggleFlag": {
 			const { index, isFlagged } = action.tile;
 			return updateInArray(tiles, index, { isFlagged: !isFlagged });
 		}
 
-		case TileActionType.Clear: {
+		case "clear": {
 			const { tile } = action;
 			return clearTile(tiles, tile);
 		}
 
-		case TileActionType.ClearAdjacent: {
+		case "clearAdjacent": {
 			const { tile } = action;
 			const { isCleared } = tile;
 			if (!isCleared) {

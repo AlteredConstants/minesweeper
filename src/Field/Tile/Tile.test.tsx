@@ -1,7 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import { mockNumberTile } from "../../util/__mocks__/createField";
-import { TileActionType } from "../../reducer/tiles";
 import { Tile as TileType } from "../../interface";
 import Tile from "./Tile";
 
@@ -13,7 +12,7 @@ test("Clicking a covered tile should request the clear", () => {
 
 	fireEvent.click(getByRole("button"));
 
-	expect(onAction).toHaveBeenCalledWith(TileActionType.Clear, mockNumberTile);
+	expect(onAction).toHaveBeenCalledWith("clear", mockNumberTile);
 });
 
 test("Clicking a cleared tile should not request anything", () => {
@@ -41,7 +40,7 @@ test("Clicking both buttons on a cleared tile should request the clearing of adj
 
 	fireEvent.mouseUp(getByRole("button"));
 
-	expect(onAction).toHaveBeenCalledWith(TileActionType.ClearAdjacent, tile);
+	expect(onAction).toHaveBeenCalledWith("clearAdjacent", tile);
 });
 
 test("A cleared tile should show the contents", () => {
