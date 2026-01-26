@@ -1,19 +1,19 @@
-import { isEqual } from "lodash/fp"
+import { isEqual } from "lodash/fp";
 import {
-  mockZeroTile,
-  mockSurroundedNumberTile,
-  mockConnectedSafeTilesForZeroTile,
-} from "./createField"
-import { Field, Tile } from "../../interface"
+	mockZeroTile,
+	mockSurroundedNumberTile,
+	mockConnectedSafeTilesForZeroTile,
+} from "./createField";
+import { Field, Tile } from "../../interface";
 
 function getConnectedSafeTiles(_field: Field, tile: Tile) {
-  if (isEqual(tile, mockZeroTile)) {
-    return mockConnectedSafeTilesForZeroTile
-  }
-  if (isEqual(tile, mockSurroundedNumberTile)) {
-    return [mockSurroundedNumberTile]
-  }
-  throw new Error("Unexpected tile argument.")
+	if (isEqual(tile, mockZeroTile)) {
+		return mockConnectedSafeTilesForZeroTile;
+	}
+	if (isEqual(tile, mockSurroundedNumberTile)) {
+		return [mockSurroundedNumberTile];
+	}
+	throw new Error("Unexpected tile argument.");
 }
 
-export default jest.fn(getConnectedSafeTiles)
+export default jest.fn(getConnectedSafeTiles);

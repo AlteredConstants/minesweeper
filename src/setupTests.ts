@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom/extend-expect"
+import "@testing-library/jest-dom/extend-expect";
 
-jest.mock("./util/distributeMines")
-jest.mock("./util/createField")
+jest.mock("./util/distributeMines");
+jest.mock("./util/createField");
