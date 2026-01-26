@@ -1,3 +1,7 @@
+/// <reference types="styled-components/cssprop" />
+
+import "./index.css"
+
 import React from "react"
 import { InitField, StartedField } from "./Field"
 import { InputConfigContext, useInputConfig } from "./input-config"
@@ -15,7 +19,7 @@ const initialField: InitFieldType = {
   mineCount: 99,
 }
 
-export default function App() {
+export function App() {
   const { field, start, reset, dispatchTileAction } = useField(initialField)
 
   const [inputConfig, setInputConfig] = useInputConfig()
