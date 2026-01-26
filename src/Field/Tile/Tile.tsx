@@ -1,12 +1,12 @@
-import React from "react";
-import { Tile as TileType } from "../../interface";
-import { TileActionType } from "../../reducer/tiles";
+import { memo } from "react";
+import type { Tile as TileType } from "../../interface";
+import { type TileActionType } from "../../reducer/tiles";
 import BaseTile from "./BaseTile";
 import CenterText from "./CenterText";
-import CountTile from "./CountTile";
-import CoveredTile from "./CoveredTile";
+import { CountTile } from "./CountTile";
+import { CoveredTile } from "./CoveredTile";
 import TileFrame from "./TileFrame";
-import { TileRef } from "./useTileRef";
+import { type TileRef } from "./useTileRef";
 
 const MineTile = () => (
 	<g>
@@ -20,38 +20,35 @@ interface TileProps {
 	size: number;
 	isSelected: boolean;
 	onAction(type: TileActionType, tile: TileType): void;
+	ref?: TileRef;
 }
-export default React.memo(
-	React.forwardRef(function Tile(
-		{
-			tile,
-			tile: { row, column, isCleared, isFlagged, isMine },
-			size,
-			isSelected,
-			onAction,
-		}: TileProps,
-		ref: TileRef,
-	) {
-		return (
-			<TileFrame row={row} column={column} size={size}>
-				{!isCleared ?
-					<CoveredTile
-						ref={ref}
-						isFlagged={isFlagged}
-						isSelected={isSelected}
-						onClear={() => onAction("clear", tile)}
-						onToggleFlag={() => onAction("toggleFlag", tile)}
-					/>
-				: isMine ?
-					<MineTile />
-				:	<CountTile
-						ref={ref}
-						tile={tile}
-						isSelected={isSelected}
-						onClearAdjacent={() => onAction("clearAdjacent", tile)}
-					/>
-				}
-			</TileFrame>
-		);
-	}),
-);
+export const Tile = memo(function ({
+	tile,
+	tile: { row, column, isCleared, isFlagged, isMine },
+	size,
+	isSelected,
+	onAction,
+	ref,
+}: TileProps) {
+	return (
+		<TileFrame row={row} column={column} size={size}>
+			{!isCleared ?
+				<CoveredTile
+					ref={ref}
+					isFlagged={isFlagged}
+					isSelected={isSelected}
+					onClear={() => onAction("clear", tile)}
+					onToggleFlag={() => onAction("toggleFlag", tile)}
+				/>
+			: isMine ?
+				<MineTile />
+			:	<CountTile
+					ref={ref}
+					tile={tile}
+					isSelected={isSelected}
+					onClearAdjacent={() => onAction("clearAdjacent", tile)}
+				/>
+			}
+		</TileFrame>
+	);
+});

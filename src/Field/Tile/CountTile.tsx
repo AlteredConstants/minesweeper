@@ -1,9 +1,9 @@
-import React from "react";
+import { useContext, useState } from "react";
 import { InputConfigContext } from "../../input-config";
-import { Tile } from "../../interface";
+import type { Tile } from "../../interface";
 import { SelectableTile } from "./BaseTile";
 import CenterText from "./CenterText";
-import { TileRef, useTileRef } from "./useTileRef";
+import { type TileRef, useTileRef } from "./useTileRef";
 
 const CountColors = [
 	{ foreground: "transparent", background: "antiqueWhite" },
@@ -15,25 +15,28 @@ const CountColors = [
 	{ foreground: "darkCyan", background: "lightCyan" },
 	{ foreground: "black", background: "gainsboro" },
 	{ foreground: "dimGrey", background: "whiteSmoke" },
-];
+] as const;
 
 interface CountTileProps {
 	tile: Tile;
 	isSelected: boolean;
 	onClearAdjacent(): void;
+	ref?: TileRef;
 }
-export default React.forwardRef(function CountTile(
-	{ tile: { adjacentMineCount }, isSelected, onClearAdjacent }: CountTileProps,
-	tileRef: TileRef,
-) {
-	const [isClearingAdjacent, setIsClearingAdjacent] = React.useState(false);
-	const ref = useTileRef(tileRef);
+export function CountTile({
+	tile: { adjacentMineCount },
+	isSelected,
+	onClearAdjacent,
+	ref,
+}: CountTileProps) {
+	const [isClearingAdjacent, setIsClearingAdjacent] = useState(false);
+	const tileRef = useTileRef(ref);
 
-	const inputConfig = React.useContext(InputConfigContext);
+	const inputConfig = useContext(InputConfigContext);
 
 	return (
 		<g
-			ref={ref}
+			ref={tileRef}
 			role="button"
 			tabIndex={-1}
 			onMouseDown={({ buttons }) => {
@@ -64,4 +67,4 @@ export default React.forwardRef(function CountTile(
 			/>
 		</g>
 	);
-});
+}

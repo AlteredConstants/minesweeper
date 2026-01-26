@@ -1,15 +1,23 @@
 import { chunk } from "lodash";
-import React from "react";
-import { InputConfigContext } from "../input-config";
 import {
+	createRef,
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+	type RefObject,
+} from "react";
+import { InputConfigContext } from "../input-config";
+import type {
 	StartedField as StartedFieldType,
 	Tile as TileType,
 } from "../interface";
-import { TileActionType } from "../reducer/tiles";
+import { type TileActionType } from "../reducer/tiles";
 import { getCoordinates } from "../util";
 import { TileSize } from "./";
 import { FieldFrame } from "./FieldFrame";
-import Tile, { TileRefObject } from "./Tile";
+import { Tile, type TileRefObject } from "./Tile";
 
 interface StartedFieldProps {
 	field: StartedFieldType;
@@ -22,7 +30,7 @@ export default function StartedField({
 	const { selectedIndex, setSelectedIndex, tileListReference, setIsClearing } =
 		useTileSelection(field);
 
-	const handleTileAction = React.useCallback(
+	const handleTileAction = useCallback(
 		(type: TileActionType, tile: TileType) => {
 			if (type === "clear") {
 				setIsClearing(true);
@@ -61,26 +69,26 @@ export default function StartedField({
 function useTileSelection({ width, height, tiles }: StartedFieldType): {
 	selectedIndex: number | undefined;
 	setSelectedIndex: (key: string) => void;
-	tileListReference: React.MutableRefObject<React.RefObject<TileRefObject>[]>;
+	tileListReference: RefObject<RefObject<TileRefObject | null>[]>;
 	setIsClearing: (isClearing: boolean) => void;
 } {
-	const [selectedIndex, setSelectedIndex] = React.useState<number>();
-	const [isClearing, setIsClearing] = React.useState(false);
+	const [selectedIndex, setSelectedIndex] = useState<number>();
+	const [isClearing, setIsClearing] = useState(false);
 
-	const tileReferenceListReference = React.useRef(
-		tiles.map(() => React.createRef<TileRefObject>()),
+	const tileReferenceListReference = useRef(
+		tiles.map(() => createRef<TileRefObject>()),
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (isClearing) {
 			setIsClearing(false);
 		}
 		if (selectedIndex != null) {
-			tileReferenceListReference.current[selectedIndex].current?.focus();
+			tileReferenceListReference.current[selectedIndex]?.current?.focus();
 		}
 	}, [selectedIndex, isClearing]);
 
-	const inputConfig = React.useContext(InputConfigContext);
+	const inputConfig = useContext(InputConfigContext);
 
 	function getNextIndex(key: string): number | undefined {
 		const { row, column } = getCoordinates(selectedIndex ?? 0, width);

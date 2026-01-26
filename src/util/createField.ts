@@ -1,4 +1,4 @@
-import { FieldConfig, StartedField, Tile } from "../interface";
+import type { FieldConfig, StartedField, Tile } from "../interface";
 import distributeMines from "./distributeMines";
 import getAdjacentTiles, { getAdjacentIndexes } from "./getAdjacentTiles";
 import { getCoordinates } from "./getCoordinates";

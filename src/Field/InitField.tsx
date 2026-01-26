@@ -1,6 +1,5 @@
 import { chunk, range } from "lodash";
-import React from "react";
-import { InitField as InitFieldType } from "../interface";
+import type { InitField as InitFieldType } from "../interface";
 import { TileSize } from "./";
 import { FieldFrame } from "./FieldFrame";
 import { InitTile } from "./Tile";

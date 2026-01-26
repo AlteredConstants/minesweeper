@@ -1,7 +1,4 @@
-import { TileRefObject as _TileRefObject } from "./useTileRef";
-
-export type TileRefObject = _TileRefObject;
-
-export { default } from "./Tile";
+export { type TileRefObject } from "./useTileRef";
+export { Tile } from "./Tile";
 export { default as BaseTile } from "./BaseTile";
 export { default as InitTile } from "./InitTile";

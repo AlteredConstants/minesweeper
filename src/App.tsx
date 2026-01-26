@@ -2,10 +2,10 @@
 
 import "./index.css";
 
-import React from "react";
+import { type KeyboardEvent } from "react";
 import { InitField, StartedField } from "./Field";
 import { InputConfigContext, useInputConfig } from "./input-config";
-import { InitField as InitFieldType } from "./interface";
+import type { InitField as InitFieldType } from "./interface";
 import { ClearedOverlay, ExplodedOverlay, OverlayContainer } from "./Overlay";
 import { useField } from "./useField";
 
@@ -24,7 +24,7 @@ export function App() {
 
 	const [inputConfig, setInputConfig] = useInputConfig();
 
-	function updateInputConfig(event: React.KeyboardEvent<HTMLInputElement>) {
+	function updateInputConfig(event: KeyboardEvent<HTMLInputElement>) {
 		if (event.key === "Tab") {
 			return;
 		}

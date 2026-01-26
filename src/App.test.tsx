@@ -1,4 +1,3 @@
-import React from "react";
 import { render, fireEvent, within } from "@testing-library/react";
 import {
 	mockConnectedSafeTilesForZeroTileIndexes,
@@ -9,7 +8,7 @@ import {
 	mockTileIndexes,
 	mockZeroTileIndex,
 } from "./util/__mocks__/createField";
-import App from "./App";
+import { App } from "./App";
 import { serialize } from "./util/fieldSerialization";
 
 test("Clicking a mine tile should explode the field", () => {

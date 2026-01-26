@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { InitField, Tile, StartedField } from "./interface";
+import type { InitField, Tile, StartedField } from "./interface";
 import { createField } from "./util";
 import { serialize, deserialize } from "./util/fieldSerialization";
 import tilesReducer, {
 	areAllSafeTilesCleared,
 	isMineCleared,
-	TileAction,
-	TileActionType,
+	type TileAction,
+	type TileActionType,
 } from "./reducer/tiles";
 
 export function useField(initialField: InitField) {

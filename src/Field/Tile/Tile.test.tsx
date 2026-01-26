@@ -1,8 +1,7 @@
-import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import { mockNumberTile } from "../../util/__mocks__/createField";
-import { Tile as TileType } from "../../interface";
-import Tile from "./Tile";
+import type { Tile as TileType } from "../../interface";
+import { Tile } from "./Tile";
 
 test("Clicking a covered tile should request the clear", () => {
 	const onAction = jest.fn();

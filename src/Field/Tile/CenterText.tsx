@@ -1,6 +1,6 @@
-import React from "react";
+import { type SVGProps } from "react";
 
-type CenterTextProps = { value: string } & React.SVGProps<SVGTextElement>;
+type CenterTextProps = { value: string } & SVGProps<SVGTextElement>;
 export default function CenterText({ value, ...props }: CenterTextProps) {
 	return (
 		<text

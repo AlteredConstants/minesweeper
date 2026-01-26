@@ -1,5 +1,5 @@
 import { pick } from "lodash/fp";
-import { StartedField, StartedFieldState, Tile } from "../interface";
+import type { StartedField, StartedFieldState, Tile } from "../interface";
 import { areAllSafeTilesCleared, isMineCleared } from "../reducer/tiles";
 import { updateAdjacentMineCount } from "./createField";
 import { getCoordinates } from "./getCoordinates";

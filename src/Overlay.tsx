@@ -1,6 +1,6 @@
-import React from "react";
+import { useContext, useEffect, useRef } from "react";
 import styled, { css, keyframes } from "styled-components";
-import Emoji, { EmojiType } from "./Emoji";
+import Emoji, { type EmojiType } from "./Emoji";
 import { InputConfigContext } from "./input-config";
 
 const PaddedEmoji = styled(Emoji)({ margin: "0.8em" });
@@ -50,10 +50,10 @@ interface FieldStateOverlayProps {
 }
 
 export function ClearedOverlay({ onDismiss }: FieldStateOverlayProps) {
-	const inputConfig = React.useContext(InputConfigContext);
-	const ref = React.useRef<HTMLDivElement>(null);
+	const inputConfig = useContext(InputConfigContext);
+	const ref = useRef<HTMLDivElement>(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		ref.current?.focus();
 	}, [ref]);
 
@@ -77,10 +77,10 @@ export function ClearedOverlay({ onDismiss }: FieldStateOverlayProps) {
 }
 
 export function ExplodedOverlay({ onDismiss }: FieldStateOverlayProps) {
-	const inputConfig = React.useContext(InputConfigContext);
-	const ref = React.useRef<HTMLDivElement>(null);
+	const inputConfig = useContext(InputConfigContext);
+	const ref = useRef<HTMLDivElement>(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		ref.current?.focus();
 	}, [ref]);
 

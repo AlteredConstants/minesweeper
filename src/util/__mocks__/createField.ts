@@ -1,5 +1,5 @@
 import freeze from "deep-freeze";
-import { FieldCreator } from "../createField";
+import { type FieldCreator } from "../createField";
 import { difference, range } from "lodash";
 const createField: FieldCreator =
 	require.requireActual("../createField").default;

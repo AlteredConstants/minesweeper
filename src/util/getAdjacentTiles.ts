@@ -1,4 +1,4 @@
-import { Tile } from "../interface";
+import type { Tile } from "../interface";
 import { getCoordinates } from "./getCoordinates";
 
 function* generateAdjacentIndexes({

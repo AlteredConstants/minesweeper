@@ -1,6 +1,5 @@
-import React from "react";
 import { getCoordinates } from "../../util";
-import CoveredTile from "./CoveredTile";
+import { CoveredTile } from "./CoveredTile";
 import TileFrame from "./TileFrame";
 
 interface InitTileProps {

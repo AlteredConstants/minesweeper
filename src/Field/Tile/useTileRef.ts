@@ -1,10 +1,12 @@
-import { createRef, useImperativeHandle } from "react";
+import { useImperativeHandle, useRef, type RefObject } from "react";
 
 export type TileRefObject = { focus(): void };
-export type TileRef = React.Ref<TileRefObject>;
+export type TileRef = RefObject<TileRefObject | null>;
 
-export function useTileRef(ref: TileRef): React.RefObject<SVGGElement> {
-	const elementRef = createRef<SVGGElement>();
+export function useTileRef(
+	ref: TileRef | undefined,
+): RefObject<SVGGElement | null> {
+	const elementRef = useRef<SVGGElement>(null);
 	useImperativeHandle(ref, () => ({
 		focus: () => elementRef.current?.focus(),
 	}));

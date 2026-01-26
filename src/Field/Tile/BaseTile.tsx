@@ -1,7 +1,7 @@
-import React from "react";
+import { type SVGProps } from "react";
 import styled from "styled-components";
 
-export default function BaseTile(props: React.SVGProps<SVGRectElement>) {
+export default function BaseTile(props: SVGProps<SVGRectElement>) {
 	return (
 		<rect
 			width="100%"

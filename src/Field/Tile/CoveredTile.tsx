@@ -1,9 +1,9 @@
-import React from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { InputConfigContext } from "../../input-config";
 import { SelectableTile } from "./BaseTile";
 import CenterText from "./CenterText";
-import { TileRef, useTileRef } from "./useTileRef";
+import { type TileRef, useTileRef } from "./useTileRef";
 
 const HoverTile = styled(SelectableTile)({
 	":hover": { fill: "tan" },
@@ -15,17 +15,16 @@ interface CoveredTileProps {
 	isSelected?: boolean;
 	onClear(): void;
 	onToggleFlag?(): void;
+	ref?: TileRef;
 }
-export default React.forwardRef(function CoveredTile(
-	{
-		isFlagged = false,
-		isSelected = false,
-		onClear,
-		onToggleFlag,
-	}: CoveredTileProps,
-	tileRef: TileRef,
-) {
-	const ref = useTileRef(tileRef);
+export function CoveredTile({
+	isFlagged = false,
+	isSelected = false,
+	onClear,
+	onToggleFlag,
+	ref,
+}: CoveredTileProps) {
+	const tileRef = useTileRef(ref);
 
 	function clearIfNotFlagged(): void {
 		if (!isFlagged) {
@@ -33,11 +32,11 @@ export default React.forwardRef(function CoveredTile(
 		}
 	}
 
-	const inputConfig = React.useContext(InputConfigContext);
+	const inputConfig = useContext(InputConfigContext);
 
 	return (
 		<g
-			ref={ref}
+			ref={tileRef}
 			role="button"
 			tabIndex={-1}
 			onClick={clearIfNotFlagged}
@@ -57,4 +56,4 @@ export default React.forwardRef(function CoveredTile(
 			{isFlagged && <CenterText fontSize="1em" value="🚩" />}
 		</g>
 	);
-});
+}
