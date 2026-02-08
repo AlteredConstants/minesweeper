@@ -1,3 +1,4 @@
+import { expect, it } from "bun:test";
 import {
 	mockConnectedSafeTilesForZeroTile,
 	mockField,

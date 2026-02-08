@@ -19,7 +19,7 @@ const CountColors = [
 
 interface CountTileProps {
 	tile: Tile;
-	isSelected: boolean;
+	isSelected?: boolean;
 	onClearAdjacent(): void;
 	ref?: TileRef;
 }
@@ -58,7 +58,7 @@ export function CountTile({
 		>
 			<SelectableTile
 				fill={CountColors[adjacentMineCount].background}
-				isSelected={isSelected}
+				$isSelected={isSelected}
 			/>
 			<CenterText
 				fontSize="1.1em"

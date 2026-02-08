@@ -1,5 +1,5 @@
 import type { FieldConfig, StartedField, Tile } from "../interface";
-import distributeMines from "./distributeMines";
+import { distributeMines } from "./distributeMines";
 import getAdjacentTiles, { getAdjacentIndexes } from "./getAdjacentTiles";
 import { getCoordinates } from "./getCoordinates";
 
@@ -45,7 +45,7 @@ export function updateAdjacentMineCount(
 	}));
 }
 
-export default function createField(
+export function createField(
 	options: FieldConfig,
 	startIndex?: number,
 ): StartedField {
@@ -63,5 +63,3 @@ export default function createField(
 
 	return { width, height, mineCount, tiles, state: "active" };
 }
-
-export type FieldCreator = typeof createField;

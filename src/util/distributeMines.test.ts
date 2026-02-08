@@ -1,5 +1,8 @@
-import distributeMines from "./distributeMines";
-jest.unmock("./distributeMines");
+import { expect, it } from "bun:test";
+import { distributeMinesModule } from "./__mocks__/distributeMines";
+
+// Use the real, unmocked function.
+const { distributeMines } = distributeMinesModule;
 
 it("should create an array", () => {
 	const field = distributeMines(9, 3);

@@ -1,3 +1,4 @@
+import { expect, test } from "bun:test";
 import { render, fireEvent, within } from "@testing-library/react";
 import {
 	mockConnectedSafeTilesForZeroTileIndexes,

@@ -19,7 +19,7 @@ interface CoveredTileProps {
 }
 export function CoveredTile({
 	isFlagged = false,
-	isSelected = false,
+	isSelected,
 	onClear,
 	onToggleFlag,
 	ref,
@@ -52,7 +52,7 @@ export function CoveredTile({
 				}
 			}}
 		>
-			<HoverTile isSelected={isSelected} />
+			<HoverTile $isSelected={isSelected} />
 			{isFlagged && <CenterText fontSize="1em" value="🚩" />}
 		</g>
 	);

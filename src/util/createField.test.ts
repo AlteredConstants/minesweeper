@@ -1,10 +1,13 @@
-import createField from "./createField";
-import distributeMines from "./distributeMines";
-jest.unmock("./createField");
+import { expect, it } from "bun:test";
+import { createFieldModule, mockField } from "./__mocks__/createField";
+import { distributeMines } from "./distributeMines";
 
-it("should create a field", async () => {
+// Use the real, unmocked function.
+const { createField } = createFieldModule;
+
+it("should create a field", () => {
 	const field = createField({ width: 4, height: 4, mineCount: 4 });
-	expect(field).toMatchSnapshot();
+	expect(field).toEqual(mockField);
 });
 
 it("should delegate to `distributeMines` for mine placement", () => {

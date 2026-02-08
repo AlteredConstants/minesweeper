@@ -18,7 +18,7 @@ const MineTile = () => (
 interface TileProps {
 	tile: TileType;
 	size: number;
-	isSelected: boolean;
+	isSelected?: boolean;
 	onAction(type: TileActionType, tile: TileType): void;
 	ref?: TileRef;
 }

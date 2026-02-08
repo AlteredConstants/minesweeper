@@ -14,7 +14,7 @@ export default function BaseTile(props: SVGProps<SVGRectElement>) {
 	);
 }
 
-export const SelectableTile = styled(BaseTile)<{ isSelected: boolean }>(
-	({ isSelected }) =>
-		isSelected ? { stroke: "black", strokeWidth: 3 } : undefined,
+export const SelectableTile = styled(BaseTile)<{ $isSelected?: boolean }>(
+	({ $isSelected }) =>
+		$isSelected ? { stroke: "black", strokeWidth: 3 } : undefined,
 );
