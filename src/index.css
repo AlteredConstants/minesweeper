@@ -1,3 +1,7 @@
+:root {
+	--bomb-detector-url: url("./public/bomb-detector.png");
+}
+
 body {
 	text-align: center;
 	font-size: 16px;

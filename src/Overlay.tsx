@@ -117,6 +117,6 @@ export const OverlayContainer = styled.div<OverlayContainerProps>(
 		userSelect: "none",
 	},
 	({ isActive }) => ({
-		cursor: isActive ? "url(./bomb-detector.png) 0 32, default" : "pointer",
+		cursor: isActive ? "var(--bomb-detector-url) 0 32, default" : "pointer",
 	}),
 );
