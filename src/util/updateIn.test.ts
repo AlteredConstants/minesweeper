@@ -10,13 +10,23 @@ describe("updateInObject", () => {
 
 	it("should return the original object if the original key value is null", () => {
 		const original = { key: null };
-		const updated = updateInObject(original, "key", { subKey: 2 });
+		const updated = updateInObject(
+			original,
+			"key",
+			// @ts-expect-error
+			{ subKey: 2 },
+		);
 		expect(updated).toBe(original);
 	});
 
 	it("should return the original object if the original key value is undefined", () => {
 		const original = {};
-		const updated = updateInObject(original, "key" as never, { subKey: 2 });
+		const updated = updateInObject(
+			original,
+			"key" as never,
+			// @ts-expect-error
+			{ subKey: 2 },
+		);
 		expect(updated).toBe(original);
 	});
 
@@ -75,14 +85,31 @@ describe("updateInArray", () => {
 
 	it("should return the original array if the original indexed value is null", () => {
 		const original = [null];
-		const updated = updateInArray(original, 0, { subKey: 2 });
-		expect(updated).toBe(original);
+		const updated = updateInArray(
+			// @ts-expect-error
+			original,
+			0,
+			{ subKey: 2 },
+		);
+		expect(updated).toBe(
+			// @ts-expect-error
+			original,
+		);
 	});
 
 	it("should return the original array if the original indexed value is undefined", () => {
+		// @ts-expect-error
 		const original = [];
-		const updated = updateInArray(original, 0, { subKey: 2 });
-		expect(updated).toBe(original);
+		const updated = updateInArray(
+			// @ts-expect-error
+			original,
+			0,
+			{ subKey: 2 },
+		);
+		expect(updated).toBe(
+			// @ts-expect-error
+			original,
+		);
 	});
 
 	it("should return the original array if no new props given", () => {

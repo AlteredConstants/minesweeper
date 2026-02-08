@@ -6,8 +6,8 @@ import { InputConfigContext } from "./input-config";
 const PaddedEmoji = styled(Emoji)({ margin: "0.8em" });
 
 interface OverlayProps {
-	backgroundColor1: string;
-	backgroundColor2: string;
+	$backgroundColor1: string;
+	$backgroundColor2: string;
 }
 const Overlay = styled.div<OverlayProps>(
 	{
@@ -22,7 +22,10 @@ const Overlay = styled.div<OverlayProps>(
 		alignItems: "center",
 		transition: "visibility 0ms 0ms, opacity 100ms ease-out",
 	},
-	({ backgroundColor1, backgroundColor2 }) => {
+	({
+		$backgroundColor1: backgroundColor1,
+		$backgroundColor2: backgroundColor2,
+	}) => {
 		const flash = keyframes({
 			"0%": { backgroundColor: backgroundColor1, fontSize: "1.5em" },
 			"100%": { backgroundColor: backgroundColor2, fontSize: "1.6em" },
@@ -62,8 +65,8 @@ export function ClearedOverlay({ onDismiss }: FieldStateOverlayProps) {
 			ref={ref}
 			tabIndex={0}
 			role="dialog"
-			backgroundColor1="rgba(87, 255, 34, 0.6)"
-			backgroundColor2="rgba(0, 255, 0, 0.7)"
+			$backgroundColor1="rgba(87, 255, 34, 0.6)"
+			$backgroundColor2="rgba(0, 255, 0, 0.7)"
 			onDoubleClick={onDismiss}
 			onKeyDown={(event) => {
 				if (event.key === inputConfig.clear) {
@@ -89,8 +92,8 @@ export function ExplodedOverlay({ onDismiss }: FieldStateOverlayProps) {
 			ref={ref}
 			tabIndex={0}
 			role="dialog"
-			backgroundColor1="rgba(255, 87, 34, 0.6)"
-			backgroundColor2="rgba(255, 0, 0, 0.7)"
+			$backgroundColor1="rgba(255, 87, 34, 0.6)"
+			$backgroundColor2="rgba(255, 0, 0, 0.7)"
 			onDoubleClick={onDismiss}
 			onKeyDown={(event) => {
 				if (event.key === inputConfig.clear) {

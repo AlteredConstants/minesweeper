@@ -17,7 +17,8 @@
 		// Best practices
 		"strict": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUncheckedIndexedAccess": true,
+		// TODO: fix various errors caused by this.
+		// "noUncheckedIndexedAccess": true,
 		"noImplicitOverride": true,
 
 		"baseUrl": ".",

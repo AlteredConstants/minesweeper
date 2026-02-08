@@ -6,7 +6,7 @@ import CenterText from "./CenterText";
 import { type TileRef, useTileRef } from "./useTileRef";
 
 const HoverTile = styled(SelectableTile)({
-	":hover": { fill: "tan" },
+	"&:hover": { fill: "tan" },
 	transition: "fill 200ms",
 });
 
