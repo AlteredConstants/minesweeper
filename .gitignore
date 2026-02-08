@@ -7,7 +7,7 @@
 /cypress/videos
 
 # production
-/build
+/dist
 
 # dev tools
 /.vscode
