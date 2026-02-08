@@ -1,5 +1,3 @@
-export {};
-
 const mineTileIndexes = [7, 10, 12, 15];
 const tiles = Array.from(Array(16), () => ({
 	isMine: false,
@@ -25,7 +23,7 @@ const tile = (index: number) => {
 describe("Playing a game", () => {
 	beforeEach(() => {
 		localStorage.setItem("field", seedField);
-		cy.visit("/");
+		cy.visit("http://localhost:3000/");
 	});
 
 	it("clear the field", () => {
